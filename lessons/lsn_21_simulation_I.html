@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MA388 Sabermetrics: Lesson 21 – MA388 Sabermetrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MA388 Sabermetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-1-10" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 1-10</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-1-10">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
+ <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Lessons 11-20</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Lessons 21-30</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Lessons 31-40</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../calendar/calendar.html"> 
+<span class="menu-text">Calendar</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/grab_bag.html"> 
+<span class="menu-text">Grab Bag Topics</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#markov-chains" id="toc-markov-chains" class="nav-link active" data-scroll-target="#markov-chains">Markov Chains</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_21_simulation_I.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MA388 Sabermetrics: Lesson 21</h1>
+<p class="subtitle lead">Simulating Baseball - Part I</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="markov-chains" class="level2">
+<h2 class="anchored" data-anchor-id="markov-chains">Markov Chains</h2>
+<p>Markov chains model the probabilities of moving between different states. I want you to draw a state diagram (think a network diagram with states as circles and lines connecting the states with probabilities) for a baseball half-inning based on the number of outs where probabilities reflect the state transitions after one plate appearance. Assume that every plate appearance has a .7 probability of resulting in an out and .3 probability of not and there is never more than one out for a plate appearance.</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<p><em>What is the probability of having 0 outs after two plate appearances?</em> <em>What about having two outs?</em></p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<p>What is the memoryless property of Markov chains? Does this allow for “momentum”?</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<p>So this was all very basic, but hopefully a useful intro. What if we wanted to model baseball this way to determine how many at-bats occur in a given baseball half-inning (or entire game)? How might you approach this using Markov Chains and the data we have? How would you change the states?</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baseballr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>retro2024 <span class="ot">&lt;-</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">retrosheet_data</span>(<span class="at">years_to_acquire =</span> <span class="st">'2024'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">'2024'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">'events'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s add states, etc., similarly to how we’ve done it in previous lessons. One important difference is that we don’t care if/where baserunners were left on base when the third out was made. The third out is, however, an important state for us to capture.</p>
+<div style="page-break-after: always;"></div>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add states, etc.  </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>retro2024 <span class="ot">&lt;-</span> retro2024 <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">runs_before =</span> away_score_ct <span class="sc">+</span> home_score_ct,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">half_inning =</span> <span class="fu">paste</span>(game_id, inn_ct, bat_home_id),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">runs_scored =</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>           (bat_dest_id <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">+</span> (run1_dest_id <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>           (run2_dest_id <span class="sc">&gt;</span> <span class="dv">3</span>) <span class="sc">+</span> (run3_dest_id <span class="sc">&gt;</span> <span class="dv">3</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>half_innings <span class="ot">&lt;-</span> retro2024 <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">outs_inning =</span> <span class="fu">sum</span>(event_outs_ct),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">runs_inning =</span> <span class="fu">sum</span>(runs_scored),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">runs_start =</span> <span class="fu">first</span>(runs_before),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">max_runs =</span> runs_inning <span class="sc">+</span> runs_start, <span class="at">.by =</span><span class="st">'half_inning'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>retro2024_complete <span class="ot">&lt;-</span> retro2024 <span class="sc">|&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(half_innings, <span class="at">by =</span> <span class="st">"half_inning"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">runs_roi =</span> max_runs <span class="sc">-</span> runs_before) <span class="sc">|&gt;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bases =</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>           <span class="fu">paste</span>(<span class="fu">ifelse</span>(base1_run_id <span class="sc">&gt;</span> <span class="st">''</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">ifelse</span>(base2_run_id <span class="sc">&gt;</span> <span class="st">''</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">ifelse</span>(base3_run_id <span class="sc">&gt;</span> <span class="st">''</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">sep =</span> <span class="st">""</span>),</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">paste</span>(bases, outs_ct)) <span class="sc">|&gt;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_runner1 =</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>           <span class="fu">as.numeric</span>(run1_dest_id<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> bat_dest_id <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">is_runner2 =</span> </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>           <span class="fu">as.numeric</span>(run1_dest_id <span class="sc">==</span> <span class="dv">2</span> <span class="sc">|</span> run2_dest_id <span class="sc">==</span> <span class="dv">2</span> <span class="sc">|</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                        bat_dest_id <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>         <span class="at">is_runner3 =</span> </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>           <span class="fu">as.numeric</span>(run1_dest_id <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> run2_dest_id <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                        run3_dest_id <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> bat_dest_id <span class="sc">==</span> <span class="dv">3</span>),</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">new_outs =</span> outs_ct <span class="sc">+</span> event_outs_ct,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">new_bases =</span> <span class="fu">paste</span>(is_runner1, is_runner2, is_runner3, <span class="at">sep =</span> <span class="st">""</span>),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">new_state =</span> <span class="fu">paste</span>(new_bases, new_outs)) <span class="sc">|&gt;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((state <span class="sc">!=</span> new_state) <span class="sc">|</span> (runs_scored <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(outs_inning <span class="sc">==</span> <span class="dv">3</span>, bat_event_fl <span class="sc">==</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_state =</span> <span class="fu">str_replace</span>(new_state, <span class="st">"[0-1]{3} 3"</span>, <span class="st">"3"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<p>Let’s look at our resulting data frame:</p>
+<div style="page-break-after: always;"></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>retro2024_complete <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(game_id, bat_id, state, new_state) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">game_id</th>
+<th style="text-align: left;">bat_id</th>
+<th style="text-align: left;">state</th>
+<th style="text-align: left;">new_state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">duraj001</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">dever001</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: left;">100 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">stort001</td>
+<td style="text-align: left;">100 1</td>
+<td style="text-align: left;">100 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">yoshm002</td>
+<td style="text-align: left;">100 2</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">renda001</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">schan001</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: left;">000 2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">troum001</td>
+<td style="text-align: left;">000 2</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">oneit001</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">casat001</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA202404050</td>
+<td style="text-align: left;">valde002</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We’re now ready to compute a matrix of transition probabilities. How many starting states are there? What about ending states? How can we compute these state-to-state probabilities?</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>T_matrix <span class="ot">&lt;-</span> retro2024_complete  <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, new_state) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>T_matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       new_state
+state   000 0 000 1 000 2 001 0 001 1 001 2 010 0 010 1 010 2 011 0 011 1 011 2
+  000 0  1381 30649     0   210     0     0  1983     0     0     0     0     0
+  000 1     0   961 22729     0   145     0     0  1390     0     0     0     0
+  000 2     0     0   725     0     0    87     0     0  1154     0     0     0
+  001 0    13    80     4     2   175     0    20     1     0     0     0     0
+  001 1     0    50   340     0     5   615     0    84    10     0     0     0
+  001 2     0     0    67     0     0    13     0     0    97     0     0     0
+  010 0    76     8    18    13   788     0   146  1460     0    14     0     0
+  010 1     0   139    24     0    20   905     0   226  2398     0    14     0
+  010 2     0     0   203     0     0    37     0     0   344     0     0     2
+  011 0    22     1     0     2    91     2    44    53     2     3   251     0
+  011 1     0    26     3     0     8   235     0    97   125     0     6   469
+  011 2     0     0    55     0     0    13     0     0    73     0     0     0
+  100 0   293     5  1111    43    31     0   120   672     0   358     0     0
+  100 1     0   402     7     0    68    27     0   137   749     0   369     0
+  100 2     0     0   351     0     0    70     0     0   237     0     0   297
+  101 0    30     2    50     5     3    10    10    37     0    35    22     0
+  101 1     0    48     1     0    11     8     0    19    92     0    80    46
+  101 2     0     0    72     0     0     6     0     0    55     0     0    58
+  110 0    74     1     0    12     3   206    25     2    20    94   227     0
+  110 1     0   140     2     0    18     3     0    64    11     0   158   235
+  110 2     0     0   146     0     0    34     0     0   117     0     0   140
+  111 0    26     1     0     4     0    48     6     2     3    21    45     9
+  111 1     0    36     1     0    12     1     0    20     5     0    54    86
+  111 2     0     0    66     0     0    14     0     0    51     0     0    33
+       new_state
+state   100 0 100 1 100 2 101 0 101 1 101 2 110 0 110 1 110 2 111 0 111 1 111 2
+  000 0 10248     0     0     0     0     0     0     0     0     0     0     0
+  000 1     0  7558     0     0     0     0     0     0     0     0     0     0
+  000 2     0     0  6070     0     0     0     0     0     0     0     0     0
+  001 0    63     2     0    52     0     0     0     0     0     0     0     0
+  001 1     0   296    55     0   214     0     0     0     0     0     0     0
+  001 2     0     0   337     0     0   347     0     0     0     0     0     0
+  010 0   167    32     0   298     0     0   410     0     0     0     0     0
+  010 1     0   301    47     0   325     0     0   633     0     0     0     0
+  010 2     0     0   598     0     0   178     0     0   963     0     0     0
+  011 0    35     3     0    47     2     0     5     4     0    68     0     0
+  011 1     0   104     5     0   110    43     0    10    16     0   244     0
+  011 2     0     0   176     0     0    56     0     0     0     0     0   303
+  100 0     1  4640     0   385     0     0  1964     0     0     0     0     0
+  100 1     0     1  5855     0   506     0     0  2306     0     0     0     0
+  100 2     0     0    10     0     0   631     0     0  2102     0     0     0
+  101 0     0   154     2    34   237     0   127    18     0    64     0     0
+  101 1     0     0   322     0    68   472     0   244    34     0   151     0
+  101 2     0     0     1     0     0   137     0     0   203     0     0   189
+  110 0     0     1    17    65   257     0   101   986     0   447     0     0
+  110 1     0     0    14     0   146   448     0   171  1726     0   624     0
+  110 2     0     0     2     0     0   255     0     0   214     0     0   668
+  111 0     0     3     2    15    73     4    23    49     1   108   235     0
+  111 1     0     0     4     0    33   144     0    51   128     0   217   493
+  111 2     0     0     0     0     0    99     0     0    75     0     0   236
+       new_state
+state       3
+  000 0     0
+  000 1     0
+  000 2 18355
+  001 0     0
+  001 1    11
+  001 2  1817
+  010 0     0
+  010 1    20
+  010 2  4419
+  011 0     0
+  011 1    30
+  011 2  1315
+  100 0     0
+  100 1  1283
+  100 2  8023
+  101 0     1
+  101 1   192
+  101 2  1544
+  110 0     1
+  110 1   483
+  110 2  3656
+  111 0     0
+  111 1   161
+  111 2  1280</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>P_matrix <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(T_matrix, <span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(P_matrix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24 25</code></pre>
+</div>
+</div>
+<p>Once you get to three outs, there’s nowhere left to go – you will stay in three outs with probability 1.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>P_matrix <span class="ot">&lt;-</span> P_matrix <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(<span class="st">"3"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">24</span>), <span class="dv">1</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dim(P_matrix)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>P_matrix <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      000 0 000 1 000 2 001 0 001 1 001 2 010 0 010 1 010 2 011 0 011 1 011 2
+000 0 0.031 0.689 0.000 0.005 0.000 0.000 0.045 0.000 0.000 0.000 0.000 0.000
+000 1 0.000 0.029 0.693 0.000 0.004 0.000 0.000 0.042 0.000 0.000 0.000 0.000
+000 2 0.000 0.000 0.027 0.000 0.000 0.003 0.000 0.000 0.044 0.000 0.000 0.000
+001 0 0.032 0.194 0.010 0.005 0.425 0.000 0.049 0.002 0.000 0.000 0.000 0.000
+001 1 0.000 0.030 0.202 0.000 0.003 0.366 0.000 0.050 0.006 0.000 0.000 0.000
+001 2 0.000 0.000 0.025 0.000 0.000 0.005 0.000 0.000 0.036 0.000 0.000 0.000
+010 0 0.022 0.002 0.005 0.004 0.230 0.000 0.043 0.426 0.000 0.004 0.000 0.000
+010 1 0.000 0.028 0.005 0.000 0.004 0.179 0.000 0.045 0.475 0.000 0.003 0.000
+010 2 0.000 0.000 0.030 0.000 0.000 0.005 0.000 0.000 0.051 0.000 0.000 0.000
+011 0 0.035 0.002 0.000 0.003 0.143 0.003 0.069 0.083 0.003 0.005 0.395 0.000
+011 1 0.000 0.017 0.002 0.000 0.005 0.153 0.000 0.063 0.082 0.000 0.004 0.306
+011 2 0.000 0.000 0.028 0.000 0.000 0.007 0.000 0.000 0.037 0.000 0.000 0.000
+100 0 0.030 0.001 0.115 0.004 0.003 0.000 0.012 0.070 0.000 0.037 0.000 0.000
+100 1 0.000 0.034 0.001 0.000 0.006 0.002 0.000 0.012 0.064 0.000 0.032 0.000
+100 2 0.000 0.000 0.030 0.000 0.000 0.006 0.000 0.000 0.020 0.000 0.000 0.025
+101 0 0.036 0.002 0.059 0.006 0.004 0.012 0.012 0.044 0.000 0.042 0.026 0.000
+101 1 0.000 0.027 0.001 0.000 0.006 0.004 0.000 0.011 0.051 0.000 0.045 0.026
+101 2 0.000 0.000 0.032 0.000 0.000 0.003 0.000 0.000 0.024 0.000 0.000 0.026
+110 0 0.029 0.000 0.000 0.005 0.001 0.081 0.010 0.001 0.008 0.037 0.089 0.000
+110 1 0.000 0.033 0.000 0.000 0.004 0.001 0.000 0.015 0.003 0.000 0.037 0.055
+110 2 0.000 0.000 0.028 0.000 0.000 0.006 0.000 0.000 0.022 0.000 0.000 0.027
+111 0 0.038 0.001 0.000 0.006 0.000 0.071 0.009 0.003 0.004 0.031 0.066 0.013
+111 1 0.000 0.025 0.001 0.000 0.008 0.001 0.000 0.014 0.003 0.000 0.037 0.059
+111 2 0.000 0.000 0.036 0.000 0.000 0.008 0.000 0.000 0.028 0.000 0.000 0.018
+3     0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+      100 0 100 1 100 2 101 0 101 1 101 2 110 0 110 1 110 2 111 0 111 1 111 2
+000 0 0.230 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+000 1 0.000 0.231 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+000 2 0.000 0.000 0.230 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+001 0 0.153 0.005 0.000 0.126 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+001 1 0.000 0.176 0.033 0.000 0.127 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+001 2 0.000 0.000 0.126 0.000 0.000 0.130 0.000 0.000 0.000 0.000 0.000 0.000
+010 0 0.049 0.009 0.000 0.087 0.000 0.000 0.120 0.000 0.000 0.000 0.000 0.000
+010 1 0.000 0.060 0.009 0.000 0.064 0.000 0.000 0.125 0.000 0.000 0.000 0.000
+010 2 0.000 0.000 0.089 0.000 0.000 0.026 0.000 0.000 0.143 0.000 0.000 0.000
+011 0 0.055 0.005 0.000 0.074 0.003 0.000 0.008 0.006 0.000 0.107 0.000 0.000
+011 1 0.000 0.068 0.003 0.000 0.072 0.028 0.000 0.007 0.010 0.000 0.159 0.000
+011 2 0.000 0.000 0.088 0.000 0.000 0.028 0.000 0.000 0.000 0.000 0.000 0.152
+100 0 0.000 0.482 0.000 0.040 0.000 0.000 0.204 0.000 0.000 0.000 0.000 0.000
+100 1 0.000 0.000 0.500 0.000 0.043 0.000 0.000 0.197 0.000 0.000 0.000 0.000
+100 2 0.000 0.000 0.001 0.000 0.000 0.054 0.000 0.000 0.179 0.000 0.000 0.000
+101 0 0.000 0.183 0.002 0.040 0.282 0.000 0.151 0.021 0.000 0.076 0.000 0.000
+101 1 0.000 0.000 0.180 0.000 0.038 0.264 0.000 0.136 0.019 0.000 0.084 0.000
+101 2 0.000 0.000 0.000 0.000 0.000 0.060 0.000 0.000 0.090 0.000 0.000 0.083
+110 0 0.000 0.000 0.007 0.026 0.101 0.000 0.040 0.388 0.000 0.176 0.000 0.000
+110 1 0.000 0.000 0.003 0.000 0.034 0.106 0.000 0.040 0.407 0.000 0.147 0.000
+110 2 0.000 0.000 0.000 0.000 0.000 0.049 0.000 0.000 0.041 0.000 0.000 0.128
+111 0 0.000 0.004 0.003 0.022 0.108 0.006 0.034 0.072 0.001 0.159 0.347 0.000
+111 1 0.000 0.000 0.003 0.000 0.023 0.100 0.000 0.035 0.089 0.000 0.150 0.341
+111 2 0.000 0.000 0.000 0.000 0.000 0.053 0.000 0.000 0.040 0.000 0.000 0.127
+3     0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+          3
+000 0 0.000
+000 1 0.000
+000 2 0.696
+001 0 0.000
+001 1 0.007
+001 2 0.678
+010 0 0.000
+010 1 0.004
+010 2 0.655
+011 0 0.000
+011 1 0.020
+011 2 0.660
+100 0 0.000
+100 1 0.110
+100 2 0.684
+101 0 0.001
+101 1 0.107
+101 2 0.682
+110 0 0.000
+110 1 0.114
+110 2 0.699
+111 0 0.000
+111 1 0.111
+111 2 0.690
+3     1.000</code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<p>How can we check the validity of this transition matrix? Pick a state – what should the sum of all transition probabilities from that state to any other be?</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>P_matrix <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> sum)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>000 0 000 1 000 2 001 0 001 1 001 2 010 0 010 1 010 2 011 0 011 1 011 2 100 0 
+    1     1     1     1     1     1     1     1     1     1     1     1     1 
+100 1 100 2 101 0 101 1 101 2 110 0 110 1 110 2 111 0 111 1 111 2     3 
+    1     1     1     1     1     1     1     1     1     1     1     1 </code></pre>
+</div>
+</div>
+<p>Let’s examine the nobody-on, nobody-out state. What are the most likely resulting states?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>P_matrix <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"state"</span>)  <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"000 0"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>state, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"new_state"</span>, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Prob"</span> </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Prob <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">state</th>
+<th style="text-align: left;">new_state</th>
+<th style="text-align: right;">Prob</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: right;">0.0310539</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: right;">0.6891907</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">001 0</td>
+<td style="text-align: right;">0.0047222</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">010 0</td>
+<td style="text-align: right;">0.0445909</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">100 0</td>
+<td style="text-align: right;">0.2304423</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>What about with a runner on 2nd base and two outs?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>P_matrix <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"state"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"010 2"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>state, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"new_state"</span>, </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Prob"</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Prob <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">state</th>
+<th style="text-align: left;">new_state</th>
+<th style="text-align: right;">Prob</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">000 2</td>
+<td style="text-align: right;">0.0301008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">001 2</td>
+<td style="text-align: right;">0.0054864</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">010 2</td>
+<td style="text-align: right;">0.0510083</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">011 2</td>
+<td style="text-align: right;">0.0002966</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">100 2</td>
+<td style="text-align: right;">0.0886714</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">101 2</td>
+<td style="text-align: right;">0.0263938</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">110 2</td>
+<td style="text-align: right;">0.1427936</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">0.6552491</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>So far, so good… Now we need to actually simulate the Markov Chain. This involves being in a state and transitioning into possible other states in a probabilistic manner…a large number of times.</p>
+<p>The key equation for keeping score is:</p>
+<p><span class="math display">\[
+runs = \left(N_{runners}^{(before)} + Outs^{(before)} + 1\right) - \left(N_{runners}^{(after)} + Outs^{(after)}\right)
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This function essentially "adds" the state: "011 1" becomes 3.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>num_havent_scored <span class="ot">&lt;-</span> <span class="cf">function</span>(s) {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  s <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split</span>(<span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># "Add" the state (runners + outs) for every state.</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>runners_out <span class="ot">&lt;-</span> T_matrix <span class="sc">|&gt;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row.names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_int</span>(num_havent_scored)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># This operation computes the runs equation above for every state-to-state </span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># transition, including the impossible transitions that we can safely ignore.</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>R_runs <span class="ot">&lt;-</span> <span class="fu">outer</span>(</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  runners_out <span class="sc">+</span> <span class="dv">1</span>, </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  runners_out, </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">FUN =</span> <span class="st">"-"</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="st">"3"</span> <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">24</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Before we go any further, what are the key tasks for simulating a half-inning of baseball?</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+<p>Here we go - let’s simulate!</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This function returns the number of runs scored in a simulated half-inning.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>simulate_half_inning <span class="ot">&lt;-</span> <span class="cf">function</span>(P, R, <span class="at">start =</span> <span class="dv">1</span>) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> start</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  path <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  runs <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (s <span class="sc">&lt;</span> <span class="dv">25</span>) {</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    s_new <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> P[s, ])</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    path <span class="ot">&lt;-</span> <span class="fu">c</span>(path, s_new)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    runs <span class="ot">&lt;-</span> runs <span class="sc">+</span> R[s, s_new]</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> s_new</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  runs</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s simulate 10,000 half-innings.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">388</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>simulated_runs <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span> <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_int</span>(<span class="sc">~</span><span class="fu">simulate_half_inning</span>(P_matrix, R_runs))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>P_matrix[<span class="dv">1</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      000 0       000 1       000 2       001 0       001 1       001 2 
+0.031053945 0.689190709 0.000000000 0.004722178 0.000000000 0.000000000 
+      010 0       010 1       010 2       011 0       011 1       011 2 
+0.044590857 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 
+      100 0       100 1       100 2       101 0       101 1       101 2 
+0.230442311 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 
+      110 0       110 1       110 2       111 0       111 1       111 2 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 
+          3 
+0.000000000 </code></pre>
+</div>
+</div>
+<p>What was the observed distribution of half-inning run totals?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(simulated_runs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>simulated_runs
+   0    1    2    3    4    5    6    7    8 
+7435 1411  653  279  120   59   21   17    5 </code></pre>
+</div>
+</div>
+<p>How often do teams score at least five runs in an inning?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(simulated_runs <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">/</span> <span class="dv">10000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0102</code></pre>
+</div>
+</div>
+<p>What is the average number of runs scored per half-inning?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(simulated_runs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4614</code></pre>
+</div>
+</div>
+<p>What have we left out? Name some non-batting plays that have the potential to change the state and potentially score runs.</p>
+<div class="html">
+<div style="margin-top: 0.5in;">
+
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
