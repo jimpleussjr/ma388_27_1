@@ -1,0 +1,281 @@
+---
+title: "MA388 Sabermetrics: Lesson 22"
+subtitle: "Simulating Baseball: Part II"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Simulating a Game
+
+In the last lesson, we simulated the number of runs in a half-inning by modeling individual at-bats and state transitions.  Now we're going to simulate a whole season.  Instead of simulating each at-bat, we'll start our simulation efforts at the level of modeling individual game outcomes.
+
+Let's come up with some ideas for deciding how to predict the winner of a game.
+
+::: {.html}
+<div style="margin-top: 1in;"></div>
+:::
+
+\vspace{1in}
+
+The Bradley-Terry model states the probability of Team A winning against Team B with this logistic function:
+
+$$P(A\text{ wins}) = \frac{\text{exp}(T_A)}{\text{exp}(T_A) + \text{exp}(T_B)}$$
+
+where $T_A$ and $T_B$ are the talent levels associated with Teams A and B, respectively.  Now consider a different formulation provided by Bill James in the early 1980s:
+
+$$P(A\text{ wins}) = \frac{P_A/(1-P_A)}{P_A/(1-P_A) + P_B/(1-P_B)}$$
+
+where $P_A$ and $P_B$ are the winning percentages of Teams A and B, respectively.  How are these models related?
+
+::: {.html}
+<div style="margin-top: 1in;"></div>
+:::
+
+\vspace{1in}
+
+So who wins in a game between Team A and B?  Let Team A have $P_A = 0.55$ and Team B have $P_B = 0.48$. (Note: These don't have to add to 1!)
+
+```{r}
+P_A = 0.55
+P_B = 0.48
+P_A_wins = (P_A / (1 - P_A)) / ((P_A / (1 - P_A)) + (P_B / (1 - P_B)))
+P_B_wins =  (P_B / (1 - P_B)) / ((P_B / (1 - P_B)) + (P_A / (1 - P_A)))
+P_A_wins
+```
+
+Great, Team A wins with probability 0.57.  Unfortunately, we don't need a probability of winning -- we need a winner!  How can we produce a winner by knowing that Team A is expected to win with probability 0.57?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Here are two ways we might think about declaring a winner.
+
+1. Draw a Uniform(0,1) random number.  If the probability is less than or equal to 0.57, Team A wins.  If it's greater than 0.57, Team B wins.
+
+```{r}
+set.seed(388)
+rand <- runif(n = 1, min = 0, max = 1)
+rand
+ifelse(rand < P_A_wins, "Team A wins!", "Team B wins!")
+```
+
+2. Alternatively, we can flip a coin with other than 50-50 probabilities of heads and tails.
+
+```{r}
+A_vs_B_outcome <- rbinom(n = 1, size = 1, prob = P_A_wins)
+ifelse(A_vs_B_outcome == 1, "Team A wins!", "Team B wins!")
+```
+
+These happen to agree this time, but there's no requirement for that to be the case.  We effectively flipped two coins here and could have gotten different outcomes.
+
+## Simulating a Season
+
+If we're going to simulate a season, we first need to create a schedule.  Suppose there were three teams (A, B, and C), and every team plays every team once at home and once away.
+
+- A vs. B \@ A
+
+- A vs. B \@ B
+
+- A vs. C \@ A
+
+- A vs. C \@ C
+
+- B vs. C \@ B
+
+- B vs. C \@ C
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+
+teams <- c("A", "B", "C")
+k = 1 # number of times each team hosts each other team
+num_teams <- length(teams)
+Home <- rep(rep(teams, each = num_teams), k)
+Visitor <- rep(rep(teams, num_teams), k)
+tibble(Home = Home, Visitor = Visitor) |> 
+  filter(Home != Visitor) |> 
+  kable()
+```
+
+Since we have code for a valid schedule for three teams playing each other once at home and once away, we can feel good about extending this to more complicated seasons with more teams and more games between pairs of teams.  Suppose we have 20 teams, each playing every other team three times each, both at home and away.  That should be:
+
+$$\frac{20\text{ teams} \times 19\text{ opponents} \times 6\text{ games per pair of teams}}{2\text{ teams per game}} = 1140\text{ games}$$
+
+```{r}
+teams <- LETTERS[1:20]
+k = 3 # number of times each team hosts each other team
+num_teams <- length(teams)
+Home <- rep(rep(teams, each = num_teams), k)
+Visitor <- rep(rep(teams, num_teams), k)
+schedule <- tibble(Home = Home, Visitor = Visitor) |> 
+  filter(Home != Visitor)
+schedule |> nrow()
+```
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+\newpage
+
+# Simulating Talent
+
+Let's consider the win-loss records of the last ~20 years.  There will be some amazing teams and some not-so-hot teams.
+
+```{r}
+Teams |> 
+  select(yearID, name, W, G) |> 
+  filter(yearID >= 2000) |> 
+  mutate(win_perc = W / G) |> 
+  arrange(-win_perc) |> 
+  ggplot(aes(x = win_perc)) + 
+  geom_histogram() + 
+  labs(title = "MLB Team Winning Percentages Since 2000",
+       x = "Win Percentage",
+       y = "Number of Occurrences")
+Teams |> 
+  filter(yearID==2025)
+```
+
+Let's sample 20 winning percentages from these historic teams to serve as the "talent" level of the teams in our simulated league.
+
+```{r}
+talent <- Teams |> 
+  filter(yearID >= 2000) |> 
+  mutate(win_perc = W / G) |>
+  pull(win_perc) |> 
+  sample(20)
+talent |> round(3)
+```
+
+Now we need to assign talent scores to our 20 teams.
+
+```{r}
+teams <- data.frame(name = LETTERS[1:20], talent = talent)
+
+schedule <- schedule |> 
+  left_join(teams, join_by(Home == name)) |> 
+  rename(talent_home = talent) |> 
+  left_join(teams, join_by(Visitor == name)) |> 
+  rename(talent_visitor = talent)
+
+head(schedule) |> 
+  kable(digits = 3)
+```
+
+Let's add the probability that the home team wins using Bill James' formula:
+
+```{r}
+schedule <- schedule |> 
+  mutate(P_Home_wins = (talent_home / (1 - talent_home)) / 
+           ((talent_home / (1 - talent_home)) + 
+              (talent_visitor / (1 - talent_visitor))))
+```
+
+Finally, we're ready to determine game winners.
+
+```{r}
+schedule <- schedule |> 
+  mutate(outcome = rbinom(nrow(schedule), 1, P_Home_wins),
+         Winner = if_else(outcome == 1, Home, Visitor)
+  ) |> 
+  select(-outcome)
+
+head(schedule) |> 
+  kable(digits = 3)
+```
+
+## Season Standings
+
+```{r}
+standings <- schedule |>  
+  summarize(Wins = n(),.by='Winner') |> 
+  arrange(-Wins) |> 
+  rename(Team = Winner)
+standings |> 
+  kable()
+```
+
+How do the season results align with the original talent rankings?  Did any teams significantly beat or fail to live up to expectations?
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+\newpage
+
+```{r}
+teams |> 
+  left_join(standings, join_by(name == Team)) |> 
+  arrange(-talent) |> 
+  mutate(talent_rank = row_number()) |> 
+  arrange(-Wins) |> 
+  mutate(league_rank = row_number()) |> 
+  kable(col.names = c("Team", "Talent", "Wins", "Talent Rank", "League Rank"),
+        digits = 3)
+```
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+\newpage
+
+## Monte Carlo Simulation Keys
+
+1. Model the probabilistic event(s).  In our case, this was the outcome of a single game based on two teams' talent levels.
+
+2. Replicate every feature of the system, pipeline, process, etc., as closely as possible to reality.
+
+3. Repeat the simulation hundreds or thousands of times to observe the long-run behavior of the system.
+
+### Example: In the notional card game *High-3*, every player is dealt five cards.  They sum the three highest cards, and the highest total wins.  Cards 2 through 10 are worth their face value.  Face cards are worth 10, and aces are worth 1.  Thus, the lowest possible score is 4 (A-A-A-A-2), and the highest possible score is 30 (many ways to have three 10s or face cards.)
+
+```{r}
+deck <- rep(c(2:10,"J","Q","K","A"), 4)
+deck
+values <- rep(c(2:10,10,10,10,1), 4)
+values
+```
+
+1. Model the probabilistic event. (Draw a 5-card hand.)
+
+```{r}
+hand <- sample(values, 5, replace = FALSE)
+hand
+```
+
+2. Replicate the system or process. (Determine the score of this hand.)
+
+```{r}
+score <- sort(hand, decreasing = TRUE) |> _[1:3] |> sum()
+score
+```
+
+3. Repeat the system many times.  
+
+```{r}
+num_trials <- 100000
+scores <- rep(0, num_trials)
+for(i in seq_along(scores)){
+  hand <- sample(values, 5, replace = FALSE)
+  scores[i] <- sort(hand, decreasing = TRUE) |> _[1:3] |> sum()
+}
+hist(scores, breaks = 4:30, 
+     main = "Histogram of High-3 Scores",
+     xlab = "Scores")
+```
+
+

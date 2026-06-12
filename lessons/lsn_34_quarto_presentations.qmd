@@ -1,0 +1,130 @@
+---
+title: "MA388 Sabermetrics: Lesson 34"
+subtitle: "Quarto Presentations"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include= FALSE}
+knitr::opts_chunk$set(echo = TRUE, message= FALSE, warning = FALSE)
+```
+
+## Purpose
+
+You have acquired the skills to analyze players, teams, pitches, and much more this semester.  You know how to translate a baseball question into code.  With the right data, you can answer lots of interesting questions.  It's time to scale up your productivity:
+
+- Can you reproduce your player-level analysis for another player?  Sure, just change the player ID.
+
+- Can you run your team analysis on any team in MLB?  Sure, just change the team ID.  
+
+- You spent hours, days, weeks getting your analysis pipeline just right.  You wrote a nice report and made nice slides.  Teams want to buy your analysis package.  The pay is good, but it takes you forever to assemble all the products.  Can you produce the same products for other players and teams with virtually no extra effort?  After today, your answer will be "Yes!"
+
+Go to any baseball statistics page (e.g., [Baseball Reference](https://www.baseball-reference.com/)).  What do you see?
+
+- Endless tables, charts, etc., for any player, team, year you want!
+
+- The raw data is there, but perhaps not the exact analysis you want.  You may not full have control over what analysis the website will present.
+
+- No worries.  You've been creating and sharing your own analyses all semester in publishable documents with R Markdown and Quarto documents.
+
+## Enter Quarto Presentations!
+
+We've made "reports" all semester long with R.  Today we're going to use Quarto to make very nice slides for a presentation.
+
+Step 1: File -> New File -> Quarto Presentation (use the default Reveal JS format)
+
+Step 2: Click "Render" where you normally find "Knit" in a RMarkdown file -- save your qmd file and examine the source file to see how simple things like bullets and code chunks are included in slides.
+
+Step 3: Add a slide.  Make this slide provide a table of the top-5 home run hitters for the year 2000.  Print the result in a kable.  (Don't forget your libraries: tidyverse, Lahman, and knitr.)
+
+Pretty easy, right?  Check out the HTML file you created to view your amazing slides.
+
+## The Secret to Scaling
+
+Scaling up your production is easy with a couple small changes:
+
+- Include "params" in the YAML (header/frontmatter) -- these will be passed to the code chunks via a "params" list. 
+
+```
+---
+title: "Untitled"
+format: revealjs
+editor: visual
+params:
+  year_of_interest: 2000
+---
+```
+
+This allows the document to use a default value for `year_of_interest` equal to 2000, but you can also send whatever other value you want for `year_of_interest` when you programmatically render the document.
+
+- Add a second slide that replicates the your top-5 home run hitters table for the year 2000, except this time filter for when `yearID == params$year_of_interest` instead of `yearID == 2000`.  Title your slide "Top-5 Home Run Leaders (`params$year_of_interest`)".  Add an "r" in front of "params$year_of_interest" for it to evaluate that expression as R code and insert the result directly into the text of your title slide. 
+
+- Render the document from the console or an R script.  Pass the value 2001 to the `year_of_interest` variable.
+
+```{r, eval = FALSE}
+quarto::quarto_render(input = "quarto_presentation_demo.qmd", 
+                    output_file = "Hitting_Leaders.html",
+                    execute_params = list(year_of_interest = 2001))
+```
+
+**Warning: Do this in a script, not in your .qmd file!  The script is going to look for your .qmd file in the current working directory.  If it can't find it, you'll get an error. Set the working directory to the location of the .qmd file to eliminate this issue. You may need to install the `quarto` package.**
+
+Do you see how your slides changed?
+
+Let's make one more improvement: make the title slide show our year of interest.  Change your YAML frontmatter as follows (again you'll need to add "r" at the beginning of the code chunk marked by single back-ticks ` `):
+
+```
+---
+format: revealjs
+editor: visual
+params:
+  year_of_interest: 2000
+title: "`params$year_of_interest` Home Run Leaders"
+---
+```
+
+Moving the "title" element to the end lets us use a `params` element in the title.
+
+## Mass Production
+
+Now all we have to do put our "render" command in a loop and let the value we supply to `year_of_interest` change in each loop iteration.
+
+```{r, eval = FALSE}
+for(year in 2000:2003){
+  quarto::quarto_render(input = "quarto_presentation_demo.qmd", 
+                    output_file = "Hitting_Leaders.html",
+                    execute_params = list(year_of_interest = year))
+}
+```
+
+So close...we still just have one output file.  Why?
+
+To avoid overwriting our output file each time, let's add something unique to the filename in each loop iteration.
+
+```{r, eval = FALSE}
+for(year in 2000:2003){
+  quarto::quarto_render(input = "quarto_presentation_demo.qmd", 
+                    output_file = str_c("Hitting_Leaders_", 
+                                        year, 
+                                        ".html"),
+                    execute_params = list(year_of_interest = year))
+}
+```
+
+## Challenge Problem
+
+Create a combination of a Quarto presentation and R script that produces a set of slides for each team in MLB:
+
+- The script should supply the team names of interest and the years of interest.
+
+- The Quarto presentation should have a title slide saying which team and years the slides will present.
+
+- Make slides for the top-5 players in each of these categories: home runs, batting average, on-base percentage, slugging percentage, and OPS.

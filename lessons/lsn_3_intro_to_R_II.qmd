@@ -1,0 +1,162 @@
+---
+title: "MA388 Sabermetrics: Lesson 3"
+subtitle: "Introduction to R - Part II"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+```{r}
+library(Lahman)
+library(tidyverse)
+library(knitr)
+```
+
+## Review
+
+Key Concepts
+
+-   five tidyverse verbs
+
+-   relational databases
+
+Review Questions
+
+-   Using the `Teams` data frame, calculate average wins (W) per season for each MLB team from 2000-present. Order your results from the best teams to the worst.
+
+```{r, echo = FALSE}
+wins2000 <- Teams |> 
+  filter(yearID >= 2000) |> 
+  group_by(teamID) |> 
+  summarize(W = sum(W),
+            G = sum(G)) |> 
+  mutate(Wpct = W/G) |> 
+  arrange(-Wpct)
+
+wins2000 |> 
+  kable(digits = 3)
+```
+
+-   Using the `Teams` data frame, calculate how many World Series titles (WSWin) each team had during this period and add this information to your table in the previous question.
+
+```{r, echo = FALSE}
+WSwins2000 <- Teams |> 
+  filter(yearID >= 2000) |> 
+  group_by(teamID) |> 
+  summarize(WSWins = sum(WSWin == "Y"))
+
+wins2000 <- wins2000 |> 
+  right_join(WSwins2000, by = "teamID")
+
+wins2000 |> 
+  kable(digits = 3, caption = "Win Percentage and World Series Titles by Team (2000-present).")
+```
+
+## Introduction to R (Day 2)
+
+### Split, Apply, and Combine Data
+
+It's important in data science to be able to write procedures and apply them over a data set. The Marchi text refers to this as "splitting, applying, and combining data." In other words, we split a data frame into pieces, apply a procedure or function to each piece, and then combine the results into a new data frame.
+
+Ways to "split, apply, and combine"...
+
+-   group_by() and summarize() functions
+
+-   split() and map_df() functions
+
+In general, these coding tasks involve three steps:
+
+1.  Write a function to perform the task on one split of the data.
+
+2.  Split the data on a variable.
+
+3.  Apply the function to each split of the data.
+
+### Example
+
+\textit{Find the team with the most wins for each season and determine whether the team won the World Series.}
+
+Three steps:
+
+1.  Write a function that takes a data frame and returns the team with the most wins and whether they won the World Series.
+
+2.  Split the data frame on `yearID`.
+
+3.  Apply the function to each split.
+
+```{r}
+# Step 1 - Write a function.
+mostWins <- function(data){
+  data |> 
+    arrange(-W) |> 
+    select(teamID, W, WSWin) |> 
+    head(1)
+}
+
+# Steps 2 and 3 - Split and apply.
+winLeaders <- Teams |> 
+  filter(yearID >= 2000) |> 
+  split(~yearID) |>
+  map_df(mostWins, .id = "yearID")
+
+winLeaders |> 
+  kable(caption = "Major League win leaders by season and whether they won the World Series.")
+```
+
+\textit{Note: Functions are not executed until they are called.}
+
+### Your Turn
+
+\textit{Find the team with the most home runs for each season from 2000-present.  Include the team's full name in your table instead of just the teamID.}
+
+```{r, echo = FALSE}
+# Step 1 - Write a function.
+mostHRs <- function(data){
+  data |> 
+    arrange(-HR) |> 
+    select(teamID, HR, name) |> 
+    head(1)
+}
+
+# Steps 2 and 3 - Split and apply.
+HRLeaders <- Teams |> 
+  filter(yearID >= 2000) |> 
+  split(~yearID) |>
+  map_df(mostHRs, .id = "yearID")
+
+# HRLeaders <-
+#   Teams |> 
+#     filter(yearID >= 2000) |> 
+#   group_by(yearID) |> 
+#   group_split() |> 
+#   map(mostHRs) |> 
+#     set_names(years) |> 
+#   bind_rows(.id='years')
+
+HRLeaders |> 
+  select(yearID, name, HR) |> 
+  kable(caption = "Major League win leaders by season and whether they won the World Series.")
+```
+
+What's the difference between `select()` and `pull()`? One key difference is they return different data types.
+
+```{r}
+HRLeaders |> 
+  select(yearID)
+
+HRLeaders |> 
+  pull(yearID)
+```

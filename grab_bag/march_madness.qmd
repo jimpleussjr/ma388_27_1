@@ -1,0 +1,80 @@
+---
+title: "March Madness Bracket — Scoring & Rules"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Overview
+
+Welcome to our class March Madness bracket challenge! Points are awarded by round, with an **extra upset bonus in Round 1**.
+
+---
+
+## Scoring by Round
+
+- **Round 1 (64 teams):** 1 point per correct pick  
+  - **Upset bonus:** +1 extra point *in Round 1 only* for correctly picking an upset where the **lower seed beats the higher seed**, **excluding 8 vs. 9 games**.
+- **Round 2 (32 teams):** 2 points per correct pick
+- **Round 3 — Sweet 16:** 3 points per correct pick
+- **Round 4 — Elite Eight:** 4 points per correct pick
+- **Round 5 — Final Four:** 5 points per correct pick
+- **Round 6 — National Championship:** 6 points per correct pick
+
+> “Third round = 3 points” and so on—i.e., the point value increases by 1 each round.
+
+### Upset Definition (Round 1 only)
+- An **upset** is when the **numerically larger seed** defeats the **numerically smaller seed** (e.g., a 12 beats a 5).  
+- **No upset credit** for 8 vs. 9 matchups.  
+- Each correctly predicted eligible upset in **Round 1** earns **+1 extra point**.
+
+---
+
+## Quick Examples
+
+### Example A — Round 1 upset you called correctly
+- You picked a **12** to beat a **5**, and it happened.  
+- Points: **1 (correct pick)** + **1 (upset bonus)** = **2 points**
+
+### Example B — Round 1 correct pick that is not an upset
+- You picked a **2** to beat a **15**, and it happened.  
+- Points: **1 point** (no upset bonus)
+
+### Example C — Sweet 16 correct pick
+- You picked the winner of a Sweet 16 game correctly.  
+- Points: **3 points**
+
+---
+
+## Bonus Points
+
+- **Beat-the-Instructor Bonus:** If your total score **beats my score**, you earn **+1 bonus point**.
+- **Placement Bonuses (class leaderboard):**
+  - **1st place:** +5
+  - **2nd place:** +4
+  - **3rd place:** +3
+
+---
+
+## Results
+
+```{r}
+library(tidyverse)
+library(kableExtra)
+results <- read_csv('march_madness_results.csv')
+results |> 
+  kable()
+```
+
+<iframe src="cbs-sports-2026-bracket.pdf" width="140%" height="900" style="border: none;">
+  Your browser does not support PDFs. 
+  <a href="cbs-sports-2026-bracket.pdf">Download the bracket PDF</a>.
+</iframe>
+

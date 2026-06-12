@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MA388 Sabermetrics: Lesson 24 – MA388 Sabermetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MA388 Sabermetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-1-10" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 1-10</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-1-10">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
+ <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_3_intro_to_R_II.html">
+ <span class="dropdown-text">Lesson 3: Introduction to R II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_4_r_graphics_I.html">
+ <span class="dropdown-text">Lesson 4: R Graphics I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_5_r_graphics_II.html">
+ <span class="dropdown-text">Lesson 5: R Graphics II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_6_runs_and_wins_I.html">
+ <span class="dropdown-text">Lesson 6: Runs and Wins I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_8_runs_and_wins_II.html">
+ <span class="dropdown-text">Lesson 8: Runs and Wins II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_9_runs_expectancy_matrix.html">
+ <span class="dropdown-text">Lesson 9: Value of Plays: Run Expectancy Matrix</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_10_hits_stealing.html">
+ <span class="dropdown-text">Lesson 10: Value of Plays: Base Hits and Stealing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-11-20" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 11-20</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-11-20">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_11_swinging_tendencies.html">
+ <span class="dropdown-text">Lesson 11: Behaviors by Count: Swinging Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_12_umpire_tendencies.html">
+ <span class="dropdown-text">Lesson 12: Behaviors by Count: Umpire Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_13_catcher_framing_visualization.html">
+ <span class="dropdown-text">Lesson 13: Catcher Framing Ability - Visualizations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_14_logistic_regression.html">
+ <span class="dropdown-text">Lesson 14: Introduction to Logistic Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_15_catcher_framing_modeling.html">
+ <span class="dropdown-text">Lesson 15: Catcher Framing Ability: Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_16_catcher_framing_random_effects.html">
+ <span class="dropdown-text">Lesson 16: Catcher Framing Ability: Random Effects</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_18_peak_trajectories_I.html">
+ <span class="dropdown-text">Lesson 18: Comparing Peak Trajectories I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_19_peak_trajectories_II.html">
+ <span class="dropdown-text">Lesson 19: Comparing Peak Trajectories II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_20_multilevel_modeling.html">
+ <span class="dropdown-text">Lesson 20: Multilevel Modeling</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-21-30" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 21-30</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-21-30">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_21_simulation_I.html">
+ <span class="dropdown-text">Lesson 21: Simulating Baseball - Part I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_22_simulation_II.html">
+ <span class="dropdown-text">Lesson 22: Simulating Baseball - Part II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_23_the_great_streak.html">
+ <span class="dropdown-text">Lesson 23: Baseball Streaks - The Great Streak</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_24_streakiness_statistics.html">
+ <span class="dropdown-text">Lesson 24: Baseball Streaks - Streakiness Statistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_26_statcast_spray_charts.html">
+ <span class="dropdown-text">Lesson 26: Working with Large Data - Statcast Spray Charts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_27_launch_angles_exit_velocity.html">
+ <span class="dropdown-text">Lesson 27: Working with Large Data - Launch Angles and Exit Velocity</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_28_home_run_hitting_I.html">
+ <span class="dropdown-text">Lesson 28: Home Run Hitting I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_29_home_run_hitting_II.html">
+ <span class="dropdown-text">Lesson 29: Home Run Hitting II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_30_equivalence_coefficient.html">
+ <span class="dropdown-text">Lesson 30: Equivalence Coefficient</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-31-40" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 31-40</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-31-40">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_31_ops+_babip.html">
+ <span class="dropdown-text">Lesson 31: OPS+ and BABIP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_32_linear_weights.html">
+ <span class="dropdown-text">Lesson 32: Linear Weights</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_33_runs_created_solution.html">
+ <span class="dropdown-text">Lesson 33: Runs Created School</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentations.html">
+ <span class="dropdown-text">Lesson 34: Quarto Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentation_demo.html">
+ <span class="dropdown-text">Example Quarto Presentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_35_shiny.html">
+ <span class="dropdown-text">Lesson 35: Shiny</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../calendar/calendar.html"> 
+<span class="menu-text">Calendar</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/grab_bag.html"> 
+<span class="menu-text">Grab Bag Topics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/march_madness.html"> 
+<span class="menu-text">March Madness</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#review---dimaggios-streak" id="toc-review---dimaggios-streak" class="nav-link active" data-scroll-target="#review---dimaggios-streak">Review - DiMaggio’s Streak</a></li>
+  <li><a href="#individual-at-bat-streaks" id="toc-individual-at-bat-streaks" class="nav-link" data-scroll-target="#individual-at-bat-streaks">Individual At-Bat Streaks</a></li>
+  <li><a href="#a-streakiness-statistic" id="toc-a-streakiness-statistic" class="nav-link" data-scroll-target="#a-streakiness-statistic">A Streakiness Statistic</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_24_streakiness_statistics.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MA388 Sabermetrics: Lesson 24</h1>
+<p class="subtitle lead">Streakiness Statistics</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baseballr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="review---dimaggios-streak" class="level2">
+<h2 class="anchored" data-anchor-id="review---dimaggios-streak">Review - DiMaggio’s Streak</h2>
+<p>Last class we talked about the incredible hitting streak of Joe DiMaggio. In 1941, Joe DiMaggio of the New York Yankees hit safely (got at least one hit) in 56 straight games. The streak began on May 15th, 1941 when DiMaggio went 1-for-4 against the Chicago White Sox and ended on July 17th when he went 0-for-3 with a walk against the Cleveland Indians.</p>
+</section>
+<section id="individual-at-bat-streaks" class="level2">
+<h2 class="anchored" data-anchor-id="individual-at-bat-streaks">Individual At-Bat Streaks</h2>
+<p>We looked at DiMaggio’s streak of games with hits, but now we turn our attention to streaks in individual at-bats. In 2011, Miguel Cabrera led the league with a batting average of 0.344. Let’s take a look at his streaks for the season.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>retro2011 <span class="ot">&lt;-</span> <span class="fu">retrosheet_data</span>(<span class="at">years_to_acquire =</span> <span class="st">'2011'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">'2011'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">'events'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Filter the data to include only Miguel Cabrera’s plate appearances.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cabrera_id <span class="ot">&lt;-</span> People <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nameFirst <span class="sc">==</span> <span class="st">"Miguel"</span>, nameLast <span class="sc">==</span> <span class="st">"Cabrera"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(retroID) <span class="sc">|&gt;</span> <span class="fu">pull</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>cabrera <span class="ot">&lt;-</span> retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(bat_id <span class="sc">==</span> cabrera_id <span class="sc">&amp;</span> ab_fl<span class="sc">==</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To look at streaks we need to first identify which at-bats resulted in a hit and which resulted in an out.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cabrera <span class="ot">&lt;-</span> cabrera <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">H =</span> <span class="fu">ifelse</span>(h_fl <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">DATE =</span> <span class="fu">str_sub</span>(game_id, <span class="dv">4</span>, <span class="dv">12</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">AB =</span> <span class="dv">1</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">AB_Num =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(DATE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can then use the streaks function we defined last class to calculate the length of hit streaks and out streaks.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>streaks <span class="ot">&lt;-</span> <span class="cf">function</span>(y){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rle</span>(y)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">"list"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">as_tibble</span>(x))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># First, let's look at hit streaks.</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>cab_hits <span class="ot">&lt;-</span> cabrera <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(H) <span class="sc">|&gt;</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">streaks</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>cab_hits <span class="sc">|&gt;</span> </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lengths) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1 1 2 1 3 1 4 1 1 2 1 1 2 1 1 3 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 2 2 1 1
+ [38] 1 1 1 1 1 2 1 2 1 1 2 1 2 1 1 2 1 2 1 3 1 1 3 3 3 1 2 1 1 1 1 1 2 1 1 2 2
+ [75] 1 1 1 1 1 2 2 2 1 3 2 1 2 2 1 1 1 1 2 1 1 1 1 2 2 1 1 1 1 3 1 1 1 3 1 1 1
+[112] 1 1 1 1 1 1 3 2 1 1 1 1 2 1 1 1 1 1 1 2 2 5 2 2 1 2</code></pre>
+</div>
+</div>
+<p><strong>What can you learn from looking at Cabrera’s hitting streaks over the season?</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>moving_average <span class="ot">&lt;-</span> <span class="cf">function</span>(df, width){</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(<span class="at">Game =</span> <span class="fu">rollmean</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="at">k =</span> width, <span class="at">fill =</span> <span class="cn">NA</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">Average =</span> <span class="fu">rollsum</span>(H, width, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">/</span> <span class="fu">rollsum</span>(AB, width, <span class="at">fill =</span> <span class="cn">NA</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's assume ~3 ABs/game, so 30 ABs will give us a ~10-game window.</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">moving_average</span>(cabrera, <span class="dv">30</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Game, Average)) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"AB"</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">mean</span>(cabrera<span class="sc">$</span>H)) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">data =</span> cabrera <span class="sc">|&gt;</span> <span class="fu">filter</span>(H<span class="sc">==</span><span class="dv">1</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(AB_Num, .<span class="dv">3</span> <span class="sc">*</span> H), <span class="at">sides =</span> <span class="st">"b"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lsn_24_streakiness_statistics_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>After looking at the plot, does it change your conclusions from before?</strong></p>
+<p>Now let’s look at Cabrera’s hitting slumps.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find Cabrera's hitting slumps.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cab_outs <span class="ot">&lt;-</span> cabrera <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(H) <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">streaks</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>cab_outs <span class="sc">|&gt;</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lengths) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]  1  3  2  6  1  7  2  2 10  5  1  2  1  1  5  2  3  6  2  1  1  2  1  1  1
+ [26] 14  5  2  3  1  4  4  3  1  3  3  2  2  1  4  1  2  6  1  5  1  2  4  1  1
+ [51]  8  2  3  4  2  1  3  1  5  3  2  2  2  4  7  9  5  3  7  1  7  3  1  4  1
+ [76]  1  4  1  2  4  9  4  2  4  1  3  4  1  3  3  2  2  2  1  3  1  2  3  1  2
+[101]  5  3  4  1  2  1  2  2  1  1  2  3  2  3  1  1  2  3  1  8  1  1  1  1  1
+[126]  1  1  6  2  1  2  1  1  2  2  3</code></pre>
+</div>
+</div>
+<p><strong>What can you learn from looking at Cabrera’s hitting slumps over the season?</strong></p>
+<p>How does this compare to the rest of the league? Since Cabrera had 572 at bats over the season, let’s compare him to other players who had over 500 at-bats.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the data to get all players with over 500 at-bats in the season.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>retro_500 <span class="ot">=</span> retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(bat_id) <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">AB =</span> <span class="fu">sum</span>(ab_fl)) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AB <span class="sc">&gt;=</span> <span class="dv">500</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(bat_id)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function to calculate the longest slump for each player.</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>longest_ofer <span class="ot">&lt;-</span> <span class="cf">function</span>(batter){</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(bat_id <span class="sc">==</span> batter, ab_fl <span class="sc">==</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">H =</span> <span class="fu">ifelse</span>(h_fl <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">DATE =</span> <span class="fu">substr</span>(game_id, <span class="dv">4</span>, <span class="dv">12</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(DATE) <span class="sc">|&gt;</span> </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(H) <span class="sc">|&gt;</span> </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">streaks</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(values <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">MAX_STREAK =</span> <span class="fu">max</span>(lengths))</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Find each player's longest slump.</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>retro_500 <span class="sc">|&gt;</span> </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(longest_ofer) <span class="sc">|&gt;</span> </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">BAT_ID =</span> retro_500) <span class="sc">|&gt;</span> </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(People <span class="sc">|&gt;</span> <span class="fu">select</span>(nameFirst, nameLast, retroID), </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"BAT_ID"</span> <span class="ot">=</span> <span class="st">"retroID"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>MAX_STREAK) <span class="sc">|&gt;</span> </span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Rank =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">MAX_STREAK</th>
+<th style="text-align: left;">BAT_ID</th>
+<th style="text-align: left;">nameFirst</th>
+<th style="text-align: left;">nameLast</th>
+<th style="text-align: right;">Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">ibanr001</td>
+<td style="text-align: left;">Raul</td>
+<td style="text-align: left;">Ibanez</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">30</td>
+<td style="text-align: left;">aybae001</td>
+<td style="text-align: left;">Erick</td>
+<td style="text-align: left;">Aybar</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">mcgec001</td>
+<td style="text-align: left;">Casey</td>
+<td style="text-align: left;">McGehee</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">sancg001</td>
+<td style="text-align: left;">Gaby</td>
+<td style="text-align: left;">Sanchez</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">betay001</td>
+<td style="text-align: left;">Yuniesky</td>
+<td style="text-align: left;">Betancourt</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">bourp001</td>
+<td style="text-align: left;">Peter</td>
+<td style="text-align: left;">Bourjos</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">hardj003</td>
+<td style="text-align: left;">J. J.</td>
+<td style="text-align: left;">Hardy</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">howar001</td>
+<td style="text-align: left;">Ryan</td>
+<td style="text-align: left;">Howard</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">lee-c001</td>
+<td style="text-align: left;">Carlos</td>
+<td style="text-align: left;">Lee</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">ortid001</td>
+<td style="text-align: left;">David</td>
+<td style="text-align: left;">Ortiz</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">pennc001</td>
+<td style="text-align: left;">Cliff</td>
+<td style="text-align: left;">Pennington</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">santc002</td>
+<td style="text-align: left;">Carlos</td>
+<td style="text-align: left;">Santana</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">escoa003</td>
+<td style="text-align: left;">Alcides</td>
+<td style="text-align: left;">Escobar</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">reynm001</td>
+<td style="text-align: left;">Mark</td>
+<td style="text-align: left;">Reynolds</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">riosa002</td>
+<td style="text-align: left;">Alex</td>
+<td style="text-align: left;">Rios</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">walkn001</td>
+<td style="text-align: left;">Neil</td>
+<td style="text-align: left;">Walker</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">kinsi001</td>
+<td style="text-align: left;">Ian</td>
+<td style="text-align: left;">Kinsler</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">cabra002</td>
+<td style="text-align: left;">Asdrubal</td>
+<td style="text-align: left;">Cabrera</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">cuddm001</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">Cuddyer</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">huffa001</td>
+<td style="text-align: left;">Aubrey</td>
+<td style="text-align: left;">Huff</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">ramia001</td>
+<td style="text-align: left;">Aramis</td>
+<td style="text-align: left;">Ramirez</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">trumm001</td>
+<td style="text-align: left;">Mark</td>
+<td style="text-align: left;">Trumbo</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">uptoj001</td>
+<td style="text-align: left;">Justin</td>
+<td style="text-align: left;">Upton</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">victs001</td>
+<td style="text-align: left;">Shane</td>
+<td style="text-align: left;">Victorino</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">younc004</td>
+<td style="text-align: left;">Chris</td>
+<td style="text-align: left;">Young</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">desmi001</td>
+<td style="text-align: left;">Ian</td>
+<td style="text-align: left;">Desmond</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">gonza002</td>
+<td style="text-align: left;">Alex</td>
+<td style="text-align: left;">Gonzalez</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">granc001</td>
+<td style="text-align: left;">Curtis</td>
+<td style="text-align: left;">Granderson</td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">huntt001</td>
+<td style="text-align: left;">Torii</td>
+<td style="text-align: left;">Hunter</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">jacka001</td>
+<td style="text-align: left;">Austin</td>
+<td style="text-align: left;">Jackson</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">jonea003</td>
+<td style="text-align: left;">Adam</td>
+<td style="text-align: left;">Jones</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">matsh001</td>
+<td style="text-align: left;">Hideki</td>
+<td style="text-align: left;">Matsui</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">maybc001</td>
+<td style="text-align: left;">Cameron</td>
+<td style="text-align: left;">Maybin</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">rollj001</td>
+<td style="text-align: left;">Jimmy</td>
+<td style="text-align: left;">Rollins</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">swisn001</td>
+<td style="text-align: left;">Nick</td>
+<td style="text-align: left;">Swisher</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">valed001</td>
+<td style="text-align: left;">Danny</td>
+<td style="text-align: left;">Valencia</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">younm003</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">Young</td>
+<td style="text-align: right;">37</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">bonie001</td>
+<td style="text-align: left;">Emilio</td>
+<td style="text-align: left;">Bonifacio</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">butlb003</td>
+<td style="text-align: left;">Billy</td>
+<td style="text-align: left;">Butler</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">kendh001</td>
+<td style="text-align: left;">Howie</td>
+<td style="text-align: left;">Kendrick</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">markn001</td>
+<td style="text-align: left;">Nick</td>
+<td style="text-align: left;">Markakis</td>
+<td style="text-align: right;">41</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">stubd001</td>
+<td style="text-align: left;">Drew</td>
+<td style="text-align: left;">Stubbs</td>
+<td style="text-align: right;">42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">teixm001</td>
+<td style="text-align: left;">Mark</td>
+<td style="text-align: left;">Teixeira</td>
+<td style="text-align: right;">43</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">uptob001</td>
+<td style="text-align: left;">B. J.</td>
+<td style="text-align: left;">Upton</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">wietm001</td>
+<td style="text-align: left;">Matt</td>
+<td style="text-align: left;">Wieters</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">zobrb001</td>
+<td style="text-align: left;">Ben</td>
+<td style="text-align: left;">Zobrist</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">barnd001</td>
+<td style="text-align: left;">Darwin</td>
+<td style="text-align: left;">Barney</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">brucj001</td>
+<td style="text-align: left;">Jay</td>
+<td style="text-align: left;">Bruce</td>
+<td style="text-align: right;">48</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">fielp001</td>
+<td style="text-align: left;">Prince</td>
+<td style="text-align: left;">Fielder</td>
+<td style="text-align: right;">49</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">abreb001</td>
+<td style="text-align: left;">Bobby</td>
+<td style="text-align: left;">Abreu</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">bartj001</td>
+<td style="text-align: left;">Jason</td>
+<td style="text-align: left;">Bartlett</td>
+<td style="text-align: right;">51</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">escoy001</td>
+<td style="text-align: left;">Yunel</td>
+<td style="text-align: left;">Escobar</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">espid001</td>
+<td style="text-align: left;">Danny</td>
+<td style="text-align: left;">Espinosa</td>
+<td style="text-align: right;">53</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">gardb001</td>
+<td style="text-align: left;">Brett</td>
+<td style="text-align: left;">Gardner</td>
+<td style="text-align: right;">54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">hosme001</td>
+<td style="text-align: left;">Eric</td>
+<td style="text-align: left;">Hosmer</td>
+<td style="text-align: right;">55</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">johnk003</td>
+<td style="text-align: left;">Kelly</td>
+<td style="text-align: left;">Johnson</td>
+<td style="text-align: right;">56</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">mccua001</td>
+<td style="text-align: left;">Andrew</td>
+<td style="text-align: left;">McCutchen</td>
+<td style="text-align: right;">57</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">pedrd001</td>
+<td style="text-align: left;">Dustin</td>
+<td style="text-align: left;">Pedroia</td>
+<td style="text-align: right;">58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">philb001</td>
+<td style="text-align: left;">Brandon</td>
+<td style="text-align: left;">Phillips</td>
+<td style="text-align: right;">59</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">ramia003</td>
+<td style="text-align: left;">Alexei</td>
+<td style="text-align: left;">Ramirez</td>
+<td style="text-align: right;">60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">suzui001</td>
+<td style="text-align: left;">Ichiro</td>
+<td style="text-align: left;">Suzuki</td>
+<td style="text-align: right;">61</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">wellv001</td>
+<td style="text-align: left;">Vernon</td>
+<td style="text-align: left;">Wells</td>
+<td style="text-align: right;">62</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">andre001</td>
+<td style="text-align: left;">Elvis</td>
+<td style="text-align: left;">Andrus</td>
+<td style="text-align: right;">63</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">beltc001</td>
+<td style="text-align: left;">Carlos</td>
+<td style="text-align: left;">Beltran</td>
+<td style="text-align: right;">64</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">crawc002</td>
+<td style="text-align: left;">Carl</td>
+<td style="text-align: left;">Crawford</td>
+<td style="text-align: right;">65</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">damoj001</td>
+<td style="text-align: left;">Johnny</td>
+<td style="text-align: left;">Damon</td>
+<td style="text-align: right;">66</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">ellsj001</td>
+<td style="text-align: left;">Jacoby</td>
+<td style="text-align: left;">Ellsbury</td>
+<td style="text-align: right;">67</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">freef001</td>
+<td style="text-align: left;">Freddie</td>
+<td style="text-align: left;">Freeman</td>
+<td style="text-align: right;">68</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">guerv001</td>
+<td style="text-align: left;">Vladimir</td>
+<td style="text-align: left;">Guerrero</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">hilla001</td>
+<td style="text-align: left;">Aaron</td>
+<td style="text-align: left;">Hill</td>
+<td style="text-align: right;">70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">lonej001</td>
+<td style="text-align: left;">James</td>
+<td style="text-align: left;">Loney</td>
+<td style="text-align: right;">71</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">pradm001</td>
+<td style="text-align: left;">Martin</td>
+<td style="text-align: left;">Prado</td>
+<td style="text-align: right;">72</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">cabrm001</td>
+<td style="text-align: left;">Miguel</td>
+<td style="text-align: left;">Cabrera</td>
+<td style="text-align: right;">73</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">gonza003</td>
+<td style="text-align: left;">Adrian</td>
+<td style="text-align: left;">Gonzalez</td>
+<td style="text-align: right;">74</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">jeted001</td>
+<td style="text-align: left;">Derek</td>
+<td style="text-align: left;">Jeter</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">peraj001</td>
+<td style="text-align: left;">Jhonny</td>
+<td style="text-align: left;">Peralta</td>
+<td style="text-align: right;">76</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">stanm004</td>
+<td style="text-align: left;">Giancarlo</td>
+<td style="text-align: left;">Stanton</td>
+<td style="text-align: right;">77</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">tulot001</td>
+<td style="text-align: left;">Troy</td>
+<td style="text-align: left;">Tulowitzki</td>
+<td style="text-align: right;">78</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">uggld001</td>
+<td style="text-align: left;">Dan</td>
+<td style="text-align: left;">Uggla</td>
+<td style="text-align: right;">79</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">vottj001</td>
+<td style="text-align: left;">Joey</td>
+<td style="text-align: left;">Votto</td>
+<td style="text-align: right;">80</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">wertj001</td>
+<td style="text-align: left;">Jayson</td>
+<td style="text-align: left;">Werth</td>
+<td style="text-align: right;">81</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">casts001</td>
+<td style="text-align: left;">Starlin</td>
+<td style="text-align: left;">Castro</td>
+<td style="text-align: right;">82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">infao001</td>
+<td style="text-align: left;">Omar</td>
+<td style="text-align: left;">Infante</td>
+<td style="text-align: right;">83</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">kempm001</td>
+<td style="text-align: left;">Matt</td>
+<td style="text-align: left;">Kemp</td>
+<td style="text-align: right;">84</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">pench001</td>
+<td style="text-align: left;">Hunter</td>
+<td style="text-align: left;">Pence</td>
+<td style="text-align: right;">85</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">pujoa001</td>
+<td style="text-align: left;">Albert</td>
+<td style="text-align: left;">Pujols</td>
+<td style="text-align: right;">86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">braur002</td>
+<td style="text-align: left;">Ryan</td>
+<td style="text-align: left;">Braun</td>
+<td style="text-align: right;">87</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">crisc001</td>
+<td style="text-align: left;">Coco</td>
+<td style="text-align: left;">Crisp</td>
+<td style="text-align: right;">88</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">fukuk001</td>
+<td style="text-align: left;">Kosuke</td>
+<td style="text-align: left;">Fukudome</td>
+<td style="text-align: right;">89</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">konep001</td>
+<td style="text-align: left;">Paul</td>
+<td style="text-align: left;">Konerko</td>
+<td style="text-align: right;">90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">kotcc001</td>
+<td style="text-align: left;">Casey</td>
+<td style="text-align: left;">Kotchman</td>
+<td style="text-align: right;">91</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">morsm001</td>
+<td style="text-align: left;">Mike</td>
+<td style="text-align: left;">Morse</td>
+<td style="text-align: right;">92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">pierj002</td>
+<td style="text-align: left;">Juan</td>
+<td style="text-align: left;">Pierre</td>
+<td style="text-align: right;">93</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">cabrm002</td>
+<td style="text-align: left;">Melky</td>
+<td style="text-align: left;">Cabrera</td>
+<td style="text-align: right;">94</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">canor001</td>
+<td style="text-align: left;">Robinson</td>
+<td style="text-align: left;">Cano</td>
+<td style="text-align: right;">95</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">franj004</td>
+<td style="text-align: left;">Jeff</td>
+<td style="text-align: left;">Francoeur</td>
+<td style="text-align: right;">96</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">gorda001</td>
+<td style="text-align: left;">Alex</td>
+<td style="text-align: left;">Gordon</td>
+<td style="text-align: right;">97</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">bautj002</td>
+<td style="text-align: left;">Jose</td>
+<td style="text-align: left;">Bautista</td>
+<td style="text-align: right;">98</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">bourm001</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">Bourn</td>
+<td style="text-align: right;">99</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">martv001</td>
+<td style="text-align: left;">Victor</td>
+<td style="text-align: left;">Martinez</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">reyej001</td>
+<td style="text-align: left;">Jose</td>
+<td style="text-align: left;">Reyes</td>
+<td style="text-align: right;">101</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="a-streakiness-statistic" class="level1">
+<h1>A Streakiness Statistic</h1>
+<p>We can quantify streakiness by looking at the sum of the squares of the gaps between successive hits (called the “streakiness” or “clumpiness” coefficient).</p>
+<p>Calculate the streakiness coefficient for Cabrera.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Streakiness Coefficient </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cabrera_coeff <span class="ot">&lt;-</span> cabrera <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(H) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">streaks</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">C =</span> <span class="fu">sum</span>(lengths <span class="sc">^</span> <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>cabrera_coeff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1681</code></pre>
+</div>
+</div>
+<p>Now we can simulate what may have happened at random for a player with the same number of hits and outs as Cabrera.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function to simulate the streakiness coefficient.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>random_mix <span class="ot">&lt;-</span> <span class="cf">function</span>(y) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">streaks</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(values <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">C =</span> <span class="fu">sum</span>(lengths <span class="sc">^</span> <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the simulation 10000 times.</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>cabrera_random <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, <span class="fu">random_mix</span>(cabrera<span class="sc">$</span>H))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Plot the simulation results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(cabrera_random), <span class="fu">aes</span>(cabrera_random)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">stat</span>(density)), <span class="at">bins =</span> <span class="dv">20</span>, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> cabrera_coeff, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> cabrera_coeff <span class="sc">*</span> <span class="fl">1.05</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fl">0.0010</span>, <span class="at">label =</span> <span class="st">"OBSERVED"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Clumpiness Statistic"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lsn_24_streakiness_statistics_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Histogram of ten thousand values of the clumpiness statistic assuming all arrangements of hits and outs for Cabrera are equally likely. The observed value of the clumpiness statistic for Cabrera is shown using a vertical line.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>How do we interpret the plot?</strong></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

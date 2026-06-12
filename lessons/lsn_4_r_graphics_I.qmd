@@ -1,0 +1,176 @@
+---
+title: "MA388 Sabermetrics: Lesson 4"
+subtitle: "Introduction to R Graphics - Part I"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+```{r}
+library(Lahman)
+library(tidyverse)
+library(knitr)
+```
+
+## Henry ("Hank") Aaron (1934-2021)
+
+![Henry Aaron (Source: *New York Times*)](aaron.png){width="50%"}
+
+## Review
+
+Key Concepts
+
+-   five tidyverse verbs
+
+-   relational databases
+
+-   split, apply, combine
+
+Review Question
+
+-   Using the `Batting` data frame, determine who held the \textit{career} home run record by season from 1900 to the present. In other words, produce a table with one row per season indicating who the current career home run leader was in baseball at that time. Add their full name to the table using the `People` data frame.
+
+Here is one approach:
+
+-   Add a column to the `Batting` data frame indicating each player's cumulative home runs (hint: `cumsum()`) at the end of the season.
+
+-   Write a function that takes a data frame and a year as arguments and returns the player with the most career home runs that year or earlier.
+
+-   Map the function over the seasons from 1900 to 2021.
+
+-   Add player information from the `People` data frame.
+
+```{r, echo = FALSE}
+# Add career home runs to Batting.
+homeruns <- Batting |> 
+  select(yearID, playerID, HR) |> 
+  group_by(playerID) |> 
+  mutate(HRcareer = cumsum(HR)) 
+
+# Function to calculate career leader as of year = year.
+careerLeader <- function(data, year){
+  data |> 
+    filter(yearID <= year) |> 
+    arrange(-HRcareer) |>
+    mutate(year = year) |> 
+    select(year, playerID, HRcareer, yearID) |> 
+    head(1) 
+}
+
+# Map function over each year.
+leaders <- 1900:2025 |> 
+  map_df(~careerLeader(data = homeruns, year = .x))
+  # map_df(function(x) careerLeader(data = homeruns, year = x))
+
+# Add year information.
+# leaders <- data.frame(year = 1900:2022, leaders)
+
+# Add player's full name.
+leaders <- leaders |> 
+  left_join(select(People, playerID, nameFirst, nameLast), by = "playerID")
+
+leaders |> 
+  kable(caption = "Career home run leader by season. yearID indicates the season the record was set.")
+```
+
+\newpage
+
+## Plotting using ggplot
+
+In this course, we will use `ggplot` for graphics. While the code initially seems more complex, `ggplot` allows us to easily add variables to plots using aesthetics. Here are a few aesthetics `ggplot` makes available:
+
+-   color
+
+-   fill
+
+-   linetype
+
+-   linewidth
+
+-   shape
+
+### Long vs. Wide Format
+
+With `ggplot`, you will typically want data in long format as opposed to wide format. What's the difference?
+
+\vspace{1in}
+
+```{r}
+# Here are Hank Aaron's and Carl Yastrzemski's HR totals for 1965-70.
+data_long <- Batting |> 
+  filter(yearID >= 1965, 
+         yearID <= 1970, 
+         playerID %in% c("aaronha01","yastrca01")) |> 
+  select(yearID, playerID, HR)
+
+# This data is in long format.
+data_long |> kable()
+
+data_wide <- data_long |> 
+  pivot_wider(id_cols = playerID, names_from = yearID, values_from = HR)
+
+# This data is in wide format.
+data_wide |> kable()
+```
+
+A basic ggplot has the data frame, aesthetic, and at least one layer. Going back to the Review, let's plot the number of home runs for the career home run leader by year.
+
+```{r, fig.height=3}
+leaders |> 
+  ggplot(aes(x = year, 
+             y = HRcareer)) +  
+  geom_line()
+```
+
+Now, let's add the player's name to the plot:
+
+```{r, fig.height=3}
+leaders |> 
+  ggplot(aes(x = year, 
+             y = HRcareer,
+             linetype = nameLast)) + 
+  geom_line()
+```
+
+Next, let's change the labels:
+
+```{r, fig.height=3, caption = "Career home run leader by season."}
+leaders |> 
+  ggplot(aes(x = as.numeric(year), 
+             y = HRcareer,
+             linetype = nameLast)) +  
+  geom_line() +
+  labs(title = "Home Run Leaders Since 1900",
+       x = "Year", 
+       y = "Home Runs", 
+       linetype = "Player")
+```
+
+### Your Turn
+
+Using the `Batting` data frame, plot a scatter plot of Hank Aaron's home runs ($y$-axis) vs. batting average ($x$-axis) by season. Color the points in the plot by team name. Change the labels to "Home Runs", "Batting Average", and "Team".
+
+```{r, fig.height=3, fig.cap = "Hank Aaron's home runs vs. batting average by year and team.", echo = FALSE}
+aaron <- Batting |> 
+  filter(playerID == "aaronha01") |> 
+  left_join(select(Teams, teamID, name)) |> 
+  mutate(AVG = H/AB)
+
+aaron |> 
+  ggplot(aes(x = AVG, y = HR, color = name)) +
+  geom_point() +
+  labs(x = "Batting Average", y = "Home Runs", color = "Team")
+```

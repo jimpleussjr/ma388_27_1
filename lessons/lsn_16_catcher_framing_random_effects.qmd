@@ -1,0 +1,202 @@
+---
+title: "MA388 Sabermetrics: Lesson 16"
+subtitle: "Catcher Framing Ability Random Effects"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+Last class, we were primarily comparing called strikes for Buster Posey and Yadier Molina.  Today we'll look at more catchers from June 2019.
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(mgcv)
+
+# Retrieve pitch level data from June 2019. (See previous lesson.)
+pitches <- readRDS("statcast_june_2019.rds")
+
+# Add catcher's name to the pitch data from the MLB master list.
+mlbIDs <- baseballr::chadwick_player_lu() |> 
+  mutate(
+    mlb_name = paste(name_first, name_last),
+    mlb_id = key_mlbam
+  )
+
+
+pitches <- pitches |> 
+  left_join(select(mlbIDs, mlb_name, mlb_id),
+            by = c("fielder_2" = "mlb_id")) |> 
+  rename(catcher_name = mlb_name)
+# 
+# pitches_taken_subset <- pitches |> 
+#   filter(description %in% c("ball", "called_strike"))
+
+```
+
+### Random Effects Models
+
+Thus far, we investigated the difference between Molina and Posey on called strikes.  In doing so, we did the following:
+
+1. Compared their called strike proportions (*why isn't this that useful?*)
+
+2. Estimated the log odds ratio for a called strike after adjusting for pitch location (*why is this better?*)
+
+**But, what we really want to know is not if Molina is better than Posey, but if catchers, in general, have a meaningful effect on called strikes.**
+
+Based on what you've learned so what far, you would probably fit a *fixed effects* model like this:
+
+$$\log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 \text{catcher}_{1,i} + \ldots + \beta_{m-1}\text{catcher}_{m-1,i} + f(\text{plate\_x}_i,\text{plate\_z}_i)$$
+where $\text{catcher}_{j,i}$ is an indicator of whether the catcher for pitch $i$ is $\text{catcher}_j$.
+
+How many parameters are there in the model above?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Let's fit the model for all catchers who caught at least 1000 pitches:
+
+```{r, cache = TRUE}
+catcher_list <- pitches |> 
+  group_by(catcher_name) |> 
+  summarize(n = n()) |> 
+  filter(n >= 1000) |> 
+  pull(catcher_name)
+  
+pitches_taken <- pitches |> 
+  filter(catcher_name %in% catcher_list,
+         description %in% c("called_strike", "ball")) |> 
+  mutate(called_strike=description=='called_strike')
+
+strike_mod_all <- gam(called_strike ~ s(plate_x, plate_z) + catcher_name,
+                      family = "binomial", data = pitches_taken)
+
+summary(strike_mod_all)
+```
+
+What should we conclude from this model?
+
+\vspace{0.5in}
+
+What are some limitations of a *fixed effects* approach for this question?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+*Random effects* model the individual catcher effects as normally distributed with mean 0 and variance $\sigma^2$.  There is only one parameter to fit.  As a bonus, it has a nice interpretation...the larger the variance, the larger the effect of the catcher (*why?*).  Here is the model:
+
+$$\log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \text{catcher}_j + f(\text{plate\_x}_i,\text{plate\_z}_i)$$
+where $\text{catcher}_j$ is normally distributed with mean 0 and variance $\sigma^2$.
+
+How many parameters are in this model?
+
+\vspace{0.25in}
+
+Why is this an improvement?
+
+\vspace{0.5in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+We can incorporate this using the `lme4` package.  Note, we'll do this slightly differently by first fitting the location model and then using the predictions from that model in a second model with the random effect.
+
+
+```{r}
+
+model_location <-gam(called_strike ~ s(plate_x, plate_z),
+                     family = "binomial",
+                     data = pitches_taken)
+
+pitches_taken <- model_location |> 
+  augment(type.predict = "response",
+          newdata = pitches_taken) |> 
+  rename(strike_prob = .fitted)
+
+
+# Now fit a random effects model adjusting for pitch location.
+library(lme4)
+model_random_effects_catcher <- glmer(called_strike ~ strike_prob + (1|catcher_name),
+                             family = "binomial",
+                             data = pitches_taken)
+summary(model_random_effects_catcher)
+
+# Get random effects for catchers.
+catcher_effects_adj <- model_random_effects_catcher |> 
+  ranef() |> 
+  as_tibble() |> 
+  transmute(id = levels(grp), effect = condval) |> 
+  arrange(desc(effect)) 
+
+catcher_effects_adj |> head(5)
+
+catcher_effects_adj |> 
+  ggplot(aes(x = effect)) + 
+  geom_histogram()
+```
+
+Interesting - I guess?  We're now faced with the same question we always have in statistics: I see a statistic, a non-zero difference, a non-zero variance, etc., but is it significant?  What are some ways we can go about determining significance?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Let's use a nested model approach and add a couple more explanatory variables.  Right now we've only let the catcher and the pitch location try to explain called strike determinations.  If we introduce other variables that provide the same or complementary information, we might find the importance of catcher in the model to decrease.  Sounds like ANOVA, right?
+
+```{r, cache = TRUE}
+model_random_effects_trio <- glmer(called_strike ~ strike_prob +
+                                     (1|pitcher) + (1|batter) + (1|catcher_name),
+                             family = "binomial",
+                             data = pitches_taken)
+summary(model_random_effects_trio)
+
+# Get random effects for pitchers, catchers, and batters.
+player_effects_adj <- model_random_effects_trio |> 
+  ranef() |> 
+  as_tibble() |> 
+  mutate(id = grp, effect = condval) |> 
+  arrange(desc(effect)) 
+
+player_effects_adj |> 
+  ggplot(aes(x = effect)) + 
+  geom_histogram() +
+  facet_wrap(~grpvar, scales = "free_y")
+
+```
+
+```{r}
+model_random_effects_trio_no_catch <- glmer(called_strike ~ strike_prob +(1|pitcher) + (1|batter),
+                             family = "binomial",
+                             data = pitches_taken)
+
+anova(model_random_effects_trio_no_catch, model_random_effects_trio, test = "LRT")
+
+```
+
+
+### Let's talk course project!
+

@@ -1,0 +1,251 @@
+---
+title: "MA388 Sabermetrics: Lesson 28"
+subtitle: "Home Run Hitting I"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(baseballr)
+```
+
+## Review
+
+**In a logistic model for hit probability, is it appropriate to use a linear function of launch angle and exit velocity? Explain.**
+
+\vspace{.75in}
+
+**In the DiMaggio streak example, explain how and why we used simulation.**
+
+\vspace{.75in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+## What's with all these home runs?
+
+[Video](https://www.mlb.com/news/mlb-report-on-baseballs-home-run-rates-c278120310)
+
+Here is what they are talking about:
+
+```{r, fig.height=3}
+library(tidyverse)
+library(Lahman)
+
+HRrates <- Teams |> 
+  filter(yearID > 1979) |> 
+  group_by(yearID) |> 
+  summarize(HR = sum(HR),
+            AB = sum(AB)) |> 
+  mutate(rate = HR/AB)
+
+HRrates |> 
+  ggplot(aes(x = yearID, y = rate)) +
+  geom_line() + 
+  labs(title = "HR Rate (HR/AB) over Time", x = "Year", y = "HR Rate")
+```
+
+### Some potential explanations:
+
+1. **Explanation 1.**  The additional home runs are due to changes in the baseball.
+
+2. **Explanation 2.**  The additional home runs are due to changes in the hitters.
+
+Today, we are going to assess which explanation is more compatible with the data.
+
+### Here is the approach:
+
+1. Fit a model for home run probability as a function of launch speed and angle **in the 2015 season**.
+
+2. Use the model to estimate the predicted probability of a home run on each ball put in play **in the 2017 season**.
+
+3. Use the estimated probabilities to simulate 1,000 seasons.
+
+4. Compare the home runs in the simulated seasons to the observed home runs in 2017.
+
+### What does this tell us?
+
+*If the observed rate in 2017 is consistent with the simulated results, which explanation does this support? Why?*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+*What other factors should we consider?*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+### Fit a model for home run probability in 2015.
+
+```{r}
+library(tidyverse)
+library(baseballr)
+library(lubridate)
+```
+
+Obtain all pitches in 2015 in which the ball was put in play.
+
+```{r}
+hit_into_play2015 <- read_csv("statcast_2015_bip.csv") |> 
+  filter(launch_speed < 150,
+         launch_speed > 0,
+         launch_angle < 360)
+```
+
+Fit a model for home run probability using the 2015 data. 
+
+```{r}
+library(mgcv)
+fit <- hit_into_play2015 |> 
+  # sample_frac(size=.5) |> 
+  gam(events == "home_run" ~ s(launch_speed, launch_angle),
+      family = binomial,
+      data = _)
+```
+
+Visualize the predictions.
+
+```{r, fig.height=3}
+library(broom)
+hit_into_play2015 <- fit |> 
+  augment(type.predict = "response",
+          newdata = hit_into_play2015) |> 
+  rename(HRprob = .fitted)
+
+hr_prob_2015_fig <- 
+  hit_into_play2015 |> 
+  ggplot(aes(x = launch_speed, y = launch_angle, color = HRprob)) +  
+  geom_point(alpha = 0.2) +
+  scale_color_gradient("HR prob", low = "lightgray", high = "blue") +
+  theme_minimal()+
+  labs(x='Launch speed (mph)',y='Launch angle (degrees)')
+
+hr_prob_2015_fig
+```
+
+Let's zoom in.
+
+```{r, fig.height=3}
+hit_into_play2015 |> 
+  filter(launch_speed > 90, launch_speed < 115,
+         launch_angle > 15, launch_angle < 45) |> 
+  ggplot(aes(x = launch_speed, y = launch_angle, color = HRprob)) +  
+  geom_point() +
+  scale_color_gradient("HR prob", low = "lightgray", high = "blue")  + 
+  theme_minimal()
+```
+
+That's not really pretty, let's try a grid.
+
+```{r, fig.height = 3}
+grid <- expand.grid(launch_speed = seq(90, 115, length.out = 50),
+                    launch_angle = seq(15,45,length.out = 50))
+
+grid_predictions <- fit |> 
+  augment(type.predict = "response",
+          newdata = grid) |> 
+  rename(HRprob = .fitted)
+
+grid_predictions  |>  ggplot(aes(x = launch_speed, y = launch_angle)) +  
+  geom_tile(aes(fill = HRprob)) + 
+  geom_contour(aes(z = HRprob), breaks = seq(from = 0.1, to = 0.9, by = 0.2)) + 
+  xlab("Exit velocity (mph)") + 
+  ylab("Launch angle (degrees)") +  
+  scale_fill_gradient("HR prob", low = "lightgray", high = "blue")  + 
+  theme_minimal()
+```
+
+### Use the 2015 model to predict on 2017.
+
+Obtain all pitches in 2017 in which the ball was put in play.
+
+```{r}
+hit_into_play2017 <- read_csv("statcast_2017_bip.csv") |> 
+  filter(launch_speed < 150,
+         launch_speed > 0,
+         launch_angle < 360)
+
+hit_into_play2017 <- fit |> 
+  augment(type.predict = "response", newdata = hit_into_play2017) |>
+  rename(HRprob = .fitted,HRprobse = .se.fit)
+
+hit_into_play2017 |> 
+  select(launch_speed, launch_angle, HRprob) |> 
+  head(20) |> 
+  knitr::kable()
+```
+
+### Simulate 1,000 seasons.
+
+```{r}
+sim_hr <- function(){
+  N <- nrow(hit_into_play2017)
+  sum(runif(N) < hit_into_play2017$HRprob, na.rm = TRUE)
+}
+
+HR_predict <- tibble(HR = replicate(1000, sim_hr()))
+
+HR_actual <- hit_into_play2017 |> 
+  count(events) |> 
+  filter(events == "home_run") |> 
+  pull(n)
+
+HR_predict |> ggplot(aes(HR)) +  
+  geom_histogram(color = "black", fill = "white", bins = 20) +
+  geom_vline(xintercept = HR_actual, color = "blue", size = 2) +  
+  annotate("text", x=5550, y=175, label = "Actual HR") + 
+  labs(x = "Predicted Number of Home Runs",
+       y = "Count") 
+```
+
+**What do the results of this simulation tell us?**
+
+\vspace{1in}
+
+
+```{r}
+fit2017 <- hit_into_play2017 |>
+  gam(events == "home_run" ~ s(launch_speed, launch_angle),
+      family = binomial,
+      data = _)
+
+
+hit_into_play2017 <- fit2017 |> 
+  augment(type.predict = "response", newdata = hit_into_play2017) |> 
+  rename(HRprob2017data = .fitted, HRprob2017se = .se.fit)
+
+hr_prob_change_fig <- 
+hit_into_play2017  |>  
+  mutate(model_diff = HRprob2017data-HRprob) |> 
+  # filter(!between(model_diff,-.05,.05)) |> 
+  ggplot(aes(x = launch_speed, y = launch_angle, color=model_diff)) +  
+  geom_point(alpha=1)+
+    # geom_tile(aes(fill = model_diff)) + 
+  # geom_contour(aes(z = model_diff), breaks = seq(from = 0.1, to = 0.9, by = 0.2)) + 
+  xlab("Launch speed (mph)") + 
+  ylab("Launch angle (degrees)") +  
+  scale_color_gradient2("HR Prob Delta", low = "gray",mid='white', high = "blue",midpoint = 0)  + 
+  theme_minimal()
+
+library(patchwork)
+hr_prob_2015_fig + hr_prob_change_fig
+```
+

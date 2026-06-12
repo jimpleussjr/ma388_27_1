@@ -1,0 +1,344 @@
+---
+title: "MA388 Sabermetrics: Lesson 10"
+subtitle: "Value of Plays - Base Hits and Stealing"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+## Review
+
+Last class, we discussed the Run Expectancy Matrix and how to obtain it from the Retrosheet play-by-play data. 
+
+
+```{r, message = FALSE, warning=FALSE}
+library(tidyverse)
+library(knitr)
+library(Lahman)
+
+erm_2011_wide <- read_csv(file = "erm_2011_wide.csv")
+
+kable(erm_2011_wide)
+```
+
+\textit{Interpret the value in the first row, third column.}
+
+\vspace{1in}
+
+\textit{True or False:  The probability of scoring at least one run in the remainder of the inning is \~0.25 when there is no one on base with one out.}
+
+\vspace{1in}
+
+\textit{Let's say there is a runner on second base (and no other baserunners).  Stealing third base is the most valuable when there are how many outs?}
+
+\vspace{1in}
+
+\textit{Let's say there is a runner on second base with one out.  Calculate the expected value of a stolen base attempt if the probability of successfully stealing third base is 70\%.  In addition, calculate the minimum probability of successfully stealing third base required to make it a better strategy in terms of expected runs.}
+
+\vspace{0.5in}
+
+## Measuring the Success of a Batting Play
+
+We can estimate the value of a plate appearance as the difference in run expectancy between the new and old states plus the number of runs scored on the play. 
+
+$\text{RUN VALUE} = \text{E[RUNS]}_\text{new state} -  \text{E[RUNS]}_\text{old state} + \text{RUNS}_\text{scored on play}$
+
+Calculate the RUN VALUE of the following plays:
+
+(1) There are runners on first and second with no outs.  The batter successfully sacrifice bunts, resulting in runners on second and third with one out.    
+
+\vspace{1in}
+
+(2) There is a runner on second base with no outs.  The batter hits a single that scores the runner from second.  The batter stops at first base.
+
+\vspace{1in}
+
+(3) What is the most valuable play in baseball? Explain.
+
+\vspace{1in}
+
+## Measuring Batting Success Over a Season: David Ortiz
+
+We'll start with all batting events in the 2011 season.
+
+```{r, cache = TRUE}
+# Load the data.
+site = "https://raw.githubusercontent.com/maxtoki/baseball_R/"
+fields <- read_csv(file = paste(site, "master/data/fields.csv", sep =""))
+retro2011 <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
+                    col_names = pull(fields, Header),
+                    na = character())
+colnames(retro2011) <- tolower(colnames(retro2011))
+
+# Add states and run values.
+# (Note the data set has to be called retro2011.)
+source("./RunExpectancyMatrix.R")
+```
+
+Now let's look specifically at David Ortiz.
+
+```{r}
+# Get Ortiz's playerID.
+ortizID <- People |>
+  filter(nameFirst == "David", nameLast == "Ortiz") |> 
+  pull(retroID)
+
+ortiz_df <- retro2011 |> 
+  filter(bat_id == ortizID,
+         bat_event_fl == TRUE)
+
+ortiz_df |> 
+  select(game_id, inn_ct, state, new_state, run_value) |>
+  head(10) |> 
+  kable()
+```
+
+Here's a plot of Ortiz's run values by runner state.
+
+```{r, fig.height = 3}
+ortiz_df |>
+  ggplot(aes(x = bases, y = run_value)) +
+  geom_jitter(width = 0.25, alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "blue") +
+  labs(x = "Baserunners",
+       y = "Run Value",
+       title = "Run Values of Big Papi At-Bats in 2011")
+```
+
+Next, let's look at total runs in different baserunner situations.
+
+```{r}
+runs_ortiz <- ortiz_df |>
+  group_by(bases) |> 
+  summarize(runs = sum(run_value) |> round(1),
+            PA = n())
+
+runs_ortiz |> kable()
+```
+
+Lastly, we can calculate a statistic called *RE24* which sums runs over the different baserunner combinations.
+
+```{r}
+runs_ortiz |> 
+  summarize(RE24 = sum(runs))
+```
+
+How do we interpret RE24?
+
+\vspace{1in}
+
+Come up with a modification for RE24 that could be used to rank batters according to what they produced given the opportunity they had.  How would you do it?
+
+\vspace{0.5in}
+
+## Part II - Measuring the Success of a Stolen Base Attempt
+
+Your book dedicates roughly three pages to evaluating base stealing.  We're going to discuss it briefly and return to our evaluation of batting performance.  Your task: Develop an RE24-inspired measure to rank MLB's top base stealers.
+
+\vspace{1in}
+
+Let's start with the same approach to valuing an individual event.
+
+$\text{RUN VALUE} = \text{RUNS}_\text{new state} -  \text{RUNS}_\text{old state} + \text{RUNS}_\text{scored on play}$
+
+where $\text{RUNS}_\text{new state}$ and  $\text{RUNS}_\text{old state}$ are their respective entries in the run expectancy matrix and $\text{RUNS}_\text{scored on play}$ is the number of runs that scored on the play.
+
+```{r, message = FALSE, warning=FALSE}
+kable(erm_2011_wide)
+```
+
+Let's say there is a runner on first base with no outs and you are considering bunting. Historically, a bunt in this situation would result in a runner on second with one out 75\% of the time, a runner on first and second with no outs 10\% of the time, a runner on first with one out 10\% of the time, and runners on second and third with no outs 5\% of the time.  If you have an average hitter at bat, does bunting or hitting away have the highest expected run value?
+
+\vspace{1in}
+
+For more on bunting, see our [textbook author's blog](https://baseballwithr.wordpress.com/2016/04/04/exploring-2015-bunts/#:~:text=This%20shows%20that%20sacrifice%20bunts,on%202nd%20with%20no%20outs.).
+
+## RE24
+
+Earlier, we investigated the run value of David Ortiz's 2011 plate appearances.  We can aggregate these run values for each player to a single statistic called "RE24".
+
+\textit{If we sum all players RE24 together, what should be the result?}
+
+\vspace{1in}
+
+In baseball, there are [context-dependent and context-independent statistics](https://library.fangraphs.com/context-neutral-or-dependent/).  \textit{Name some examples of each.  Which type of statistic is RE24?}
+
+\vspace{1in}
+
+Calculate the RE24, plate appearances, and total starting run expectancy for each player in 2011.
+
+```{r}
+re24_2011 <- retro2011 |> 
+  group_by(bat_id) |> 
+  summarize(re24 = sum(run_value),
+            PA = length(run_value),
+            runs_start = sum(rv_start)) |> 
+  arrange(-re24)
+
+# Add names from the People data frame (note it's not playerID, but retroID).
+re24_2011 <- re24_2011 |>
+  left_join(select(People, retroID, nameLast, nameFirst),
+            by = c("bat_id" = "retroID")) |> 
+  mutate(name = paste(nameFirst, nameLast, sep = " ")) |> 
+  select(-nameLast, -nameFirst)
+
+re24_2011 |> 
+  head(15) |> 
+  kable(digits = 1)
+```
+
+\newpage
+
+First, let's see if the average is about zero.
+
+```{r}
+re24_2011 |> 
+  summarize(mean_RE24 = mean(re24))
+```
+
+Now, let's plot RE24 for each player versus starting runs.
+
+```{r, fig.height=3, fig.cap = "RE24 versus starting runs for all players with at least 502 plate appearances (2011)"}
+library(ggrepel)
+
+# Create data frame of points to label.
+labels <- re24_2011 |> 
+  filter(PA >= 502) |> 
+  filter(re24 > 50 | re24 < -30)
+
+
+re24_2011 |> 
+  filter(PA >= 502) |> 
+  ggplot(aes(x = runs_start, y = re24)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  geom_text_repel(data = labels, aes(x = runs_start, 
+                                     y = re24,
+                                     label = name)) + 
+  labs(title = "Player RE24 vs. Opportunity",
+       x = "Cumulative Starting Run Value for All At-Bats",
+       y = "RE24")
+```
+
+Briefly summarize what you would conclude from this chart.
+
+\newpage
+
+## Value of Hits
+
+\textbf{Batting Average} - Traditionally, baseball analysts and fans used batting average to assess players.  
+
+$$AVG = \frac{H}{AB}$$
+
+where $H$ is the number of hits and $AB$ is the number of at bats.
+
+\textbf{Slugging Percentage} - Alternatively, slugging percentage weights the different types of hits by the number of bases the hitter gets.
+
+$$SLG = \frac{X_{1B} + 2\times X_{2B} + 3 \times X_{3B} + 4 \times HR}{AB}$$
+\textit{Discuss strengths and limitations of batting average and slugging percentage in measuring batting performance.}
+
+\vspace{2in}
+
+\textit{How can we use run values to improve these statistics?}
+
+\vspace{1in}
+
+```{r}
+# Event Code (variable: EVENT_CD)
+# Single: 20
+# Double: 21
+# Triple: 22
+# Home Run: 23
+
+# Create a look-up table to add event names (single, etc) to the data set.
+codes <- data.frame(event_cd = 20:23,
+                    hit_type = factor(c("single", "double", "triple", "home run"),
+                                      levels = c("single", "double", "triple", "home run")))
+
+codes |> 
+  kable(caption = "Event codes for each hit type.")
+  
+# Calculate mean hit values.
+mean_hit_values <- retro2011 |> 
+  filter(event_cd %in% 20:23) |> 
+  left_join(codes) |> 
+  group_by(hit_type) |> 
+  summarize(mean_value = mean(run_value))
+
+mean_hit_values |> 
+  kable(digits = 2, caption = "Mean run value for each hit type (2011).")
+```
+
+
+```{r, fig.caption = "Histogram of run values by hit type (2011).  The red line depicts average run value for each hit type."}
+# Plot run values.
+retro2011 |> 
+  filter(event_cd %in% 20:23) |> 
+  left_join(codes) |> 
+  ggplot(aes(x = run_value)) +
+  geom_histogram() +
+  geom_vline(data = mean_hit_values, aes(xintercept = mean_value), col = "red", size = 2) + 
+  facet_wrap(~ hit_type, ncol = 1, scales = "free_y") + 
+  labs(title = "Run Values of Various Hit Types",
+       x = "Run Value",
+       y = "Count")
+```
+
+\textit{Based on these results, what would you conclude about $AVG$ and $SLG$?}
+
+\vspace{1in}
+
+Let's see if we can find players whose slugging percentage is \textit{not} a good predictor of RE24.
+
+```{r}
+# Add slugging percentage to the RE24 data frame.
+re24_2011 <- Batting |> 
+  filter(yearID == 2011) |> 
+  group_by(playerID) |> 
+  summarize(H = sum(H),
+            X2B = sum(X2B),
+            X3B = sum(X3B),
+            HR = sum(HR),
+            AB = sum(AB)) |> 
+  mutate(X1B = H - X2B - X3B - HR,
+         SLG = (X1B + 2*X2B + 3*X3B + 4*HR)/AB) |> 
+  left_join(select(People, playerID, retroID)) |> 
+  right_join(re24_2011, by = c("retroID" = "bat_id"))
+```
+
+\newpage
+
+(Random aside: As an alternative to a figure title, consider labeling the figure in a caption.  Professional publications often prefer a caption that provides a title and description for a well-labeled figure.)
+
+```{r, fig.height = 3, fig.cap="RE24 versus slugging percentage"}
+re24_2011 |> 
+  filter(AB > 400) |> 
+  ggplot(aes(x = SLG, y = re24)) +
+  geom_point() + 
+  labs(x = "Slugging Percentage",
+       y = "RE24")
+```
+
+```{r}
+re24_2011 |> 
+  filter(AB > 400) |> 
+  arrange(-SLG) |> 
+  select(name, H, AB, PA, X1B, X2B, X3B, HR, SLG, re24, runs_start) |> 
+  head(10) |> 
+  kable()
+```

@@ -1,0 +1,257 @@
+---
+title: "MA388 Sabermetrics: Lesson 8"
+subtitle: "How many runs is a win? - Part II"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+library(ggrepel)
+library(broom)
+```
+
+## Review
+
+In our last lesson, we discussed the following model:
+
+$Wins_i = \beta_0 + \beta_1 RD_i + \epsilon_i \quad \epsilon_i \sim \text{Normal}\left(0,\sigma^2\right)$
+
+where $Wins_i$ and $RD_i$ are the wins and run differential for team $i$.  
+
+Interpret the coefficients in this model.
+
+## Pythagorean Models
+
+*Discuss limitations for the regression model above.*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Here are three models:
+
+\begin{align}
+Wpct &= \beta_0 + \beta_1 RD + \epsilon \\
+Wpct &= \frac{R^2}{R^2 + RA^2} + \epsilon \\
+Wpct &= \frac{R^k}{R^k + RA^k} + \epsilon
+\end{align}
+
+where $Wpct$ is Win Percentage, $R$ is Runs Scored, $RA$ is Runs Allowed, and $\epsilon$ is the random error. Recall that we fit Model 1 to the 1997-2001 seasons.
+
+*Briefly discuss the strengths/limitations of each model.*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+*How would you assess which model is the best?  Please be specific.* \vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+
+## Model 2: Pythagorean Formula (Bill James)
+
+First, let's create a function to calculate the expected wins under a Pythagorean Formula.
+
+```{r}
+# Function to calculate expected wins using Pythagorean formula.
+# Arguments:
+# R - runs scored
+# RA - runs allowed
+# k - exponent
+# Value Returned:
+# expected win percentage
+
+pyth_wins <- function(R, RA, k = 2){
+  return(R^k/(R^k + RA^k))
+}
+```
+
+Using Model 2, let's calculate the expected number of wins for each team (1997-2001).
+
+```{r, message = FALSE, warning= FALSE}
+my_teams = Teams |>
+  filter(yearID >= 1997, yearID <= 2001) |>
+  mutate(RD = R - RA,
+         Wpct = W/(W+L),
+         Wpct_pyth2 = pyth_wins(R,RA,2))
+```
+
+Next, let's compare graphically the predictions from Model 1 and 2.
+
+```{r, fig.height = 3, warning = FALSE}
+# Get predicted win percentages from Model 1.
+
+lin_fit <- lm(Wpct ~ RD, data = my_teams)
+my_teams <- augment(lin_fit, data = my_teams)
+
+# Plot Model 1 and Model 2 predictions.
+
+my_teams |>
+  ggplot(aes(x = RD, y = .fitted)) + 
+  geom_point(col = "red") +
+  # geom_point(aes(x = RD, y = Wpct)) +
+  geom_point(aes(x = RD, y = Wpct_pyth2)) +
+  labs(x = "Run Differential",
+       y = "Win Percentage",
+       title = "Predicted Win Percentage - Models 1 and 2 (1997-2001)")
+
+summary(lin_fit)
+```
+
+Briefly discuss how the models differ. \vspace{0.5in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Next, let's compare the root mean square error (RMSE). Write an equation for the RMSE. \vspace{0.5in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+```{r}
+# Model 1 RMSE
+sqrt(mean(my_teams$.resid^2))
+# Note this is very close to the Residual Standard Error you could obtain from the model.
+summary(lin_fit)$sigma
+
+# Model 2 RMSE
+# Calculate residuals.
+my_teams = my_teams |>
+  mutate(.resid_pyth2 = Wpct - Wpct_pyth2)
+# Calculate RMSE for Model 2
+sqrt(mean(my_teams$.resid_pyth2^2))
+```
+
+Next, let's take a look at the residuals from Model 2.
+
+```{r, fig.height=3}
+# Let's look at a summary of the residuals (min, max, mean, and quartiles).
+my_teams |>
+  pull(.resid_pyth2) |> 
+  summary()
+
+my_teams |>
+  ggplot(aes(x = Wpct,
+             y = .resid_pyth2)) +
+  geom_point() +
+  labs(x = "Win Percentage", y = "Residuals",
+       title = "Residuals vs. Win Percentage (Model 2)")
+```
+
+Next, let's try Model 3. 
+
+How do we find an estimate of $k$ in Model 3? \vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+```{r}
+my_teams = my_teams |>
+  mutate(logWratio = log(W/L),
+         logRratio = log(R/RA))
+
+# Including 0 in formula means we don't include an intercept.
+pythFit <- lm(logWratio ~ 0 + logRratio, data = my_teams)
+pythFit
+```
+
+Why don't we want an intercept in this model? (Warning: this is very unusual!) \vspace{0.25in}
+
+```{r}
+k = pythFit$coefficients[1]
+
+# Get predictions.
+my_teams = my_teams |>
+  mutate(Wpct_pyth_k = pyth_wins(R,RA,k = k))
+
+# Get residuals.
+my_teams = my_teams |>
+  mutate(.resid_pyth_k = Wpct - Wpct_pyth_k)
+
+# Calculate RMSE.
+sqrt(mean(my_teams$.resid_pyth_k^2))
+```
+
+```{r, fig.height = 3}
+my_teams |>
+  pull(.resid_pyth_k) |> 
+  summary()
+
+my_teams |>
+  ggplot(aes(x = Wpct,
+             y = .resid_pyth_k)) +
+  geom_point() +
+  labs(x = "Win Percentage", y = "Residuals",
+       title = "Residuals vs. Win Percentage (Model 3)") + 
+  geom_smooth(method = "lm")
+```
+
+```{r}
+my_teams |> 
+  lm(.resid_pyth_k ~ Wpct, data = _) |> 
+  summary()
+```
+
+## How many runs for a win? (pg. 106)
+
+Previously, we learned about the "10-for-1" rule of thumb (number of required runs scored for one additional win) using Model 1.  Using Model 2, this quantity changes based on runs allowed.  How can we find an expression for the number of required runs scored for one additional win?
+
+\vspace{1.25in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Let's explore this for various combinations of runs scored and runs allowed. (*Note $R$ and $RA$ below are runs scored per game and runs allowed per game.*)
+
+```{r}
+# Function to compute incremental runs per win.
+IR <- function(R = 5, RA = 5){
+  (R^2 + RA^2)^2 /(2*R*RA^2)
+}
+
+ir_table <- expand.grid(R = seq(3,6,0.5),
+                        RA = seq(3,6,0.5))
+
+ir_table |> 
+  mutate(IRW = IR(R,RA)) |>
+  spread(key = RA, value = IRW, sep = "=") |>
+  round(1)
+```
+
+How do the results of Model 2 compare to Model 1 (the "10-for-1" model) in terms of incremental runs per win?
+
+
+
+
+
+
+

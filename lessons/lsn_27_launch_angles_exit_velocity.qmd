@@ -1,0 +1,217 @@
+---
+title: "MA388 Sabermetrics: Lesson 27"
+subtitle: "Launch Angles and Exit Velocity"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(baseballr)
+```
+
+
+After seeing a rise in home runs starting in 2015, Baseball Commissioner Robert D. Manfred, Jr. assembled a commission to analyze the situation. A press release outlining the commission's findings and MLB's actions can be found [here](https://www.mlb.com/press-release/major-league-baseball-receives-report-on-increased-home-run-rate-278136100).
+
+Let's take a look at 2017 Statcast data.  
+
+```{r}
+# # Statcast season window for 2015 (regular + early postseason window as example)
+# start_date <- as.Date("2015-04-02")
+# end_date   <- as.Date("2015-11-01")
+# 
+# # Break the range into chunks (API is happier with day- or week-sized chunks)
+# date_chunks <- seq(start_date, end_date, by = "1 week")
+# date_ends   <- pmin(date_chunks + 6, end_date)
+# 
+# # Pull BIP for each chunk
+# statcast_2015 <- map2_dfr(date_chunks, date_ends, ~{
+#   message("Fetching: ", .x, " to ", .y)
+#   Sys.sleep(0.75)  # be polite to the endpoint
+#   statcast_search(start_date = .x, end_date = .y)
+# })
+# 
+# write_csv(statcast_2015,'statcast_2015.csv')
+# 
+# bip_2015 <-
+#   statcast_2015 |> 
+#   filter(type=='X')
+# 
+# write_csv(bip_2015,'statcast_2015_bip.csv')
+
+```
+
+Filter the data for balls in play (already did; originally 653k rows...).
+
+```{r}
+
+statcast_2017_bip <- read_csv("statcast_2017_bip.csv")
+
+statcast_bip <- statcast_2017_bip |> 
+  # filter(type == "X") |> 
+  sample_n(40000) |> 
+  mutate(p_throws = ifelse(p_throws == "L","P-L","P-R"),
+         stand = ifelse(stand == "L","B-L","B-R"))
+```
+
+```{r}
+guidelines <- tibble(
+  launch_angle = c(10, 25, 50),
+  launch_speed = 40,
+  label = c("Ground balls", "Line drives", "Flyballs")
+)
+
+ev_plot = statcast_bip |>
+  ggplot(aes(x = launch_speed, y = launch_angle, 
+             color = estimated_ba_using_speedangle)) + 
+  geom_point(alpha = 0.1) +
+  geom_hline(data = guidelines, aes(yintercept = launch_angle), 
+             color = "black", linetype = 2) + 
+  geom_text(data = guidelines, 
+            aes(label = label, y = launch_angle - 4), 
+            color = "black", hjust = "left") + 
+  scale_color_gradient2("BA", low = "red", mid = "white", high = 'blue',midpoint=.5) +
+  scale_x_continuous("Exit velocity (mph)", 
+                     limits = c(40, 120)) + 
+  scale_y_continuous("Launch angle (degrees)", 
+                     breaks = seq(-75, 75, 25),
+                     limits = c(-85, 85)) + 
+  ggtitle("2017")
+
+ev_plot
+```
+
+Let's break this down by pitcher and batter handedness.
+
+```{r}
+ev_plot + 
+  facet_grid(p_throws ~ stand)
+```
+
+We can also look at velocity and launch angle in terms of wOBA.
+
+From [MLB.com](https://www.mlb.com/glossary/advanced-stats/weighted-on-base-average):
+
+> Definition: wOBA is a version of on-base percentage that accounts for how a player reached base -- instead of simply considering whether a player reached base. The value for each method of reaching base is determined by how much that event is worth in relation to projected runs scored (example: a double is worth more than a single).  For instance: In 2014, a home run was worth 2.101 times on base, while a walk was worth 0.69 times on base. So a player who went 1-for-4 with a home run and a walk would have a wOBA of .558 -- (2.101 + 0.69 / 5 PAs).
+
+> The formula: Where "factor" indicates the adjusted run expectancy of a batting event in the context of the season as a whole: (unintentional BB factor x unintentional BB + HBP factor x HBP + 1B factor x 1B + 2B factor x 2B + 3B factor x 3B + HR factor x HR)/(AB + unintentional BB + SF + HBP).
+
+```{r}
+ev_plot +
+  aes(color = estimated_woba_using_speedangle) + 
+    scale_color_gradient2("BA", low = "red", mid = "white", high = 'blue',midpoint=1) +
+  guides(color = guide_colorbar(title = "wOBA"))
+```
+
+Now let's look at the 2015 Data.
+
+```{r}
+statcast2015_bip <- read_csv("statcast_2015_bip.csv") |> 
+  sample_n(40000)
+```
+
+```{r}
+ev_plot_2015 = statcast2015_bip |>
+  ggplot(aes(x = launch_speed, y = launch_angle, 
+             color = estimated_ba_using_speedangle)) + 
+  geom_point(alpha = 0.1) +
+  geom_hline(data = guidelines, aes(yintercept = launch_angle), 
+             color = "black", linetype = 2) + 
+  geom_text(data = guidelines, 
+            aes(label = label, y = launch_angle - 4), 
+            color = "black", hjust = "left") + 
+  scale_color_gradient2("BA", low = "red", mid = "white", high = 'blue',midpoint=.5) +
+  scale_x_continuous("Exit velocity (mph)", 
+                     limits = c(40, 120)) + 
+  scale_y_continuous("Launch angle (degrees)", 
+                     breaks = seq(-75, 75, 25),
+                     limits = c(-85, 85)) + 
+  ggtitle("2015")
+
+ev_plot_2015
+```
+
+Lets look at these plots together.
+
+```{r}
+library(patchwork)
+a = ev_plot
+b = ev_plot_2015
+a+b
+```
+
+**How do these two plots compare?**
+
+\vspace{1in} 
+
+Let's make the same side-by-side plot for wOBA:
+
+```{r}
+c = ev_plot +
+  aes(color = estimated_woba_using_speedangle) + 
+    scale_color_gradient2("BA", low = "red", mid = "white", high = 'blue',midpoint=1) +
+  guides(color = guide_colorbar(title = "wOBA"))
+
+d = ev_plot_2015 +
+  aes(color = estimated_woba_using_speedangle) + 
+    scale_color_gradient2("BA", low = "red", mid = "white", high = 'blue',midpoint=1) +
+  guides(color = guide_colorbar(title = "wOBA"))
+
+c+d
+```
+
+**Now let's look at the launch angles and exit velocities for home runs.  Construct histograms of these metrics for both 2015 and 2017.**
+
+```{r}
+hr2017 <- statcast_bip |> 
+  filter(events == "home_run")
+hr2015 <- statcast2015_bip |> 
+  filter(events == "home_run")
+```
+
+```{r}
+la_2015 <- hr2015 |> 
+  ggplot(aes(x = launch_angle)) + 
+  geom_histogram() +
+  labs(title = "Launch Angle of 2015 Home Runs") + 
+  scale_x_continuous(limits = c(10,50))
+
+la_2017 <- hr2017 |> 
+  ggplot(aes(x = launch_angle)) + 
+  geom_histogram() +
+  labs(title = "Launch Angle of 2017 Home Runs") + 
+  scale_x_continuous(limits = c(10,50))
+
+la_2015/la_2017
+```
+
+
+```{r}
+ev_2015 <- hr2015 |> 
+  ggplot(aes(x = launch_speed)) + 
+  geom_histogram() +
+  labs(title = "Exit Velocity of 2015 Home Runs",
+       y = "Count",
+       x = "Exit Velocity") + 
+  xlim(80,120)
+
+ev_2017 <- hr2017 |> 
+  ggplot(aes(x = launch_speed)) + 
+  geom_histogram() +
+  labs(title = "Exit Velocity of 2017 Home Runs",
+       y = "Count",
+       x = "Exit Velocity") + 
+  xlim(80,120)
+
+ev_2015/ev_2017
+```

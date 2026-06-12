@@ -1,0 +1,239 @@
+---
+title: "MA388 Sabermetrics: Lesson 30"
+subtitle: "Equivalence Coefficient"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include= FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FALSE)
+```
+
+# Don Mattingly (“Donnie Baseball”) - Should he be in the Hall of Fame?
+
+Excerpts from *Here’s the HOF case for and against Mattingly* by Paul Casella on [mlb.com](https://www.mlb.com/news/don-mattingly-hall-of-fame-case).
+
+> “Mattingly was arguably the best player in Major League Baseball for a six-year span from 1984-89. He averaged 27 homers and 114 RBIs, while putting up a .327/.372/.530 batting line in those six campaigns. The .530 slugging percentage led all qualified hitters, while Mattingly also paced the Majors in extra-base hits (428) and RBIs (684) during that six-year span.” 
+
+> “Though he hit a respectable 222 homers, Mattingly wasn’t just a power-hitting first baseman. He finished his career with a .307 average, making him one of just eight first basemen in Major League history to hit at least .305 with 200 homers. That list includes five Hall of Famers in Lou Gehrig, Jimmie Foxx, Johnny Mize, Hank Greenberg, and Jim Bottomley.”
+
+> “Though Mattingly was one of the game’s elite talents from 1984-89, he was an entirely different player starting with the ‘90 campaign in which he was limited to just 102 games due to a congenital disk deformity in his back. Mattingly averaged only 10 homers and 64 RBIs over his final six seasons, while hitting .286/.345/.405. He topped out at 17 homers and 86 RBIs during that stretch. Though his superb defense continued throughout his career, Mattingly ended his career by hitting .288 with seven homers and 49 RBIs over 128 games in ’95.” 
+
+# Career Statistics
+
+Let's look at Don Mattingly's career batting statistics.
+
+```{r}
+library(Lahman)
+library(tidyverse)
+library(knitr)
+
+vars <- c("G", "AB","R", "H", "X2B","X3B", "HR", "RBI", "BB", "SO", "SB", 
+          "SH", "HBP", "SF")
+Batting %>% 
+  filter(playerID == "mattido01") %>%
+  summarise_at(vars, sum) %>%
+  mutate(AVG = round(H / AB, 3)) %>%
+  select(G, AB, H, HR, AVG) %>%
+  kable(caption = "Mattingly Career Statistics", digits = 3)
+```
+
+A picture is worth a thousand words.
+
+```{r}
+get_stats <- function(player){
+  Batting %>% 
+    filter(playerID == player) %>% 
+    inner_join(People, by = "playerID") %>% 
+    mutate(birthyear = ifelse(birthMonth >= 7,
+                              birthYear + 1, birthYear),
+           Age = yearID - birthyear,
+           SLG = (H - X2B - X3B - HR + 
+                    2 * X2B + 3 * X3B + 4 * HR) / AB,
+           OBP = (H + BB + HBP) / (AB + BB + HBP + SF),
+           OPS = SLG + OBP) %>% 
+    select(playerID, Age, SLG, OBP, OPS)
+}
+
+stats <- c("mattido01","baineha01") %>% map_df(get_stats)
+
+stats %>%
+  ggplot(aes(x = Age, y = OPS, color = playerID)) +
+  geom_point() +
+  geom_smooth(method = "lm",
+              formula = y ~ x + I(x^2),
+              se = FALSE) +
+  labs(title = "Don Mattingly and Harold Baines")
+```
+
+# How does he compare to other Hall of Famers?
+
+```{r}
+library(glue)
+library(plotly)
+library(ggrepel)
+
+vars <- c("G", "AB","R", "H", "X2B","X3B","HR", "RBI", "BB", "SO", "SB",
+          "SH", "HBP", "SF")
+
+# Career totals for players with 5000 at-bats
+Batting %>%
+  group_by(playerID) %>%
+  summarize_at(vars, sum, na.rm = TRUE) %>%
+  filter(AB > 5000) %>%
+  mutate(AVG = round(H / AB, 3),
+         HR.rate = HR / AB,
+         PA = AB + BB + SH + HBP + SF) -> career_totals
+
+# Must have retired at least five years ago
+People %>%
+  filter(finalGame < 2018,
+         finalGame > 1920) %>%
+  pull(playerID) -> eligible
+career_totals %>%
+  filter(playerID %in% eligible) -> career_totals
+
+# Determine whether they are in the hall of fame
+career_totals %>%
+  left_join(HallOfFame %>% filter(inducted == "Y", category == "Player") %>%
+              select(playerID, yearID, inducted), by = "playerID") %>%
+  replace_na(list(inducted = "N")) %>%
+  rename(halloffame = inducted) -> career_totals
+
+# Add full name
+career_totals %>%
+  left_join(People %>% select(nameLast, nameFirst, playerID)) %>%
+  mutate(name = paste(nameFirst, nameLast, sep = " ")) %>%
+  select(-nameLast, -nameFirst) -> career_totals
+
+# Career Totals
+p2 <- career_totals %>%
+  ggplot(aes(label = name, x = H, y = HR, color = halloffame)) +
+  geom_point() +
+  geom_text(data = filter(career_totals, playerID == "mattido01"), 
+            aes(x = H + 500, y = HR, label = name), color = "black") +
+  geom_point(data = filter(career_totals, playerID == "mattido01"),
+             aes(x = H, y = HR), color = "black") +
+  labs(title = "Career Totals by Hall of Fame Status") + 
+  theme_bw() + 
+  scale_color_discrete("Hall of Fame")
+# p2 # ggplotly(p2) # try ggplotly() to make this plot interactive
+ggplotly(p2)
+```
+
+# Predicting Hall of Fame Selection with Logistic Regression
+
+```{r}
+# Here's a model based on aggregate statistics predicting Hall of Fame selection.
+model.hof <- glm(halloffame == "Y" ~ H + X2B + X3B + HR + RBI + BB,
+                 family = "binomial",
+                 data = career_totals)
+career_totals %>%
+  mutate(hof_pred = predict(model.hof,
+                            type = "response",
+                            newdata = .)) -> career_totals
+career_totals %>%
+  arrange(desc(hof_pred)) %>%
+  select(name, hof_pred, halloffame) %>%
+  head(10) %>%
+  kable(caption = "Top-10 Highest Probabilities for Hall of Fame Selection",
+        col.names = c("Name", "P(HoF)", "Inducted"), digits = 3)
+```
+
+```{r}
+career_totals %>% arrange(desc(hof_pred)) %>%
+  filter(hof_pred > 0.07, hof_pred < 0.075) %>%
+  select(name, hof_pred, halloffame) %>%
+  kable(caption = "Players with similar predictions as Don Mattingly", 
+        digits = 3)
+```
+
+# Don Mattingly (not-selected) vs. Harold Baines (selected)
+
+Let's look at Don Mattingly's and Harold Baines' career statistics side by side.
+
+```{r}
+career_totals %>% 
+  filter(playerID %in% c("mattido01","baineha01")) %>%
+  select(name, G, PA, AB, H, HR, AVG) %>%
+  kable(caption = "Career Statistics", digits = 3)
+```
+
+Now, let’s assume Mattingly and Baines both had 12,000 plate appearances. 
+
+Following the steps on page 47 of *Understanding Sabermetrics*, let’s compare cumulative statistics for various kickers.
+
+- Determine the projected number of new at-bats.
+
+- Solve for x in $\frac{AB}{AB+BB}=\frac{AB+x}{newPA}$
+
+This is the number of additional at-bats to award each hitter.
+
+```{r}
+newPA = 12000
+
+# Define "x" below as the number of additional at-bats.
+career_totals %>%
+  mutate(x = ((AB / (AB + BB)) * newPA - AB) %>% round(0)) -> career_totals
+
+career_totals %>%
+  filter(playerID %in% c("mattido01","baineha01")) %>%
+  select(name, AB, x) %>%
+  kable(caption = "Number of new at-bats.")
+```
+
+- Calculate the equivalence coefficient, $\left(1 + \frac{x}{AB} * k\right)$, where $k$ is the kicker. Let’s investigate $k \in \{1,\; 0.95,\; 0.90\}$.
+
+```{r}
+# Function to compute equivalence coefficient
+eqcoef <- function(k, df){
+  df %>% 
+    mutate(k = k,
+           EC = 1 + x / AB * k,
+           H = round(H * EC, 0),
+           X2B = round(X2B * EC, 0),
+           X3B = round(X3B * EC, 0),
+           HR = round(HR * EC, 0),
+           RBI = round(RBI * EC, 0),
+           BB = round(BB * EC, 0)) -> df
+  return(df %>% select(playerID, name, k, EC, H, X2B, X3B, HR, RBI, BB))
+}
+
+k = c(1, 0.95, 0.90)
+k %>%
+  map_df(eqcoef, df = career_totals %>% filter(playerID == "mattido01")) -> matty_ec
+k %>%
+  map_df(eqcoef, df = career_totals %>% filter(playerID == "baineha01")) -> baine_ec
+rbind(matty_ec, baine_ec) %>%
+  kable(digits = 3)
+```
+
+# Don Mattingly Predictions with a Longer Career
+
+```{r}
+matty_ec %>% 
+  mutate(hof_pred = predict(model.hof,
+                            type = "response",
+                            newdata = .)) -> matty_ec
+matty_ec %>%
+  select(name, k, hof_pred) %>%
+  kable(digits = 3)
+```
+
+```{r}
+# Players similar to 'Hypothetical Mattingly'
+career_totals %>%
+  filter(hof_pred > 0.63, hof_pred < 0.72) %>%
+  select(name, hof_pred, halloffame) %>%
+  kable(digits = 3)
+```
+

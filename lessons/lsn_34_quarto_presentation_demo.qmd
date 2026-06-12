@@ -1,0 +1,164 @@
+---
+title: "`r params$team_name` <br> Batting <br> `r params$year_start` - `r params$year_end`"
+format:
+  revealjs:
+    theme: solarized
+    slide-number: true
+    transition: fade
+    incremental: false
+    chalkboard: true
+    preview-links: auto
+editor: visual
+params:
+  teamID: "MIL"
+  team_name: "Milwaukee Brewers:"
+  year_start: 2000
+  year_end: 2025
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+
+player_stats <- Batting %>% 
+  filter(teamID == params$teamID,
+         yearID >= params$year_start,
+         yearID <= params$year_end) %>% 
+  group_by(playerID) %>% 
+  summarize(
+    H = sum(H),
+    AB = sum(AB),
+    HR = sum(HR),
+    BA = round(sum(H) / sum(AB), 3),
+    OPS = round((sum(H) / sum(AB)) + (sum(HR) / sum(AB)), 3)
+  ) %>%
+  filter(AB >= 500) %>%
+  left_join(People, by = "playerID") %>%
+  mutate(Name = paste(nameFirst, nameLast))
+
+team_stats <- Batting %>% 
+  filter(teamID == params$teamID,
+         yearID >= params$year_start,
+         yearID <= params$year_end) %>% 
+  summarize(
+    HR = sum(HR),
+    BA = round(sum(H) / sum(AB), 3),
+    .by = yearID
+  )
+
+league_stats <- Batting %>% 
+  filter(yearID >= params$year_start,
+         yearID <= params$year_end) %>% 
+  summarize(
+    HR = sum(HR),
+    BA = round(sum(H) / sum(AB), 3),
+    .by = c('yearID','teamID')
+  ) |> 
+  summarize(
+    HR = mean(HR),
+    BA = mean(BA),
+    .by = c('yearID')
+  )
+```
+
+# Why Quarto + RevealJS?
+
+## Cool Interactive Features {.smaller}
+
+::: incremental
+-   Incremental bullet builds
+-   Fragments that appear on click
+-   Code highlighting line-by-line
+-   Auto-animate transitions
+-   Speaker notes / chalkboard
+-   Embedded HTML widgets
+:::
+
+# Batting Leaders
+
+## Home Run Leaders
+
+```{r}
+player_stats %>%
+  select(Name, HR) %>%
+  arrange(-HR) %>%
+  head(5) %>%
+  kable()
+```
+
+## OPS Leaders
+
+```{r}
+player_stats %>%
+  select(Name, OPS) %>%
+  arrange(-OPS) %>%
+  head(5) %>%
+  kable()
+```
+
+::: fragment
+OPS combines ability to get on base **and** hit for power.
+:::
+
+::: fragment
+Great single-number summary for offensive value.
+:::
+
+# Batting Trends
+
+## Batting Average Trend
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-line-numbers: "2|3|4"
+team_stats |>
+  ggplot(aes(yearID, BA)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2) +
+  theme_bw() +
+  labs(x = "Year", y = "Batting Average")
+```
+
+## `r params$team_name` Home Runs {auto-animate="true"}
+
+```{r}
+peakHR <- team_stats |> slice_max(HR,n=1)
+team_stats |>
+  ggplot(aes(yearID, HR)) +
+  geom_line(aes(color='Team'),linewidth = 1.2) +
+  geom_point(size = 2) +
+  theme_bw() +
+  labs(x = "Year", y = "Home Runs",color="") +
+  # geom_line(data=league_stats, aes(color = "League"),linewidth=1.2, class = "fragment") +
+  # geom_point(data=league_stats,size = 2) +
+  scale_color_manual(values = c("Team" = "black", "League" = "red"))
+
+```
+
+::: fragment
+Peak power occurs in `r peakHR$yearID` with `r peakHR$HR` homeruns
+:::
+
+::: fragment
+Shortened 2020 season.
+:::
+
+## `r params$team_name` Home Runs vs League Average {auto-animate="true"}
+
+```{r}
+peakHR <- team_stats |> slice_max(HR,n=1)
+team_stats |>
+  ggplot(aes(yearID, HR)) +
+  geom_line(aes(color='Team'),linewidth = 1.2) +
+  geom_point(size = 2) +
+  theme_bw() +
+  labs(x = "Year", y = "Home Runs",color="") +
+  geom_line(data=league_stats, aes(color = "League"),linewidth=1.2, class = "fragment") +
+  geom_point(data=league_stats,size = 2) +
+  scale_color_manual(values = c("Team" = "black", "League" = "red"))
+
+```
+-   Peak power occurs in `r peakHR$yearID` with `r peakHR$HR` homeruns
+-   Shortened 2020 season.

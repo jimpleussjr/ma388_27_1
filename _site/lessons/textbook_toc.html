@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>textbook summary – MA388 Sabermetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MA388 Sabermetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-1-10" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 1-10</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-1-10">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
+ <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_3_intro_to_R_II.html">
+ <span class="dropdown-text">Lesson 3: Introduction to R II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_4_r_graphics_I.html">
+ <span class="dropdown-text">Lesson 4: R Graphics I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_5_r_graphics_II.html">
+ <span class="dropdown-text">Lesson 5: R Graphics II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_6_runs_and_wins_I.html">
+ <span class="dropdown-text">Lesson 6: Runs and Wins I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_8_runs_and_wins_II.html">
+ <span class="dropdown-text">Lesson 8: Runs and Wins II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_9_runs_expectancy_matrix.html">
+ <span class="dropdown-text">Lesson 9: Value of Plays: Run Expectancy Matrix</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_10_hits_stealing.html">
+ <span class="dropdown-text">Lesson 10: Value of Plays: Base Hits and Stealing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-11-20" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 11-20</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-11-20">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_11_swinging_tendencies.html">
+ <span class="dropdown-text">Lesson 11: Behaviors by Count: Swinging Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_12_umpire_tendencies.html">
+ <span class="dropdown-text">Lesson 12: Behaviors by Count: Umpire Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_13_catcher_framing_visualization.html">
+ <span class="dropdown-text">Lesson 13: Catcher Framing Ability - Visualizations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_14_logistic_regression.html">
+ <span class="dropdown-text">Lesson 14: Introduction to Logistic Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_15_catcher_framing_modeling.html">
+ <span class="dropdown-text">Lesson 15: Catcher Framing Ability: Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_16_catcher_framing_random_effects.html">
+ <span class="dropdown-text">Lesson 16: Catcher Framing Ability: Random Effects</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_18_peak_trajectories_I.html">
+ <span class="dropdown-text">Lesson 18: Comparing Peak Trajectories I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_19_peak_trajectories_II.html">
+ <span class="dropdown-text">Lesson 19: Comparing Peak Trajectories II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_20_multilevel_modeling.html">
+ <span class="dropdown-text">Lesson 20: Multilevel Modeling</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-21-30" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 21-30</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-21-30">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_21_simulation_I.html">
+ <span class="dropdown-text">Lesson 21: Simulating Baseball - Part I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_22_simulation_II.html">
+ <span class="dropdown-text">Lesson 22: Simulating Baseball - Part II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_23_the_great_streak.html">
+ <span class="dropdown-text">Lesson 23: Baseball Streaks - The Great Streak</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_24_streakiness_statistics.html">
+ <span class="dropdown-text">Lesson 24: Baseball Streaks - Streakiness Statistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_26_statcast_spray_charts.html">
+ <span class="dropdown-text">Lesson 26: Working with Large Data - Statcast Spray Charts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_27_launch_angles_exit_velocity.html">
+ <span class="dropdown-text">Lesson 27: Working with Large Data - Launch Angles and Exit Velocity</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_28_home_run_hitting_I.html">
+ <span class="dropdown-text">Lesson 28: Home Run Hitting I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_29_home_run_hitting_II.html">
+ <span class="dropdown-text">Lesson 29: Home Run Hitting II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_30_equivalence_coefficient.html">
+ <span class="dropdown-text">Lesson 30: Equivalence Coefficient</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-31-40" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 31-40</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-31-40">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_31_ops+_babip.html">
+ <span class="dropdown-text">Lesson 31: OPS+ and BABIP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_32_linear_weights.html">
+ <span class="dropdown-text">Lesson 32: Linear Weights</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_33_runs_created_solution.html">
+ <span class="dropdown-text">Lesson 33: Runs Created School</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentations.html">
+ <span class="dropdown-text">Lesson 34: Quarto Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentation_demo.html">
+ <span class="dropdown-text">Example Quarto Presentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_35_shiny.html">
+ <span class="dropdown-text">Lesson 35: Shiny</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../calendar/calendar.html"> 
+<span class="menu-text">Calendar</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/grab_bag.html"> 
+<span class="menu-text">Grab Bag Topics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/march_madness.html"> 
+<span class="menu-text">March Madness</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">textbook summary</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html">1&nbsp; The Baseball Datasets</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#introduction">1.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#sec-lahman">1.2 The Lahman Database: Season-by-Season Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#sec-datasets_Retrosheet">1.3 Retrosheet Game-by-Game Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#sec-retro_pbp">1.4 Retrosheet Play-by-Play Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#pitch-by-pitch-data">1.5 Pitch-by-Pitch Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#player-movement-and-off-the-bat-data">1.6 Player Movement and Off-the-Bat Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#data-used-in-this-book">1.7 Data Used in this Book</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#summary">1.8 Summary</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#further-reading">1.9 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/01-datasets.html#exercises">1.10 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html">2&nbsp; Introduction to R</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#introduction">2.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#installing-r-and-rstudio">2.2 Installing R and RStudio</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#the-tidyverse">2.3 The Tidyverse</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-df">2.4 Data Frames</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-vectors">2.5 Vectors</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-objectscontainers">2.6 Objects and Containers in R</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#collection-of-r-commands">2.7 Collection of R Commands</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-data_import">2.8 Reading and Writing Data in R</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-pkg">2.9 Packages</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-split_apply">2.10 Splitting, Applying, and Combining Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#sec-gettinghelp">2.11 Getting Help</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#further-reading">2.12 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/02-intro.html#exercises">2.13 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html">3&nbsp; Graphics</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#introduction">3.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#character-variable">3.2 Character Variable</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#saving-graphs">3.3 Saving Graphs</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#numeric-variable-one-dimensional-scatterplot-and-histogram">3.4 Numeric Variable: One-Dimensional Scatterplot and Histogram</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#two-numeric-variables">3.5 Two Numeric Variables</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#a-numeric-variable-and-a-factor-variable">3.6 A Numeric Variable and a Factor Variable</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#sec-comparesluggers">3.7 Comparing Ruth, Aaron, Bonds, and A-Rod</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#sec-section5">3.8 The 1998 Home Run Race</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#further-reading">3.9 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/03-graphics2.html#exercises">3.10 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html">4&nbsp; The Relation Between Runs and Wins</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#introduction">4.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#the-teams-table-in-the-lahman-database">4.2 The Teams Table in the Lahman Database</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#sec-LinearRegression">4.3 Linear Regression</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#the-pythagorean-formula-for-winning-percentage">4.4 The Pythagorean Formula for Winning Percentage</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#sec-runswin">4.5 How Many Runs for a Win?</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#further-reading">4.6 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/04-pythagoras.html#exercises">4.7 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html">5&nbsp; Value of Plays Using Run Expectancy</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#sec-matrix">5.1 The Run Expectancy Matrix</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#runs-scored-in-the-remainder-of-the-inning">5.2 Runs Scored in the Remainder of the Inning</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#sec-runsexpectancy">5.3 Creating the Matrix</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#sec-run-values">5.4 Measuring Success of a Batting Play</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#jos%C3%A9-altuve">5.5 José Altuve</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#opportunity-and-success-for-all-hitters">5.6 Opportunity and Success for All Hitters</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#position-in-the-batting-lineup">5.7 Position in the Batting Lineup</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#sec-runvaluebasehit">5.8 Run Values of Different Base Hits</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#value-of-base-stealing">5.9 Value of Base Stealing</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#further-reading-and-software">5.10 Further Reading and Software</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/05-runsexpectancy.html#exercises">5.11 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/06-pitchcount.html">6&nbsp; Balls and Strikes Effects</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/06-pitchcount.html#introduction">6.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/06-pitchcount.html#sec-hit_pit_counts">6.2 Hitter’s Counts and Pitcher’s Counts</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/06-pitchcount.html#behaviors-by-count">6.3 Behaviors by Count</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/06-pitchcount.html#further-reading">6.4 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/06-pitchcount.html#exercises">6.5 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html">7&nbsp; Catcher Framing</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#introduction">7.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#acquiring-pitch-level-data">7.2 Acquiring Pitch-Level Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#where-is-the-strike-zone">7.3 Where Is the Strike Zone?</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#modeling-called-strike-percentage">7.4 Modeling Called Strike Percentage</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#sec-catcher-framing">7.5 Modeling Catcher Framing</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#further-reading">7.6 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/07-framing.html#exercises">7.7 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html">8&nbsp; Career Trajectories</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#introduction">8.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#sec-mantle">8.2 Mickey Mantle’s Batting Trajectory</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#sec-comparison">8.3 Comparing Trajectories</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#sec-general">8.4 General Patterns of Peak Ages</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#sec-fielding">8.5 Trajectories and Fielding Position</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#further-reading">8.6 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/08-trajectories.html#exercises">8.7 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/09-simulation.html">9&nbsp; Simulation</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/09-simulation.html#introduction">9.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/09-simulation.html#sec-markovchain">9.2 Simulating a Half Inning</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/09-simulation.html#sec-bradleyterry">9.3 Simulating a Baseball Season</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/09-simulation.html#further-reading">9.4 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/09-simulation.html#exercises">9.5 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html">10&nbsp; Exploring Streaky Performances</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html#introduction">10.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html#sec-joed">10.2 The Great Streak</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html#sec-individual">10.3 Streaks in Individual At-Bats</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html#sec-woba">10.4 Local Patterns of Statcast Launch Velocity</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html#further-reading">10.5 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/10-streak.html#exercises">10.6 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html">11&nbsp; Using a Database to Compute Park Factors</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#introduction">11.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#sec-startMySQL">11.2 Installing MySQL and Creating a Database</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#connecting-r-to-mysql">11.3 Connecting R to MySQL</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#sec-gamelog">11.4 Filling a MySQL Game Log Database from R</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#querying-data-from-r">11.5 Querying Data from R</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#sec-owndb">11.6 Building Your Own Baseball Database</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#sec-parkfactors">11.7 Calculating Basic Park Factors</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#further-reading">11.8 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/11-sql.html#exercises">11.9 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html">12&nbsp; Working with Large Data</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#introduction">12.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#sec-statcast-year">12.2 Acquiring a Year’s Worth of Statcast Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#storing-large-data-efficiently">12.3 Storing Large Data Efficiently</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#sec-performance">12.4 Performance Comparison</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#sec-launch_angle">12.5 Launch Angles and Exit Velocities, Revisited</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#further-reading">12.6 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/12-large.html#exercises">12.7 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/13-homeruns.html">13&nbsp; Home Run Hitting</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/13-homeruns.html#introduction">13.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/13-homeruns.html#sec-hr_exploring">13.2 Exploring a Season of Home Run Hitting</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/13-homeruns.html#sec-hr_changes">13.3 Comparing Home Run Hitting in the 2021 and 2023 Seasons</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/13-homeruns.html#further-reading">13.4 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/13-homeruns.html#exercises">13.5 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/14-quarto.html">14&nbsp; Making a Scientific Presentation using Quarto</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/14-quarto.html#introduction-to-slides-in-quarto">14.1 Introduction to Slides in Quarto</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/14-quarto.html#sec-slides">14.2 Example: Jim’s Presentation on Home Run Hitting</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/14-quarto.html#sec-beamer">14.3 Alternative Output Formats</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/14-quarto.html#further-reading">14.4 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/14-quarto.html#exercises">14.5 Exercises</a></li>
+</ul></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html">15&nbsp; Using Shiny for Baseball Applications</a>
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#introduction">15.1 Introduction</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#sec-function">15.2 Comparing Two Pitcher Trajectories</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#sec-creating_shiny">15.3 Creating the Shiny App</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#sec-sharing_shiny">15.4 Sharing the App</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#sec-shiny_tips">15.5 Tips for Getting Started Making Apps</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#further-reading">15.6 Further Reading</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/15-shiny.html#exercises">15.7 Exercises</a></li>
+</ul></li>
+<li>Appendices
+<ul>
+<li><a href="https://beanumber.github.io/abdwr3e/A_retrosheet.html">A&nbsp; Retrosheet Files Reference</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/B_mlbam.html">B&nbsp; Historical Notes on PITCHf/x Data</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/C_statcast.html">C&nbsp; Statcast Data Reference</a></li>
+<li><a href="https://beanumber.github.io/abdwr3e/99-references.html">References</a></li>
+</ul></li>
+</ul>
+<p>Problem Set descriptions:</p>
+<ol type="1">
+<li><p>Data set exploration and dplyr functions</p></li>
+<li><p>Plotting career trajectories</p></li>
+<li><p>Regression of Win% vs run differential</p></li>
+<li><p>Sacrifice Bunt</p></li>
+</ol>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

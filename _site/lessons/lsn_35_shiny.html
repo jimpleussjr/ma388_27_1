@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="LTC Jim Pleuss">
+
+<title>MA388 Sabermetrics: Lesson 35 – MA388 Sabermetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MA388 Sabermetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-1-10" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 1-10</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-1-10">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
+ <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_3_intro_to_R_II.html">
+ <span class="dropdown-text">Lesson 3: Introduction to R II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_4_r_graphics_I.html">
+ <span class="dropdown-text">Lesson 4: R Graphics I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_5_r_graphics_II.html">
+ <span class="dropdown-text">Lesson 5: R Graphics II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_6_runs_and_wins_I.html">
+ <span class="dropdown-text">Lesson 6: Runs and Wins I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_8_runs_and_wins_II.html">
+ <span class="dropdown-text">Lesson 8: Runs and Wins II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_9_runs_expectancy_matrix.html">
+ <span class="dropdown-text">Lesson 9: Value of Plays: Run Expectancy Matrix</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_10_hits_stealing.html">
+ <span class="dropdown-text">Lesson 10: Value of Plays: Base Hits and Stealing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-11-20" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 11-20</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-11-20">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_11_swinging_tendencies.html">
+ <span class="dropdown-text">Lesson 11: Behaviors by Count: Swinging Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_12_umpire_tendencies.html">
+ <span class="dropdown-text">Lesson 12: Behaviors by Count: Umpire Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_13_catcher_framing_visualization.html">
+ <span class="dropdown-text">Lesson 13: Catcher Framing Ability - Visualizations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_14_logistic_regression.html">
+ <span class="dropdown-text">Lesson 14: Introduction to Logistic Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_15_catcher_framing_modeling.html">
+ <span class="dropdown-text">Lesson 15: Catcher Framing Ability: Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_16_catcher_framing_random_effects.html">
+ <span class="dropdown-text">Lesson 16: Catcher Framing Ability: Random Effects</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_18_peak_trajectories_I.html">
+ <span class="dropdown-text">Lesson 18: Comparing Peak Trajectories I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_19_peak_trajectories_II.html">
+ <span class="dropdown-text">Lesson 19: Comparing Peak Trajectories II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_20_multilevel_modeling.html">
+ <span class="dropdown-text">Lesson 20: Multilevel Modeling</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-21-30" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 21-30</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-21-30">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_21_simulation_I.html">
+ <span class="dropdown-text">Lesson 21: Simulating Baseball - Part I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_22_simulation_II.html">
+ <span class="dropdown-text">Lesson 22: Simulating Baseball - Part II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_23_the_great_streak.html">
+ <span class="dropdown-text">Lesson 23: Baseball Streaks - The Great Streak</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_24_streakiness_statistics.html">
+ <span class="dropdown-text">Lesson 24: Baseball Streaks - Streakiness Statistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_26_statcast_spray_charts.html">
+ <span class="dropdown-text">Lesson 26: Working with Large Data - Statcast Spray Charts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_27_launch_angles_exit_velocity.html">
+ <span class="dropdown-text">Lesson 27: Working with Large Data - Launch Angles and Exit Velocity</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_28_home_run_hitting_I.html">
+ <span class="dropdown-text">Lesson 28: Home Run Hitting I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_29_home_run_hitting_II.html">
+ <span class="dropdown-text">Lesson 29: Home Run Hitting II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_30_equivalence_coefficient.html">
+ <span class="dropdown-text">Lesson 30: Equivalence Coefficient</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-31-40" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 31-40</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-31-40">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_31_ops+_babip.html">
+ <span class="dropdown-text">Lesson 31: OPS+ and BABIP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_32_linear_weights.html">
+ <span class="dropdown-text">Lesson 32: Linear Weights</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_33_runs_created_solution.html">
+ <span class="dropdown-text">Lesson 33: Runs Created School</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentations.html">
+ <span class="dropdown-text">Lesson 34: Quarto Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentation_demo.html">
+ <span class="dropdown-text">Example Quarto Presentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_35_shiny.html">
+ <span class="dropdown-text">Lesson 35: Shiny</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../calendar/calendar.html"> 
+<span class="menu-text">Calendar</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/grab_bag.html"> 
+<span class="menu-text">Grab Bag Topics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/march_madness.html"> 
+<span class="menu-text">March Madness</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#shiny-apps" id="toc-shiny-apps" class="nav-link" data-scroll-target="#shiny-apps">Shiny Apps!</a></li>
+  <li><a href="#starting-example" id="toc-starting-example" class="nav-link" data-scroll-target="#starting-example">Starting Example</a></li>
+  <li><a href="#challenge-problem" id="toc-challenge-problem" class="nav-link" data-scroll-target="#challenge-problem">Challenge Problem</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_35_shiny.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MA388 Sabermetrics: Lesson 35</h1>
+<p class="subtitle lead">Shiny Apps</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>LTC Jim Pleuss </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Last class we focused on generating slides using Quarto, and we explored ways to scale up your production to generate a set of slides for any combination of teams, years, etc.</p>
+<p>What are some benefits of this capability?</p>
+<ul>
+<li><p>Easily generate products at scale using a proven analysis pipeline.</p></li>
+<li><p>You can email your generated product. There’s no web hosting.</p></li>
+</ul>
+<p>What are some limitations?</p>
+<ul>
+<li><p>If your product doesn’t answer the reader’s question, the reader has no way to refine the product to answer their question of interest.</p></li>
+<li><p>The reader has very limited opportunity to interact with the data. The data doesn’t automatically travel with the static document you’ve created (possibly good or bad).</p></li>
+</ul>
+</section>
+<section id="shiny-apps" class="level2">
+<h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps!</h2>
+<p>A Shiny app is fundamentally different. Now you’ll host a small (though it could be quite large) application on a web server, and people will visit it via a published URL. It’s pretty simple:</p>
+<ul>
+<li><p>Allow the user to select some permissible values of different parameters you’ll use to control any analysis you present.</p></li>
+<li><p>Lay out a user interface (UI) and define server functions that turn user selections into tables, plots, etc.</p></li>
+</ul>
+</section>
+<section id="starting-example" class="level2">
+<h2 class="anchored" data-anchor-id="starting-example">Starting Example</h2>
+<p><strong>Step 1:</strong> File -&gt; New File -&gt; Shiny Web App</p>
+<p>Give the app a name with no spaces. I called mine “BattingLeaders” and selected the “Single File” option (default) and specified a directory where I wanted the app to live. I now have a folder in this locaiton called “BattingLeaders” with a single file titled “app.R” inside.</p>
+<p><strong>Step 2:</strong> Press the “Run App” button near the top right of the app editor. Drag the slider to different values and see what happens.</p>
+<p>All the basics are here - a title, an input widget, and a reactive plot that changes as you change the input slider. This is basically it for Shiny Apps – you mix static content, user inputs, and reactive content.</p>
+<p><strong>Step 3:</strong> Explore the code that produced this app.</p>
+<p>You should see a section called the <code>ui</code> that has elements you can connect to what you see in the app - a layout, some panels, a slider input, and a plot output.</p>
+<p>Now look at the <code>server</code> section. There’s a single <code>output</code> element named <code>distplot</code> that is created in the server and made visible in the <code>ui</code> section as an argument to the <code>plotOutput</code> function. Notice that the plot code contained in this element would work anywhere with one exception – it is reliant on knowing what <code>input$bins</code> equals. You can guess where it gets that value – it’s from the <code>sliderInput</code> object named “bins” (the first element of an input object definition is its name/ID).</p>
+<p><strong>Step 4:</strong> Tweak this app to do something else.</p>
+<ul>
+<li>Add static text.</li>
+</ul>
+<p>After the <code>titlePanel</code> line in the <code>ui</code>, add this as a new line (including the comma):</p>
+<p><code>h6("This is some really helpful explanation of what you're looking at."),</code></p>
+<p>Run the app again to see what happened.</p>
+<ul>
+<li>Add an input.</li>
+</ul>
+<p>Put a comma at the end of the <code>sliderInput</code> definition after <code>value=30)</code>. On the next line, add this text object:</p>
+<p><code>h6("I couldn't think of anything good to add here, so I'm switching data sets:"),</code> (include the comma)</p>
+<p>…followed by this new input object:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">radioButtons</span>(<span class="st">"cylinders"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select a number of cylinders to explore in mtcars:"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">choices =</span> <span class="fu">list</span>(<span class="st">"4 cylinders"</span> <span class="ot">=</span> <span class="dv">4</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"6 cylinders"</span> <span class="ot">=</span> <span class="dv">6</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"8 cylinders"</span> <span class="ot">=</span> <span class="dv">8</span>), </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">selected =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>How do you learn what input widgets are available and how to employ them? Visit the <a href="https://shiny.posit.co/r/gallery/widgets/widget-gallery/">Shiny Widget Gallery</a>.</p>
+<p>Run the app again to see what happened.</p>
+<ul>
+<li>Add an output.</li>
+</ul>
+<p>Let’s add a plot to the app that does something with <code>mtcars</code> and your input selection. Copy and paste the <code>output$distPlot</code> code block immediately underneath the existing code block (no need for a comma between the two plot blocks). Call this second plot block <code>output$distPlot2</code> and add a second <code>plotOutput</code> object to the <code>ui</code> section like this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mainPanel</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"distPlot"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"distPlot2"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Run the app again to see what happened. We should see our cylinders radio buttons and a second inter-eruption distribution plot. It’s time to connect these objects. First, add <code>library(tidyverse)</code> to the top of the app by the <code>library(shiny)</code> call. Next, change <code>distPlot2</code> as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>distPlot2 <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  mtcars <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(cyl <span class="sc">==</span> input<span class="sc">$</span>cylinders) <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'MPG'</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">'Histogram of MPG for vehicles with'</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                       input<span class="sc">$</span>cylinders, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"cylinders"</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>That’s it! This basic knowledge – plus tons of creativity and trial and error – is what you need to make a much cooler, much more complicated app.</strong></p>
+</section>
+<section id="challenge-problem" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-problem">Challenge Problem</h2>
+<p>Make a Shiny App that allows the user to select a starting year and ending year between 1970 and 2023 as well as a choice of batting stats (start with batting average and home run total).</p>
+<p>Display a histogram of all players’ stats during the time period of interest, showing only the histogram of the selected batting stat.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

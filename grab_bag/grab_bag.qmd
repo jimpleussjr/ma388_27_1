@@ -1,0 +1,25 @@
+---
+title: "LTC Pleuss Grab Bag Topics"
+subtitle: "What Should We Talk About?"
+format:
+  html:
+    theme: cosmo
+
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+<iframe src="topics.png" width="140%" height="900" style="border: none;">
+</iframe>
+
+
+```{r, include=FALSE, out.width="50%", fig.align='left'}
+knitr::include_graphics("topics.png")
+
+```
+
+

@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="LTC Jim Pleuss">
+
+<title>MA388 Sabermetrics: Lesson 10 – MA388 Sabermetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MA388 Sabermetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-1-10" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 1-10</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-1-10">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
+ <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_3_intro_to_R_II.html">
+ <span class="dropdown-text">Lesson 3: Introduction to R II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_4_r_graphics_I.html">
+ <span class="dropdown-text">Lesson 4: R Graphics I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_5_r_graphics_II.html">
+ <span class="dropdown-text">Lesson 5: R Graphics II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_6_runs_and_wins_I.html">
+ <span class="dropdown-text">Lesson 6: Runs and Wins I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_8_runs_and_wins_II.html">
+ <span class="dropdown-text">Lesson 8: Runs and Wins II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_9_runs_expectancy_matrix.html">
+ <span class="dropdown-text">Lesson 9: Value of Plays: Run Expectancy Matrix</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_10_hits_stealing.html">
+ <span class="dropdown-text">Lesson 10: Value of Plays: Base Hits and Stealing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-11-20" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 11-20</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-11-20">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_11_swinging_tendencies.html">
+ <span class="dropdown-text">Lesson 11: Behaviors by Count: Swinging Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_12_umpire_tendencies.html">
+ <span class="dropdown-text">Lesson 12: Behaviors by Count: Umpire Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_13_catcher_framing_visualization.html">
+ <span class="dropdown-text">Lesson 13: Catcher Framing Ability - Visualizations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_14_logistic_regression.html">
+ <span class="dropdown-text">Lesson 14: Introduction to Logistic Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_15_catcher_framing_modeling.html">
+ <span class="dropdown-text">Lesson 15: Catcher Framing Ability: Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_16_catcher_framing_random_effects.html">
+ <span class="dropdown-text">Lesson 16: Catcher Framing Ability: Random Effects</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_18_peak_trajectories_I.html">
+ <span class="dropdown-text">Lesson 18: Comparing Peak Trajectories I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_19_peak_trajectories_II.html">
+ <span class="dropdown-text">Lesson 19: Comparing Peak Trajectories II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_20_multilevel_modeling.html">
+ <span class="dropdown-text">Lesson 20: Multilevel Modeling</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-21-30" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 21-30</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-21-30">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_21_simulation_I.html">
+ <span class="dropdown-text">Lesson 21: Simulating Baseball - Part I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_22_simulation_II.html">
+ <span class="dropdown-text">Lesson 22: Simulating Baseball - Part II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_23_the_great_streak.html">
+ <span class="dropdown-text">Lesson 23: Baseball Streaks - The Great Streak</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_24_streakiness_statistics.html">
+ <span class="dropdown-text">Lesson 24: Baseball Streaks - Streakiness Statistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_26_statcast_spray_charts.html">
+ <span class="dropdown-text">Lesson 26: Working with Large Data - Statcast Spray Charts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_27_launch_angles_exit_velocity.html">
+ <span class="dropdown-text">Lesson 27: Working with Large Data - Launch Angles and Exit Velocity</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_28_home_run_hitting_I.html">
+ <span class="dropdown-text">Lesson 28: Home Run Hitting I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_29_home_run_hitting_II.html">
+ <span class="dropdown-text">Lesson 29: Home Run Hitting II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_30_equivalence_coefficient.html">
+ <span class="dropdown-text">Lesson 30: Equivalence Coefficient</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-31-40" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 31-40</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-31-40">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_31_ops+_babip.html">
+ <span class="dropdown-text">Lesson 31: OPS+ and BABIP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_32_linear_weights.html">
+ <span class="dropdown-text">Lesson 32: Linear Weights</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_33_runs_created_solution.html">
+ <span class="dropdown-text">Lesson 33: Runs Created School</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentations.html">
+ <span class="dropdown-text">Lesson 34: Quarto Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentation_demo.html">
+ <span class="dropdown-text">Example Quarto Presentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_35_shiny.html">
+ <span class="dropdown-text">Lesson 35: Shiny</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../calendar/calendar.html"> 
+<span class="menu-text">Calendar</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/grab_bag.html"> 
+<span class="menu-text">Grab Bag Topics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/march_madness.html"> 
+<span class="menu-text">March Madness</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review">Review</a></li>
+  <li><a href="#measuring-the-success-of-a-batting-play" id="toc-measuring-the-success-of-a-batting-play" class="nav-link" data-scroll-target="#measuring-the-success-of-a-batting-play">Measuring the Success of a Batting Play</a></li>
+  <li><a href="#measuring-batting-success-over-a-season-david-ortiz" id="toc-measuring-batting-success-over-a-season-david-ortiz" class="nav-link" data-scroll-target="#measuring-batting-success-over-a-season-david-ortiz">Measuring Batting Success Over a Season: David Ortiz</a></li>
+  <li><a href="#part-ii---measuring-the-success-of-a-stolen-base-attempt" id="toc-part-ii---measuring-the-success-of-a-stolen-base-attempt" class="nav-link" data-scroll-target="#part-ii---measuring-the-success-of-a-stolen-base-attempt">Part II - Measuring the Success of a Stolen Base Attempt</a></li>
+  <li><a href="#re24" id="toc-re24" class="nav-link" data-scroll-target="#re24">RE24</a></li>
+  <li><a href="#value-of-hits" id="toc-value-of-hits" class="nav-link" data-scroll-target="#value-of-hits">Value of Hits</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_10_hits_stealing.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MA388 Sabermetrics: Lesson 10</h1>
+<p class="subtitle lead">Value of Plays - Base Hits and Stealing</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>LTC Jim Pleuss </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="review" class="level2">
+<h2 class="anchored" data-anchor-id="review">Review</h2>
+<p>Last class, we discussed the Run Expectancy Matrix and how to obtain it from the Retrosheet play-by-play data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>erm_2011_wide <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"erm_2011_wide.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(erm_2011_wide)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">bases</th>
+<th style="text-align: right;">Outs=0</th>
+<th style="text-align: right;">Outs=1</th>
+<th style="text-align: right;">Outs=2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">000</td>
+<td style="text-align: right;">0.4711649</td>
+<td style="text-align: right;">0.2546956</td>
+<td style="text-align: right;">0.0971845</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">001</td>
+<td style="text-align: right;">1.4543568</td>
+<td style="text-align: right;">0.9374359</td>
+<td style="text-align: right;">0.3173913</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">010</td>
+<td style="text-align: right;">1.0582804</td>
+<td style="text-align: right;">0.6501976</td>
+<td style="text-align: right;">0.3091673</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">011</td>
+<td style="text-align: right;">1.9304897</td>
+<td style="text-align: right;">1.3388641</td>
+<td style="text-align: right;">0.5407407</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">100</td>
+<td style="text-align: right;">0.8350992</td>
+<td style="text-align: right;">0.4960492</td>
+<td style="text-align: right;">0.2179536</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">101</td>
+<td style="text-align: right;">1.7526998</td>
+<td style="text-align: right;">1.1496169</td>
+<td style="text-align: right;">0.4882597</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">110</td>
+<td style="text-align: right;">1.4144549</td>
+<td style="text-align: right;">0.8739176</td>
+<td style="text-align: right;">0.4222569</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">111</td>
+<td style="text-align: right;">2.1718266</td>
+<td style="text-align: right;">1.4745146</td>
+<td style="text-align: right;">0.7610094</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</section>
+<section id="measuring-the-success-of-a-batting-play" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-the-success-of-a-batting-play">Measuring the Success of a Batting Play</h2>
+<p>We can estimate the value of a plate appearance as the difference in run expectancy between the new and old states plus the number of runs scored on the play.</p>
+<p><span class="math inline">\(\text{RUN VALUE} = \text{E[RUNS]}_\text{new state} -  \text{E[RUNS]}_\text{old state} + \text{RUNS}_\text{scored on play}\)</span></p>
+<p>Calculate the RUN VALUE of the following plays:</p>
+<ol type="1">
+<li>There are runners on first and second with no outs. The batter successfully sacrifice bunts, resulting in runners on second and third with one out.</li>
+</ol>
+<ol start="2" type="1">
+<li>There is a runner on second base with no outs. The batter hits a single that scores the runner from second. The batter stops at first base.</li>
+</ol>
+<ol start="3" type="1">
+<li>What is the most valuable play in baseball? Explain.</li>
+</ol>
+</section>
+<section id="measuring-batting-success-over-a-season-david-ortiz" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-batting-success-over-a-season-david-ortiz">Measuring Batting Success Over a Season: David Ortiz</h2>
+<p>We’ll start with all batting events in the 2011 season.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>site <span class="ot">=</span> <span class="st">"https://raw.githubusercontent.com/maxtoki/baseball_R/"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fields <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">paste</span>(site, <span class="st">"master/data/fields.csv"</span>, <span class="at">sep =</span><span class="st">""</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>retro2011 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">paste</span>(site, <span class="st">"master/data/all2011.csv"</span>, <span class="at">sep =</span> <span class="st">""</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_names =</span> <span class="fu">pull</span>(fields, Header),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">na =</span> <span class="fu">character</span>())</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(retro2011) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(retro2011))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add states and run values.</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (Note the data set has to be called retro2011.)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"./RunExpectancyMatrix.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now let’s look specifically at David Ortiz.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Ortiz's playerID.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ortizID <span class="ot">&lt;-</span> People <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nameFirst <span class="sc">==</span> <span class="st">"David"</span>, nameLast <span class="sc">==</span> <span class="st">"Ortiz"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(retroID)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ortiz_df <span class="ot">&lt;-</span> retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bat_id <span class="sc">==</span> ortizID,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         bat_event_fl <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ortiz_df <span class="sc">|&gt;</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(game_id, inn_ct, state, new_state, run_value) <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">game_id</th>
+<th style="text-align: right;">inn_ct</th>
+<th style="text-align: left;">state</th>
+<th style="text-align: left;">new_state</th>
+<th style="text-align: right;">run_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ANA201104210</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">010 0</td>
+<td style="text-align: right;">0.5871155</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA201104210</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: right;">-0.2164694</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA201104210</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">100 0</td>
+<td style="text-align: right;">0.3639342</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA201104210</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">110 2</td>
+<td style="text-align: left;">110 3</td>
+<td style="text-align: right;">-0.4222569</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA201104210</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">000 2</td>
+<td style="text-align: left;">100 2</td>
+<td style="text-align: right;">0.1207691</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA201104220</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: right;">-0.2164694</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA201104220</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: left;">000 2</td>
+<td style="text-align: right;">-0.1575110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA201104220</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">101 2</td>
+<td style="text-align: left;">101 3</td>
+<td style="text-align: right;">-0.4882597</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ANA201104220</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">010 2</td>
+<td style="text-align: left;">010 3</td>
+<td style="text-align: right;">-0.3091673</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ANA201104230</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">000 0</td>
+<td style="text-align: left;">000 1</td>
+<td style="text-align: right;">-0.2164694</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s a plot of Ortiz’s run values by runner state.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ortiz_df <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bases, <span class="at">y =</span> run_value)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.25</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Baserunners"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Run Value"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Run Values of Big Papi At-Bats in 2011"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lsn_10_hits_stealing_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, let’s look at total runs in different baserunner situations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>runs_ortiz <span class="ot">&lt;-</span> ortiz_df <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(bases) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">runs =</span> <span class="fu">sum</span>(run_value) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">PA =</span> <span class="fu">n</span>())</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>runs_ortiz <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">bases</th>
+<th style="text-align: right;">runs</th>
+<th style="text-align: right;">PA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">000</td>
+<td style="text-align: right;">13.1</td>
+<td style="text-align: right;">301</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">001</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">010</td>
+<td style="text-align: right;">3.4</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">011</td>
+<td style="text-align: right;">-0.9</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">100</td>
+<td style="text-align: right;">14.9</td>
+<td style="text-align: right;">127</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">101</td>
+<td style="text-align: right;">-2.2</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">110</td>
+<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">111</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">18</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Lastly, we can calculate a statistic called <em>RE24</em> which sums runs over the different baserunner combinations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>runs_ortiz <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">RE24 =</span> <span class="fu">sum</span>(runs))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+   RE24
+  &lt;dbl&gt;
+1  35.6</code></pre>
+</div>
+</div>
+<p>How do we interpret RE24?</p>
+<p>Come up with a modification for RE24 that could be used to rank batters according to what they produced given the opportunity they had. How would you do it?</p>
+</section>
+<section id="part-ii---measuring-the-success-of-a-stolen-base-attempt" class="level2">
+<h2 class="anchored" data-anchor-id="part-ii---measuring-the-success-of-a-stolen-base-attempt">Part II - Measuring the Success of a Stolen Base Attempt</h2>
+<p>Your book dedicates roughly three pages to evaluating base stealing. We’re going to discuss it briefly and return to our evaluation of batting performance. Your task: Develop an RE24-inspired measure to rank MLB’s top base stealers.</p>
+<p>Let’s start with the same approach to valuing an individual event.</p>
+<p><span class="math inline">\(\text{RUN VALUE} = \text{RUNS}_\text{new state} -  \text{RUNS}_\text{old state} + \text{RUNS}_\text{scored on play}\)</span></p>
+<p>where <span class="math inline">\(\text{RUNS}_\text{new state}\)</span> and <span class="math inline">\(\text{RUNS}_\text{old state}\)</span> are their respective entries in the run expectancy matrix and <span class="math inline">\(\text{RUNS}_\text{scored on play}\)</span> is the number of runs that scored on the play.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(erm_2011_wide)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">bases</th>
+<th style="text-align: right;">Outs=0</th>
+<th style="text-align: right;">Outs=1</th>
+<th style="text-align: right;">Outs=2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">000</td>
+<td style="text-align: right;">0.4711649</td>
+<td style="text-align: right;">0.2546956</td>
+<td style="text-align: right;">0.0971845</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">001</td>
+<td style="text-align: right;">1.4543568</td>
+<td style="text-align: right;">0.9374359</td>
+<td style="text-align: right;">0.3173913</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">010</td>
+<td style="text-align: right;">1.0582804</td>
+<td style="text-align: right;">0.6501976</td>
+<td style="text-align: right;">0.3091673</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">011</td>
+<td style="text-align: right;">1.9304897</td>
+<td style="text-align: right;">1.3388641</td>
+<td style="text-align: right;">0.5407407</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">100</td>
+<td style="text-align: right;">0.8350992</td>
+<td style="text-align: right;">0.4960492</td>
+<td style="text-align: right;">0.2179536</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">101</td>
+<td style="text-align: right;">1.7526998</td>
+<td style="text-align: right;">1.1496169</td>
+<td style="text-align: right;">0.4882597</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">110</td>
+<td style="text-align: right;">1.4144549</td>
+<td style="text-align: right;">0.8739176</td>
+<td style="text-align: right;">0.4222569</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">111</td>
+<td style="text-align: right;">2.1718266</td>
+<td style="text-align: right;">1.4745146</td>
+<td style="text-align: right;">0.7610094</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s say there is a runner on first base with no outs and you are considering bunting. Historically, a bunt in this situation would result in a runner on second with one out 75% of the time, a runner on first and second with no outs 10% of the time, a runner on first with one out 10% of the time, and runners on second and third with no outs 5% of the time. If you have an average hitter at bat, does bunting or hitting away have the highest expected run value?</p>
+<p>For more on bunting, see our <a href="https://baseballwithr.wordpress.com/2016/04/04/exploring-2015-bunts/#:~:text=This%20shows%20that%20sacrifice%20bunts,on%202nd%20with%20no%20outs.">textbook author’s blog</a>.</p>
+</section>
+<section id="re24" class="level2">
+<h2 class="anchored" data-anchor-id="re24">RE24</h2>
+<p>Earlier, we investigated the run value of David Ortiz’s 2011 plate appearances. We can aggregate these run values for each player to a single statistic called “RE24”.</p>
+<p></p>
+<p>In baseball, there are <a href="https://library.fangraphs.com/context-neutral-or-dependent/">context-dependent and context-independent statistics</a>. </p>
+<p>Calculate the RE24, plate appearances, and total starting run expectancy for each player in 2011.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="ot">&lt;-</span> retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(bat_id) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">re24 =</span> <span class="fu">sum</span>(run_value),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">PA =</span> <span class="fu">length</span>(run_value),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">runs_start =</span> <span class="fu">sum</span>(rv_start)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>re24)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Add names from the People data frame (note it's not playerID, but retroID).</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="ot">&lt;-</span> re24_2011 <span class="sc">|&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(People, retroID, nameLast, nameFirst),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"bat_id"</span> <span class="ot">=</span> <span class="st">"retroID"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">paste</span>(nameFirst, nameLast, <span class="at">sep =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>nameLast, <span class="sc">-</span>nameFirst)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">bat_id</th>
+<th style="text-align: right;">re24</th>
+<th style="text-align: right;">PA</th>
+<th style="text-align: right;">runs_start</th>
+<th style="text-align: left;">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cabrm001</td>
+<td style="text-align: right;">73.9</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;">332.9</td>
+<td style="text-align: left;">Miguel Cabrera</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bautj002</td>
+<td style="text-align: right;">73.6</td>
+<td style="text-align: right;">693</td>
+<td style="text-align: right;">332.8</td>
+<td style="text-align: left;">Jose Bautista</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fielp001</td>
+<td style="text-align: right;">65.6</td>
+<td style="text-align: right;">734</td>
+<td style="text-align: right;">363.6</td>
+<td style="text-align: left;">Prince Fielder</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vottj001</td>
+<td style="text-align: right;">64.5</td>
+<td style="text-align: right;">743</td>
+<td style="text-align: right;">343.3</td>
+<td style="text-align: left;">Joey Votto</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">braur002</td>
+<td style="text-align: right;">61.9</td>
+<td style="text-align: right;">663</td>
+<td style="text-align: right;">316.3</td>
+<td style="text-align: left;">Ryan Braun</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kempm001</td>
+<td style="text-align: right;">60.1</td>
+<td style="text-align: right;">704</td>
+<td style="text-align: right;">349.1</td>
+<td style="text-align: left;">Matt Kemp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ellsj001</td>
+<td style="text-align: right;">58.1</td>
+<td style="text-align: right;">748</td>
+<td style="text-align: right;">347.4</td>
+<td style="text-align: left;">Jacoby Ellsbury</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gonza003</td>
+<td style="text-align: right;">57.3</td>
+<td style="text-align: right;">755</td>
+<td style="text-align: right;">367.3</td>
+<td style="text-align: left;">Adrian Gonzalez</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">berkl001</td>
+<td style="text-align: right;">55.4</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">289.4</td>
+<td style="text-align: left;">Lance Berkman</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">martv001</td>
+<td style="text-align: right;">49.3</td>
+<td style="text-align: right;">606</td>
+<td style="text-align: right;">318.2</td>
+<td style="text-align: left;">Victor Martinez</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">canor001</td>
+<td style="text-align: right;">49.1</td>
+<td style="text-align: right;">695</td>
+<td style="text-align: right;">335.9</td>
+<td style="text-align: left;">Robinson Cano</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">napom001</td>
+<td style="text-align: right;">46.6</td>
+<td style="text-align: right;">444</td>
+<td style="text-align: right;">215.0</td>
+<td style="text-align: left;">Mike Napoli</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">granc001</td>
+<td style="text-align: right;">44.1</td>
+<td style="text-align: right;">727</td>
+<td style="text-align: right;">362.9</td>
+<td style="text-align: left;">Curtis Granderson</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">teixm001</td>
+<td style="text-align: right;">41.2</td>
+<td style="text-align: right;">718</td>
+<td style="text-align: right;">347.9</td>
+<td style="text-align: left;">Mark Teixeira</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gorda001</td>
+<td style="text-align: right;">41.1</td>
+<td style="text-align: right;">727</td>
+<td style="text-align: right;">344.3</td>
+<td style="text-align: left;">Alex Gordon</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<p>First, let’s see if the average is about zero.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_RE24 =</span> <span class="fu">mean</span>(re24))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_RE24
+      &lt;dbl&gt;
+1     0.411</code></pre>
+</div>
+</div>
+<p>Now, let’s plot RE24 for each player versus starting runs.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data frame of points to label.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> re24_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PA <span class="sc">&gt;=</span> <span class="dv">502</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(re24 <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">|</span> re24 <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PA <span class="sc">&gt;=</span> <span class="dv">502</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> runs_start, <span class="at">y =</span> re24)) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data =</span> labels, <span class="fu">aes</span>(<span class="at">x =</span> runs_start, </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">y =</span> re24,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">label =</span> name)) <span class="sc">+</span> </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Player RE24 vs. Opportunity"</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Cumulative Starting Run Value for All At-Bats"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"RE24"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lsn_10_hits_stealing_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>RE24 versus starting runs for all players with at least 502 plate appearances (2011)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Briefly summarize what you would conclude from this chart.</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="value-of-hits" class="level2">
+<h2 class="anchored" data-anchor-id="value-of-hits">Value of Hits</h2>
+<p> - Traditionally, baseball analysts and fans used batting average to assess players.</p>
+<p><span class="math display">\[AVG = \frac{H}{AB}\]</span></p>
+<p>where <span class="math inline">\(H\)</span> is the number of hits and <span class="math inline">\(AB\)</span> is the number of at bats.</p>
+<p> - Alternatively, slugging percentage weights the different types of hits by the number of bases the hitter gets.</p>
+<p><span class="math display">\[SLG = \frac{X_{1B} + 2\times X_{2B} + 3 \times X_{3B} + 4 \times HR}{AB}\]</span> </p>
+<p></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Event Code (variable: EVENT_CD)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Single: 20</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Double: 21</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Triple: 22</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Home Run: 23</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a look-up table to add event names (single, etc) to the data set.</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>codes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">event_cd =</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">23</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hit_type =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"double"</span>, <span class="st">"triple"</span>, <span class="st">"home run"</span>),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"double"</span>, <span class="st">"triple"</span>, <span class="st">"home run"</span>)))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>codes <span class="sc">|&gt;</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Event codes for each hit type."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Event codes for each hit type.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">event_cd</th>
+<th style="text-align: left;">hit_type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">single</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">double</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">triple</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">home run</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean hit values.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mean_hit_values <span class="ot">&lt;-</span> retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(event_cd <span class="sc">%in%</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">23</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(codes) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hit_type) <span class="sc">|&gt;</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(run_value))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>mean_hit_values <span class="sc">|&gt;</span> </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">caption =</span> <span class="st">"Mean run value for each hit type (2011)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Mean run value for each hit type (2011).</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">hit_type</th>
+<th style="text-align: right;">mean_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">single</td>
+<td style="text-align: right;">0.44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">double</td>
+<td style="text-align: right;">0.74</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">triple</td>
+<td style="text-align: right;">1.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">home run</td>
+<td style="text-align: right;">1.39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-fig.caption="Histogram of run values by hit type (2011).  The red line depicts average run value for each hit type.">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot run values.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>retro2011 <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(event_cd <span class="sc">%in%</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">23</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(codes) <span class="sc">|&gt;</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> run_value)) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">data =</span> mean_hit_values, <span class="fu">aes</span>(<span class="at">xintercept =</span> mean_value), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> hit_type, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Run Values of Various Hit Types"</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Run Value"</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lsn_10_hits_stealing_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p>
+<p>Let’s see if we can find players whose slugging percentage is a good predictor of RE24.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add slugging percentage to the RE24 data frame.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2011</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">H =</span> <span class="fu">sum</span>(H),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">X2B =</span> <span class="fu">sum</span>(X2B),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">X3B =</span> <span class="fu">sum</span>(X3B),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">HR =</span> <span class="fu">sum</span>(HR),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">AB =</span> <span class="fu">sum</span>(AB)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">X1B =</span> H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">SLG =</span> (X1B <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>X2B <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>X3B <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>HR)<span class="sc">/</span>AB) <span class="sc">|&gt;</span> </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(People, playerID, retroID)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(re24_2011, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"retroID"</span> <span class="ot">=</span> <span class="st">"bat_id"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="page-break-after: always;"></div>
+<p>(Random aside: As an alternative to a figure title, consider labeling the figure in a caption. Professional publications often prefer a caption that provides a title and description for a well-labeled figure.)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AB <span class="sc">&gt;</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> SLG, <span class="at">y =</span> re24)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Slugging Percentage"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"RE24"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lsn_10_hits_stealing_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>RE24 versus slugging percentage</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>re24_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AB <span class="sc">&gt;</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>SLG) <span class="sc">|&gt;</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, H, AB, PA, X1B, X2B, X3B, HR, SLG, re24, runs_start) <span class="sc">|&gt;</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">H</th>
+<th style="text-align: right;">AB</th>
+<th style="text-align: right;">PA</th>
+<th style="text-align: right;">X1B</th>
+<th style="text-align: right;">X2B</th>
+<th style="text-align: right;">X3B</th>
+<th style="text-align: right;">HR</th>
+<th style="text-align: right;">SLG</th>
+<th style="text-align: right;">re24</th>
+<th style="text-align: right;">runs_start</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Jose Bautista</td>
+<td style="text-align: right;">155</td>
+<td style="text-align: right;">513</td>
+<td style="text-align: right;">693</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">0.6081871</td>
+<td style="text-align: right;">73.61702</td>
+<td style="text-align: right;">332.8156</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ryan Braun</td>
+<td style="text-align: right;">187</td>
+<td style="text-align: right;">563</td>
+<td style="text-align: right;">663</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.5968028</td>
+<td style="text-align: right;">61.94758</td>
+<td style="text-align: right;">316.2900</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matt Kemp</td>
+<td style="text-align: right;">195</td>
+<td style="text-align: right;">602</td>
+<td style="text-align: right;">704</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">0.5863787</td>
+<td style="text-align: right;">60.14660</td>
+<td style="text-align: right;">349.1314</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Miguel Cabrera</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">572</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.5856643</td>
+<td style="text-align: right;">73.90067</td>
+<td style="text-align: right;">332.8927</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Prince Fielder</td>
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">569</td>
+<td style="text-align: right;">734</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0.5659051</td>
+<td style="text-align: right;">65.60064</td>
+<td style="text-align: right;">363.6424</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Adrian Beltre</td>
+<td style="text-align: right;">144</td>
+<td style="text-align: right;">487</td>
+<td style="text-align: right;">543</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0.5605749</td>
+<td style="text-align: right;">32.08008</td>
+<td style="text-align: right;">265.6730</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">David Ortiz</td>
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">525</td>
+<td style="text-align: right;">627</td>
+<td style="text-align: right;">92</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">0.5542857</td>
+<td style="text-align: right;">38.99476</td>
+<td style="text-align: right;">326.2239</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Curtis Granderson</td>
+<td style="text-align: right;">153</td>
+<td style="text-align: right;">583</td>
+<td style="text-align: right;">727</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">0.5523156</td>
+<td style="text-align: right;">44.05812</td>
+<td style="text-align: right;">362.8833</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pablo Sandoval</td>
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">476</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0.5516432</td>
+<td style="text-align: right;">22.49106</td>
+<td style="text-align: right;">217.8158</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jacoby Ellsbury</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">660</td>
+<td style="text-align: right;">748</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0.5515152</td>
+<td style="text-align: right;">58.05313</td>
+<td style="text-align: right;">347.4389</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

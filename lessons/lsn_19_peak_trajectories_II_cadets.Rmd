@@ -1,0 +1,53 @@
+---
+title: "MA388 Sabermetrics: Lesson 18"
+subtitle: "Comparing Peak Trajectories - Part II"
+author: "Your Name Here"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+## Comparing Trajectories of Home Run Hitters
+
+1. Find the ten players in baseball history who have hit the most career home runs.
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+```
+
+```{r}
+# ***Your code here.***
+
+```
+
+2. Fit quadratic functions to the home run rates of the ten players, where HR.RATE = HR / AB.  Display the fitted trajectories in a single figure.
+
+```{r}
+# ***Your code here.***
+
+```
+
+3. On the basis of your work, which player had the highest estimated home run rate at his peak?  Which player among the ten had the smallest peak home run rate?
+
+```{r}
+# ***Your code here.***
+
+```
+
+*Your answer here.*
+
+4. Do any of the players have unusual career trajectory shapes?  Is there any possible explanation for these unusual shapes?
+
+*Your answer here.*
+
+

@@ -1,0 +1,46 @@
+---
+title: "Demo Quarto Baseball"
+author: "LTC Pleuss"
+format: revealjs
+editor: visual
+params:
+  year_of_interest: 2000
+---
+
+# Introduction
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+## Top Homerun Hitters `r params$year_of_interest`
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+library(kableExtra)
+
+Batting |> 
+  filter(yearID==params$year_of_interest) |> 
+  arrange(-HR) |> 
+  head(5) |> 
+  select(playerID,HR) |> 
+  kable()
+```
+

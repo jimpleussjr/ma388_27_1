@@ -1,0 +1,274 @@
+---
+title: "MA388 Sabermetrics: Lesson 14"
+subtitle: "Intro to Logistic Regression"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+
+* Where is a pitch with location *plate\_x* = -1 and *plate\_z* = 2.5?
+
+\vspace{.5in}
+
+## Measures of Association for Binary Responses
+
+The goal of our analysis is to assess the effect of the catcher on a called strike.  For today's example, let's compare Yadier Molina and Buster Posey.
+
+![Yadier Molina](molina.jpg){width=45%} \hspace{.5in} ![Buster Posey](posey.jpg){width=45%}
+
+1. Name the response variable.  Classify it as categorical or quantitative.
+
+\vspace{0.5in}
+
+2. Name the explanatory variable. Classify it as categorical or quantitative.
+
+\vspace{0.5in}
+
+\newpage
+
+Here is summary data from May 2019 for Molina and Posey.
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(broom)
+
+# Retrieve pitch level data from May 2019. (See previous lesson.)
+pitches <- readRDS("statcast_may_2019.rds")
+
+# Add catcher's name to the pitch data from the MLB master list.
+mlbIDs <- baseballr::chadwick_player_lu() |> 
+  mutate(
+    mlb_name = paste(name_first, name_last),
+    mlb_id = key_mlbam
+  )
+
+
+pitches <- pitches |> 
+  left_join(select(mlbIDs, mlb_name, mlb_id),
+            by = c("fielder_2" = "mlb_id")) |> 
+  rename(catcher_name = mlb_name)
+
+# Look only at pitches taken when Molina or Posey are catching.
+pitches_taken_subset <- pitches |> 
+  filter(catcher_name %in% c("Buster Posey", "Yadier Molina"),
+         description %in% c("ball", "called_strike"))
+
+# Form a 2x2 table.
+pitches_taken_subset |> 
+  count(catcher_name, description) |> 
+  pivot_wider(id_cols = description, 
+              names_from = catcher_name,
+              values_from = n) |> 
+  kable(caption = "Results of taken pitches (May 2019)")
+```
+
+3. Calculate the proportion of called strikes for each catcher.
+
+```{r, include = FALSE}
+posey_prop <-	364 / (364 + 775)
+molina_prop <- 533 / (533 + 1007)
+```
+
+\vspace{0.25in}
+
+4. Calculate the odds of a called strike for each catcher.
+
+```{r, include = FALSE}
+posey_odds <- posey_prop / (1 - posey_prop)
+molina_odds <- molina_prop / (1 - molina_prop)
+```
+
+\vspace{0.25in}
+
+5. Calculate the log odds of a called strike for each catcher.
+
+```{r, include = FALSE}
+posey_log_odds <- log(posey_odds)
+molina_log_odds <- log(molina_odds)
+```
+
+\vspace{0.25in}
+
+6. Calculate the odds ratio for a called strike comparing Yadier Molina to Buster Posey.
+
+```{r, include = FALSE}
+OR <- molina_odds / posey_odds
+# Note this is the same as:
+exp(molina_log_odds - posey_log_odds)
+```
+
+\vspace{0.25in}
+
+7. What are the limitations of this analysis in assessing the effect of catcher on called strikes?  What are we failing to consider, and how might a model-based approach improve our analysis?
+
+\vspace{1in}
+
+## Logistic Regression
+
+Consider the results in Table 1 again.  We can apply the following logistic regression model to our data.  Let $Y_i$ be a random variable for whether pitch $i$ was a called strike such that $Y_i \sim \text{Bernoulli}(\pi_i)$ and
+
+$$\log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 \text{Molina}_i$$
+where $\text{Molina}_i = 1$ if Yadier Molina was the catcher and $\text{Molina}_i = 0$ if Buster Posey was the catcher.
+
+Discuss each component of the model above.
+
+* $Y_i \sim \text{Bernoulli}(\pi_i)$
+
+\vspace{1in}
+
+* $\log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 \text{Molina}_i$
+
+\vspace{1in}
+
+* Interpret $\beta_0$.
+
+\vspace{0.5in}
+
+* Interpret $\beta_1$.
+
+\vspace{0.5in}
+
+
+### Why Log Odds?
+
+$z=\beta_0 + \beta_1 \text{Molina}_i$ Maps the output to a continuous value from $[-\infty,\infty]$. What would a coefficient even mean here?
+
+We can use the sigmoid function, $\sigma(z)=p=\frac{1}{1+e^{-z}}$ to map any continuous value to a number between $[0,1]$ (i.e. a probability). 
+
+```{r, echo=FALSE}
+tibble(x=seq(-8,8,by=.1),y=1/(1+exp(-x))) |> 
+  ggplot(aes(x=x,y=y)) +
+           geom_line()+
+  theme_classic()
+```
+
+Ok, but now we have an even more complicated function with $z$ buried in the denominator. Let's get $z$ by itself.
+
+$$\frac{1}{p}=1+e^{-z}$$
+$$\frac{1}{p}-1=e^{-z}$$
+$$\frac{1-p}{p}=e^{-z}$$
+Take the recipricals of both sides and we get:
+$$\text{odds}(p)=\frac{p}{1-p}=e^{z}$$
+How do we get $z$ by itself?
+$$\text{log}(\frac{p}{1-p})=\text{log}(e^{z})=z$$
+So, in logistic regression, the linear predictor is
+
+$$
+z = \beta_0 + \beta_1 x.
+$$
+
+On the probability scale, the model is
+
+$$
+p(x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}.
+$$
+
+On the log-odds (logit) scale, the model is
+
+$$
+\log\!\left( \frac{p(x)}{1 - p(x)} \right)
+  = \beta_0 + \beta_1 x.
+$$
+
+Let's fit the model above.
+
+```{r}
+catcher_model <- 
+  pitches_taken_subset |> 
+  glm(description == "called_strike" ~ catcher_name, 
+      data = _,
+      family = "binomial") 
+
+catcher_model |> 
+  tidy() |> 
+  kable()
+```
+
+Based on this model, is there evidence Molina has more called strikes in the long term?
+
+\vspace{2in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+
+Based on this model, is there evidence Molina caused the increase in called strikes (for example, by framing pitches)?
+
+\vspace{2in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Name other variables to control for to provide stronger evidence Molina caused the increase.
+
+\vspace{2in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Explain why count might be a confounder of the relationship between catcher and called strikes.
+
+\vspace{2in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Let's investigate how strong these relationships are:
+
+```{r}
+pitches_taken_subset <- pitches_taken_subset |> 
+  mutate(count = paste(balls,strikes, sep = "-"))
+
+pitches_taken_subset |> 
+  count(catcher_name, count) |> 
+  group_by(catcher_name) |> 
+  mutate(prop = n/sum(n)) |> 
+  pivot_wider(id_cols = count, names_from = catcher_name, values_from = prop) |> 
+  kable(digits = 3)
+
+pitches_taken_subset |> 
+  count(description, count) |> 
+  group_by(count) |> 
+  mutate(prop = n/sum(n)) |> 
+  pivot_wider(id_cols = description, names_from = count, values_from = prop) |> 
+  kable(digits = 3)
+```
+
+Next, let's adjust for count in our model for called strikes.  Here is the updated model.
+
+$$\log\left(\frac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 \text{Molina}_i + \beta_2\text{count0-1}_i + \ldots + \beta_{12}\text{count3-2}_i$$
+
+where $\text{countX-Y}$ is an indicator of whether the pitch had X balls and Y strikes.
+
+```{r}
+pitches_taken_subset |> 
+  glm(description == "called_strike" ~ catcher_name + count, 
+      data = _,
+      family = "binomial") |> 
+  tidy() |> 
+  kable()
+```
+
+Based on this count-adjusted model, is there evidence Molina has more called strikes in the long term?
+
+\vspace{2in}

@@ -1,0 +1,211 @@
+---
+title: "MA388 Sabermetrics: Lesson 32"
+subtitle: "Runs Created School"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include= FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FALSE)
+```
+
+# Runs Created Formulas
+
+We encounter three main formulas in *Understanding Sabermetrics* that attempt to quantify a player's offensive production in a season.  Each formula gets successively more complicated and is the result of the trend of having more and more offensive statistics available throughout baseball history.
+
+### Basic Runs Created
+
+$$RC = \frac{(H+BB)\times TB}{AB+BB}$$
+
+### Stolen Base Version of Runs Created
+
+$$RC_{SB} = \frac{(H+BB-CS)\times (TB+(0.55\times SB))}{AB+BB}$$
+
+### "Technical" Version of Runs Created
+
+$$RC_{TECH} = \frac{(H+BB-CS + HBP - GIDP)\times (TB+(0.26\times (BB-IBB+HBP)) + 0.52 \times(SH+SF+SB)))}{AB+BB+HBP+SH+SF}$$
+
+### Foundation
+
+All these formulas take on the general formula:
+
+$$ RC_X = \frac{A\times B}{C} $$
+
+*What do A, B, and C communicate to the equation?*
+
+Do we have access to all of these statistics?  Yes and no -- it depends on the year and whether they were recorded at that time in history yet or not.  We do see that Lahman has placeholders for all of them when they are available.
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+
+Batting |> names()
+```
+
+Our goal today is to once again rank offensive production to answer timeless questions like, "Who is the best better in history?"  "Which team had the greatest lineup in history?"  To get started, we'll compute the *runs created* estimates for each player for each season using all three formulas.  
+
+```{r}
+RC_df <- Batting |> 
+  filter(yearID > 1910) |> 
+  mutate(TB = H + X2B + 2 * X3B + 3 * HR,
+         # Basic Runs Created
+         RC = (H + BB) * TB / (AB + BB),
+         # Runs Created with Stolen Bases
+         RC_SB = (H + BB - CS) * (TB + (0.55 * SB)) / (AB + BB),
+         # Technical Runs Created
+         RC_TECH = (H + BB - CS + HBP - GIDP) * 
+           (TB + (0.26 * (BB - IBB + HBP)) + 0.52 * (SH + SF + SB)) / 
+           (AB + BB + HBP + SH + SF))
+```
+
+Let's see how many player-seasons yield valid *runs created* estimates using each formula:
+
+```{r}
+RC_df |> 
+  summarize(RC_valid = sum(!is.na(RC)),
+            RC_SB_valid = sum(!is.na(RC_SB)),
+            RC_TECH_valid = sum(!is.na(RC_TECH))) |> 
+  kable()
+```
+
+
+
+As expected, we have better coverage for the older formulas since some statistics required for the newer formulas have not always been recorded.  How good are these formulas?  What should the sum of all players' *runs created* be?  Let's look at the 2001 season.
+
+How many runs were scored in the American League?  The National League?
+
+```{r}
+Batting |> 
+  filter(yearID == 2001) |> 
+  group_by(lgID) |> 
+  summarize(totalRuns = sum(R)) |> 
+  kable()
+```
+
+How many runs were created by all the players in the American League?  The National League?  Are the *runs created* estimates close to the actual totals?
+
+```{r}
+RC_df |> 
+  filter(yearID == 2001) |> 
+  group_by(lgID) |> 
+  summarize(totalRC = sum(RC, na.rm = TRUE),
+            totalRC_SB = sum(RC_SB, na.rm = TRUE),
+            totalRC_TECH = sum(RC_TECH, na.rm = TRUE)) |> 
+  kable()
+```
+
+Not bad.  Let's answer our first question.
+
+### Question 1: Who is the best batter in history?  
+
+You'll need to decide a few things: 
+
+- Which formula do you want to use, and which seasons/players does that allow you to consider?
+
+- Are there any eligibility criteria for a player's season to qualify?
+
+- Do you want to look at single-season performance, career performance, or something else?
+
+```{r}
+# Make the case for your "best batter" claim.
+
+
+```
+
+Before we go any further, we need to address an obvious issue with *runs created* estimates: production necessarily requires opportunity, and opportunity is not distributed equally.  As we've learned in the course, a batter really has two objectives:
+
+- Do things that lead to runs.
+
+- Don't do things that lead to outs.
+
+We've looked at runs created, but we need to balance that with how many outs a batter has created.  The formula for outs created is as follows:
+
+$$\text{Outs} = AB - H + SH + SF + GIDP$$
+
+We see in *Understanding Sabermetrics* a way to balance how many runs a player creates against how many outs they cause.  If we imagine a nine-man lineup with just one player, that player has the opportunity to produce runs until reaching 27 outs (three per inning in a nine-inning game).  Now consider the average number of runs a player produces over some number of games they've played (total games equals total outs caused divided by 27). 
+
+```{r}
+RC_df <- RC_df |>
+  # Let's consider only players who had some minimum number of at-bats.
+  filter(AB > 100) |> 
+  replace_na(list(SH=0,SF=0,GIDP=0)) |> 
+  mutate(OUTS = AB - H + SH + SF + GIDP,
+         SINGLE_GAMES = OUTS / 27,
+         RC_rate = RC / SINGLE_GAMES,
+         RC_SB_rate = RC_SB / SINGLE_GAMES,
+         RC_TECH_rate = RC_TECH / SINGLE_GAMES,
+         .by=c('playerID','yearID')) 
+```
+
+### Question 1 (again): Who is the best batter in history?  
+
+Consider now placing a lineup of just one batter against an average opponent.  We know the average runs per game created by each player, and we'll compare this number to the league average runs created per game.
+
+```{r}
+year_lg_runs_per_game <- Teams |> 
+  filter(yearID > 1910) |> 
+  summarize(lg_avg_runs_per_game = sum(R) / sum(G),
+            .by=c('lgID','yearID'))
+
+RC_df <- RC_df |> 
+  left_join(year_lg_runs_per_game, by = c("yearID", "lgID"))
+```
+
+Now we can use the Pythagorean Formula to estimate a win percentage for each player.
+
+```{r}
+RC_df <- RC_df |> 
+  mutate(RC_win_pct = RC_rate^2 / (RC_rate^2 + lg_avg_runs_per_game^2),
+         RC_SB_win_pct = RC_SB_rate^2 / (RC_SB_rate^2 + lg_avg_runs_per_game^2),
+         RC_TECH_win_pct = RC_TECH_rate^2 / (RC_TECH_rate^2 + lg_avg_runs_per_game^2))
+```
+
+Again, you'll need to decide a few things: 
+
+- Which formula do you want to use, and which seasons/players does that allow you to consider?
+
+- Are there any eligibility criteria for a player's season to qualify?
+
+- Do you want to look at single-season performance, career performance, or something else?
+
+```{r}
+# Make the case for your "best batter" claim.
+RC_df |> 
+  filter(AB > 250) |> 
+  arrange(-RC_rate) |> 
+  head(5) |> 
+  select(playerID, yearID, RC,RC_SB,RC_TECH,RC_rate) |> 
+  kable()
+```
+
+\newpage
+
+### Question 2: Which team had the greatest lineup?
+
+Which team had the best combination of nine batters on its roster in the same year?
+
+```{r}
+# Make the case for your "best lineup" claim.
+RC_df |> 
+  group_by(teamID, yearID) |> 
+  arrange(-RC_win_pct) |> 
+  slice_head(n=9) |> 
+  mutate(AVG = mean(RC_win_pct)) |> 
+  ungroup() |> 
+  arrange(-AVG) |> 
+  head(9) |> 
+  left_join(select(People, playerID, nameFirst, nameLast), by = "playerID") |> 
+  select(nameFirst, nameLast, yearID, teamID, lgID,RC_win_pct,AVG) |> 
+  kable()
+```
+
+If you found what I found, here is some [historical perspective](https://bleacherreport.com/articles/2061317-how-the-2014-colorado-rockies-offense-has-become-mlbs-best).

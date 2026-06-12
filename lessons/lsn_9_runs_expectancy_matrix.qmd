@@ -1,0 +1,299 @@
+---
+title: "MA388 Sabermetrics: Lesson 9"
+subtitle: "Value of Plays - Run Expectancy Matrix"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+library(ggrepel)
+library(broom)
+```
+
+## Review
+
+Last lesson, we discussed the following three models:
+
+\begin{align}
+Wpct &= \beta_0 + \beta_1 RD + \epsilon \\
+Wpct &= \frac{R^2}{R^2 + RA^2} + \epsilon \\
+Wpct &= \frac{R^k}{R^k + RA^k} + \epsilon
+\end{align}
+
+-   Determine the value of $k$ in the third model for the 2018 season.
+
+-   Calculate the predicted wins for each team in 2018 and plot the residuals vs. the predicted values.
+
+```{r, echo = FALSE, fig.height = 2.5, fig.cap = "Pythagorean predictions (2018)"}
+teams2018 <- Teams |> 
+  filter(yearID == 2018) |> 
+  mutate(Wpct = W/(W+L),
+         logWL = log(W/L),
+         logRRA = log(R/RA))
+
+k <- teams2018 |> 
+  lm(logWL ~ 0 + logRRA, data = _) |> 
+  tidy() |> 
+  pull(estimate)
+
+teams2018 <- teams2018 |> 
+  mutate(.fitted = R^k/(R^k + RA^k),
+         .resid = Wpct - .fitted)
+
+teams2018 |> 
+  ggplot(aes(x = .fitted, y = .resid, label = teamID)) +
+  geom_point() +
+  geom_text_repel() +
+  labs(x = "Predicted Win Percentage",
+       y = "Residuals")
+```
+
+\newpage
+
+## Value of Plays
+
+Using the 10-runs-per-win rule of thumb (or more precise estimates using the other models), we now have a nice way of converting runs to wins. This leads to our next obvious question -- how do we score runs? Simply put, players make plays, and sometimes those plays lead to runs. It's time to assess how many runs players and plays are worth.
+
+### Run Expectancy Matrix
+
+\* The first step is to calculate the *run expectancy matrix*. The run expectancy matrix tells us the average number of runs scored in the remainder of an inning for each state (runner/out combination) of an inning.
+
+The state of the game consists of four digits. The first three digits indicate the location of runners on base. The last digit indicates the number of outs.
+
+Examples:
+
+-   "000 0" - no runners on base; no outs
+
+-   "111 2" - bases loaded; two outs
+
+-   "010 1" - runner on second base; one out
+
+![Run Expectancy Matrices (source: <http://tangotiger.net/re24.html>)](run_expectancy.png)
+
+*How do we interpret the values in the matrix?*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+*Do you see any trends over time?*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+We are looking at run expectancy matrices. There is another type of matrix called a [run probability matrix](http://tangotiger.net/re24.html). *Explain how they differ.*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+### Run Expectancy Matrix from Retrosheet Data
+
+Typically, we use Retrosheet play-by-play data to calculate the run expectancy matrix. Below, we will calculate it for 2011 using the code from our textbook.
+
+```{r, cache = TRUE}
+# Import Retrosheet play-by-play data from our textbook site.
+
+site = "https://raw.githubusercontent.com/maxtoki/baseball_R/"
+fields <- read_csv(file = paste(site, "master/data/fields.csv", sep =""))
+retro2011 <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
+                    col_names = pull(fields, Header),
+                    na = character())
+colnames(retro2011) <- tolower(colnames(retro2011))
+```
+
+This data frame contains one line for every play in the 2011 season. There are approximately 200,000 lines in this data set.
+
+```{r}
+retro2011 |> 
+  select(game_id, away_team_id, inn_ct, outs_ct,
+         bat_id, pit_id, event_cd) |> 
+  head(10) |> 
+  kable()
+```
+
+To understand what happened in this game, we'll need to know what all the [event codes](https://www.retrosheet.org/eventfile.htm) are for various baseball outcomes described by the `event_cd` field.
+
+![Event codes](eventcodes.png){width="50%"}
+
+If we further consider the `event_tx` and `pitch_seq_tx` fields, we can more comprehensively reconstruct each at-bat. Let's try to describe what happened in the first inning of this game. We'll need to know the [position numbers](https://baseballtrainingworld.com/what-do-the-numbers-mean-in-a-double-play-with-examples/) to interpret the event text strings.
+
+![Baseball Position Numbers](baseball_position_numbers.png)
+
+\newpage
+
+```{r}
+retro2011 |> 
+  select(inn_ct, outs_ct,
+         bat_id, pit_id, pitch_seq_tx, event_tx) |> 
+  head(10) |> 
+  kable()
+```
+
+\newpage
+
+### Calculate the Run Expectancy Matrix
+
+The textbook provides the code below to generate the run expectancy matrix.
+
+```{r}
+retro2011 <- retro2011 |> 
+  mutate(runs_before = away_score_ct + home_score_ct,
+         half_inning = paste(game_id, inn_ct, bat_home_id),
+         runs_scored = 
+           (bat_dest_id > 3) + (run1_dest_id > 3) + 
+           (run2_dest_id > 3) + (run3_dest_id > 3))
+
+half_innings <- retro2011 |>
+  group_by(half_inning) |>
+  summarize(outs_inning = sum(event_outs_ct),
+            runs_inning = sum(runs_scored),
+            runs_start = first(runs_before),
+            max_runs = runs_inning + runs_start)
+
+retro2011 <- retro2011 |>
+  inner_join(half_innings, by = "half_inning") |>
+  mutate(runs_roi = max_runs - runs_before)
+
+retro2011 <- retro2011 |>
+  mutate(bases = 
+           paste(ifelse(base1_run_id > '',1,0),
+                 ifelse(base2_run_id > '',1,0),
+                 ifelse(base3_run_id > '',1,0), sep = ""),
+         state = paste(bases, outs_ct))
+
+retro2011 <- retro2011 |>
+  mutate(is_runner1 =
+           as.numeric(run1_dest_id==1 | bat_dest_id == 1),
+         is_runner2 = 
+           as.numeric(run1_dest_id == 2 | run2_dest_id == 2 |
+                        bat_dest_id == 2),
+         is_runner3 = 
+           as.numeric(run1_dest_id == 3 | run2_dest_id == 3 |
+                        run3_dest_id == 3 | bat_dest_id == 3),
+         new_outs = outs_ct + event_outs_ct,
+         new_bases = paste(is_runner1,is_runner2, is_runner3, sep = ""),
+         new_state = paste(new_bases, new_outs))
+```
+
+\newpage
+
+```{r}
+retro2011 <- retro2011 |>
+  filter((state != new_state) | (runs_scored > 0))
+
+retro2011_complete <- retro2011 |>
+  filter(outs_inning == 3)
+
+erm_2011 <- retro2011_complete |>
+  group_by(bases, outs_ct) |> # same as grouping by state
+  summarize(mean_run_value = mean(runs_roi))
+
+erm_2011_wide <- erm_2011 |> 
+  pivot_wider(
+    names_from = outs_ct, 
+    values_from = mean_run_value, 
+    names_prefix = "Outs="
+  )
+
+write_csv(erm_2011_wide, "erm_2011_wide.csv")
+
+erm_2011_wide |> kable()
+```
+
+Now we use this expected run table to determine the value of every event.
+
+```{r}
+retro2011 <- retro2011 |> 
+  left_join(erm_2011, join_by("bases", "outs_ct")) |> 
+  rename(rv_start = mean_run_value) |> 
+  left_join(
+    erm_2011, 
+    join_by(new_bases == bases, new_outs == outs_ct)
+  ) |> 
+  rename(rv_end = mean_run_value) |> 
+  replace_na(list(rv_end = 0)) |> 
+  mutate(run_value = rv_end - rv_start + runs_scored)
+```
+
+Note the code above also adds some very useful columns to the play-by-play data related to the state and run expectancy at the start and end of each play.
+
+```{r}
+retro2011 |> 
+ select(bat_id, event_cd, state, rv_start,
+        new_state, rv_end, runs_scored, run_value) |>
+  head(10) |> 
+  kable(digits = 3)
+```
+
+```{r}
+library(baseballr) #the appendix does not tell you that you need this. 
+
+retro_data<-retrosheet_data(years=2022)
+retro2022 <- retro_data |>
+pluck("2022") |>
+pluck("events")
+roster2022 <- retro_data |>
+pluck("2022") |>
+pluck("rosters")
+roster2022_clean<-roster2022 |>
+select(player_id,last_name,first_name) |>
+rename(bat_id=player_id) |> 
+  distinct()
+
+stats<-retro2022 |> #I split the code chunk so I don't have to do the slow step every time I run it
+select(bat_id,event_cd,bat_home_id) |> #grab only the columns I want
+filter(event_cd>=20|event_cd==2|event_cd==3) |> #events >= 20 are hits, 2+3 are out/strikeout
+group_by(bat_id,bat_home_id) |>
+mutate(
+hit=if_else(event_cd>=20,1,0), #if play event was hit make it 1 if not 0
+ab=1, #all of these are ABs, making them 1 to sum later
+home_away=if_else(bat_home_id==1,"Home","Away"))
+
+player_stats<-stats |>
+group_by(bat_id,home_away) |>
+summarize(AB=sum(ab),H=sum(hit),AVG=H/AB) |>
+filter(AB>=100) #filter out players with <100 ABs
+
+player_home_v_away<-player_stats |>
+select(bat_id,home_away,AVG) |>
+pivot_wider(id_cols = bat_id,
+names_from = home_away,
+values_from=AVG,
+)
+
+roster2022 |> count(player_id) |> arrange(-n)
+
+player_home_v_away<-player_home_v_away |>
+left_join(roster2022_clean,by="bat_id")
+player_home_v_away |>
+mutate(Difference=abs(Home-Away)) |>
+arrange(Difference) |>
+head(10) |>
+select(last_name,first_name,Difference)
+```

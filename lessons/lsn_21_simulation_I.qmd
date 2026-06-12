@@ -1,0 +1,301 @@
+---
+title: "MA388 Sabermetrics: Lesson 21"
+subtitle: "Simulating Baseball - Part I"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+## Markov Chains
+
+
+Markov chains model the probabilities of moving between different states. I want you to draw a state diagram (think a network diagram with states as circles and lines connecting the states with probabilities) for a baseball half-inning based on the number of outs where probabilities reflect the state transitions after one plate appearance. Assume that every plate appearance has a .7 probability of resulting in an out and .3 probability of not and there is never more than one out for a plate appearance.
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+\vspace{1in}
+
+*What is the probability of having 0 outs after two plate appearances?*
+*What about having two outs?*
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+\vspace{1in}
+
+What is the memoryless property of Markov chains?  Does this allow for "momentum"?
+
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+\vspace{1in}
+
+So this was all very basic, but hopefully a useful intro. What if we wanted to model baseball this way to determine how many at-bats occur in a given baseball half-inning (or entire game)? How might you approach this using Markov Chains and the data we have? How would you change the states?
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+\vspace{1in}
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(baseballr)
+
+# Load the data.
+retro2024 <- 
+retrosheet_data(years_to_acquire = '2024') |> 
+  pluck('2024') |> 
+  pluck('events')
+```
+
+Let's add states, etc., similarly to how we've done it in previous lessons.  One important difference is that we don't care if/where baserunners were left on base when the third out was made.  The third out is, however, an important state for us to capture.
+
+\newpage
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+```{r, cache = TRUE}
+# Add states, etc.  
+retro2024 <- retro2024 |> 
+  mutate(runs_before = away_score_ct + home_score_ct,
+         half_inning = paste(game_id, inn_ct, bat_home_id),
+         runs_scored = 
+           (bat_dest_id > 3) + (run1_dest_id > 3) + 
+           (run2_dest_id > 3) + (run3_dest_id > 3))
+
+half_innings <- retro2024 |>
+  summarize(outs_inning = sum(event_outs_ct),
+            runs_inning = sum(runs_scored),
+            runs_start = first(runs_before),
+            max_runs = runs_inning + runs_start, .by ='half_inning')
+
+retro2024_complete <- retro2024 |>
+  inner_join(half_innings, by = "half_inning") |>
+  mutate(runs_roi = max_runs - runs_before) |>
+  mutate(bases = 
+           paste(ifelse(base1_run_id > '',1,0),
+                 ifelse(base2_run_id > '',1,0),
+                 ifelse(base3_run_id > '',1,0), sep = ""),
+         state = paste(bases, outs_ct)) |>
+  mutate(is_runner1 =
+           as.numeric(run1_dest_id==1 | bat_dest_id == 1),
+         is_runner2 = 
+           as.numeric(run1_dest_id == 2 | run2_dest_id == 2 |
+                        bat_dest_id == 2),
+         is_runner3 = 
+           as.numeric(run1_dest_id == 3 | run2_dest_id == 3 |
+                        run3_dest_id == 3 | bat_dest_id == 3),
+         new_outs = outs_ct + event_outs_ct,
+         new_bases = paste(is_runner1, is_runner2, is_runner3, sep = ""),
+         new_state = paste(new_bases, new_outs)) |>
+  filter((state != new_state) | (runs_scored > 0)) |>
+  filter(outs_inning == 3, bat_event_fl == TRUE) |> 
+  mutate(new_state = str_replace(new_state, "[0-1]{3} 3", "3"))
+```
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Let's look at our resulting data frame:
+
+\newpage
+
+```{r}
+retro2024_complete |> 
+  select(game_id, bat_id, state, new_state) |> 
+  head(10) |> 
+  kable()
+```
+
+We're now ready to compute a matrix of transition probabilities. How many starting states are there? What about ending states? How can we compute these state-to-state probabilities?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+```{r}
+T_matrix <- retro2024_complete  |> 
+  select(state, new_state) |> 
+  table()
+T_matrix
+```
+
+```{r}
+P_matrix <- prop.table(T_matrix, 1)
+dim(P_matrix)
+```
+
+Once you get to three outs, there's nowhere left to go -- you will stay in three outs with probability 1.
+```{r}
+
+P_matrix <- P_matrix |>
+  rbind("3" = c(rep(0, 24), 1))
+# dim(P_matrix)
+P_matrix |> round(3)
+```
+
+\newpage
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+How can we check the validity of this transition matrix?  Pick a state -- what should the sum of all transition probabilities from that state to any other be?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+```{r}
+P_matrix |>
+  apply(MARGIN = 1, FUN = sum)
+```
+
+Let's examine the nobody-on, nobody-out state.  What are the most likely resulting states?
+
+```{r}
+P_matrix |> 
+  as_tibble(rownames = "state")  |> 
+  filter(state == "000 0") |>
+  pivot_longer(
+    cols = -state, 
+    names_to = "new_state", 
+    values_to = "Prob" 
+  ) |> 
+  filter(Prob > 0) |> 
+  kable()
+```
+
+What about with a runner on 2nd base and two outs?
+
+```{r}
+P_matrix |>
+  as_tibble(rownames = "state") |>
+  filter(state == "010 2") |>
+  pivot_longer(
+    cols = -state, 
+    names_to = "new_state", 
+    values_to = "Prob" 
+  ) |>
+  filter(Prob > 0) |> 
+  kable()
+```
+
+So far, so good...  Now we need to actually simulate the Markov Chain.  This involves being in a state and transitioning into possible other states in a probabilistic manner...a large number of times.
+
+The key equation for keeping score is:
+
+$$
+runs = \left(N_{runners}^{(before)} + Outs^{(before)} + 1\right) - \left(N_{runners}^{(after)} + Outs^{(after)}\right)
+$$
+
+```{r}
+# This function essentially "adds" the state: "011 1" becomes 3.
+num_havent_scored <- function(s) {
+  s |>
+    str_split("") |>
+    pluck(1) |>
+    as.numeric() |>
+    sum(na.rm = TRUE)
+}
+
+# "Add" the state (runners + outs) for every state.
+runners_out <- T_matrix |>
+  row.names() |>
+  set_names() |>
+  map_int(num_havent_scored)
+
+# This operation computes the runs equation above for every state-to-state 
+# transition, including the impossible transitions that we can safely ignore.
+R_runs <- outer(
+  runners_out + 1, 
+  runners_out, 
+  FUN = "-"
+) |> 
+  cbind("3" = rep(0, 24))
+```
+
+Before we go any further, what are the key tasks for simulating a half-inning of baseball?
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Here we go - let's simulate!
+
+```{r}
+# This function returns the number of runs scored in a simulated half-inning.
+simulate_half_inning <- function(P, R, start = 1) {
+  s <- start
+  path <- NULL
+  runs <- 0
+  while (s < 25) {
+    s_new <- sample(1:25, size = 1, prob = P[s, ])
+    path <- c(path, s_new)
+    runs <- runs + R[s, s_new]
+    s <- s_new
+  }
+  runs
+}
+```
+
+Let's simulate 10,000 half-innings.
+
+```{r}
+set.seed(388)
+simulated_runs <- 1:10000 |>
+  map_int(~simulate_half_inning(P_matrix, R_runs))
+P_matrix[1,]
+```
+
+What was the observed distribution of half-inning run totals?
+
+```{r}
+table(simulated_runs)
+```
+
+How often do teams score at least five runs in an inning?
+
+```{r}
+sum(simulated_runs >= 5) / 10000
+```
+
+What is the average number of runs scored per half-inning?
+
+```{r}
+mean(simulated_runs)
+```
+
+What have we left out?  Name some non-batting plays that have the potential to change the state and potentially score runs.
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::

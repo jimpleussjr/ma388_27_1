@@ -1,0 +1,241 @@
+---
+title: "MA388 Sabermetrics: Lesson 32"
+subtitle: "Linear Weights"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include= FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FALSE)
+```
+
+## Review
+
+**What characteristics of a hitter does OPS quantify?**
+
+\vspace{1.in}
+
+**Why might one use OPS+ or adjusted OPS+ instead of OPS?**
+
+\vspace{1.in}
+
+**What are some limitations of these statistics?**
+
+\vspace{1.in}
+
+## Linear Weights
+
+**Recall we talked about the relationship between Runs and Wins in Chapter 4 of the Albert text. What was the rule of thumb we used?**
+
+\vspace{1.in}
+
+(*Understanding Sabermetrics* page 136) Ideally, we want a statistic for batters that:
+
+- quantifies their contribution to runs scored.
+- is not based upon the situations the batters faced when they came to the plate (since their batting actions did not create those situations).
+
+**How about RBIs? A batter is awarded Runs Batted In (RBIs) for most situations when his plate appearance results in runs scored. Why are RBIs not a good measure of a player’s contribution to runs scored?**
+
+\vspace{1.in}
+
+Various researchers have proposed linear models to quantify a player’s contribution to runs scored. These models give weights to various individual statistics. For the purposes of today’s lesson, let’s investigate the condensed model proposed by Thorn and Palmer (*Understanding Sabermetrics*, page 143). I’ll refer to this model as the Linear Weights Model:
+
+$$BattingRuns = w_11B + w_22B + w_33B + w_4HR + w_5(BB + HBP) - w_6(AB - H)$$
+
+How can we get weights for the Linear Weights Model?
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: .5 in;"></div>
+:::
+
+$$RV = EXP_{New} - EXP_{Old} + RunsScored$$
+
+How do we interpret BattingRuns?
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: .5 in;"></div>
+:::
+
+Let’s see what this looks like for the 2011 season.
+
+<!-- \newpage -->
+
+```{r}
+library(Lahman)
+library(tidyverse)
+library(plotly)
+library(knitr)
+
+# Calculate weights from run values using Retrosheet play-by-play data.
+# We're getting this file from GitHub in the linear_weights() function, 
+# but you can adapt it to a Retrosheet file you have locally if desired.
+
+source("linear_weights.R")
+weights <- linear_weights(2011) |> pluck("weights")
+weights |> kable(digits = 3)
+```
+
+How do these weights compare to those in slugging percentage (SLG)?
+
+<!-- \newpage -->
+
+```{r}
+# Filter for 2011 Players with at least 500 at-bats.
+vars = c("AB", "H", "X2B", "X3B", "HR", "BB", "HBP", "SF", "RBI")
+Batting |> 
+  filter(yearID == 2011) |>
+  group_by(playerID,teamID) |>
+  summarise_at(vars, sum) |>
+  ungroup() |> 
+  filter(AB >= 500) |>
+  left_join(People |> select(nameLast, nameFirst, playerID) )|>
+  mutate(name = paste(nameFirst, nameLast, sep = " "))|>
+  select(name, everything(), -nameLast, -nameFirst) |>
+  mutate(X1B = H - X2B - X3B -HR,
+         SLG = (X1B + 2*X2B + 3*X3B + 4*HR) / AB,
+         OBP = (H + HBP + BB) / (AB + HBP + SF + BB),
+         OPS = SLG + OBP,
+         AVG = H / AB) -> batting_2011
+
+# Calculates Batting Runs using Thorn and Palmer's condensed Linear Weights model.
+# Note: Statistics and weights have to be in the same order.
+batting_runs_fn <- function(statistics, weights){
+  runs <- round(sum(statistics * weights), 1)
+  return(runs)
+}
+
+batting_2011 |>
+  group_by(playerID) |>
+  mutate(batting_runs = batting_runs_fn(statistics = c(X1B, X2B, X3B, 
+                                                       BB + HBP, HR, AB - H),
+                                     weights = weights |> pull(weight))) |>
+  ungroup() |> 
+  arrange(-batting_runs) -> batting_2011
+
+
+batting_2011 |>
+  select(name, AB, H, HR, RBI, AVG, OPS, batting_runs) |>
+  head(10) |>
+  kable(digits = 3,
+        caption = "Top 10 MLB Players (with at least 500 at bats) - Batting Runs 2011")
+```
+
+**How many wins would you attribute to Prince Fielder in the 2011 season?**
+
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: .5 in;"></div>
+:::
+
+```{r}
+batting_2011 |>
+  select(name, AB, H, HR, RBI, AVG, OPS, batting_runs) |>
+  tail(10) |>
+  kable(digits = 3,
+        caption = "Bottom 10 MLB Players (with at least 500 at bats) - Batting Runs 2011")
+```
+
+What happens if you total up all the batting runs in a season?
+
+```{r}
+batting_2011 |> 
+  summarize(tot_batting_runs=sum(batting_runs),.by='teamID') |> 
+  arrange(-tot_batting_runs) |> 
+  left_join(Teams |> filter(yearID==2011) |> select(teamID,actual_wins=W), by = 'teamID') |> 
+  head(10) |> 
+  kable(digits = 3)
+```
+
+Let’s see how BattingRuns compares to traditional statistics.
+
+```{r}
+library(gridExtra)
+title_size = 12
+plot_rbi <- batting_2011 |>
+  ggplot(aes(label = name,
+             x = batting_runs,
+             y = RBI)) +
+  geom_point() +
+  labs(title = "Linear Weights vs. RBI") +
+  theme_classic() +
+  theme(plot.title = element_text(size = title_size))
+
+plot_avg <- batting_2011 |>
+  ggplot(aes(label = name,
+             x = batting_runs,
+             y = AVG)) +
+  geom_point() +
+  labs(title = "Linear Weights vs. Batting Average") +
+  theme_classic() +
+  theme(plot.title = element_text(size = title_size))
+```
+
+
+```{r}
+plot_slg <- batting_2011 |>
+  ggplot(aes(label = name,
+             x = batting_runs,
+             y = SLG)) +
+  geom_point() +
+  labs(title = "Linear Weights vs. Slugging") +
+  theme_classic() +
+  theme(plot.title = element_text(size = title_size))
+
+plot_ops <- batting_2011 |>
+  ggplot(aes(label = name,
+             x = batting_runs,
+             y = OPS)) +
+  geom_point() +
+  labs(title = "Linear Weights vs. OPS") + theme_classic() +
+  theme(plot.title = element_text(size = title_size))
+
+grid.arrange(plot_rbi, plot_avg, plot_slg, plot_ops, ncol = 2)
+```
+
+Let’s say you’re a general manager. Which statistic would you use?
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: .5 in;"></div>
+:::
+
+What other factors would you want to consider?
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: .5 in;"></div>
+:::
+
+<!-- \newpage -->
+
+In terms of BattingRuns, is it more important to hit for power or on base percentage?
+
+```{r}
+batting_2011 |>
+  ungroup() |> # Before adding this, scale() returned NaN for everything.
+  mutate(OBP_scaled = scale(OBP),
+         SLG_scaled = scale(SLG),
+         BR_scaled = scale(batting_runs)) |>
+  ggplot(aes(x = OBP_scaled, y = SLG_scaled, color = BR_scaled)) +
+  geom_point() +
+  scale_color_viridis_b() +
+  geom_abline(slope = 1, intercept = 0)
+```
+

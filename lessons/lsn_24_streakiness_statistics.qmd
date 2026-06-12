@@ -1,0 +1,212 @@
+---
+title: "MA388 Sabermetrics: Lesson 24"
+subtitle: "Streakiness Statistics"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(baseballr)
+```
+
+## Review - DiMaggio's Streak 
+
+Last class we talked about the incredible hitting streak of Joe DiMaggio.  In 1941, Joe DiMaggio of the New York Yankees hit safely (got at least one hit) in 56 straight games. The streak began on May 15th, 1941 when DiMaggio went 1-for-4 against the Chicago White Sox and ended on July 17th when he went 0-for-3 with a walk against the Cleveland Indians.  
+
+## Individual At-Bat Streaks 
+
+We looked at DiMaggio's streak of games with hits, but now we turn our attention to streaks in individual at-bats.  In 2011, Miguel Cabrera led the league with a batting average of 0.344.  Let's take a look at his streaks for the season.  
+
+```{r}
+# Load the data.
+
+retro2011 <- retrosheet_data(years_to_acquire = '2011') |> 
+  pluck('2011') |> 
+  pluck('events')
+```
+
+Filter the data to include only Miguel Cabrera's plate appearances.
+
+```{r}
+library(Lahman)
+cabrera_id <- People |> 
+  filter(nameFirst == "Miguel", nameLast == "Cabrera") |> 
+  select(retroID) |> pull()
+
+cabrera <- retro2011 |> 
+  subset(bat_id == cabrera_id & ab_fl==TRUE)
+```
+
+To look at streaks we need to first identify which at-bats resulted in a hit and which resulted in an out. 
+
+```{r}
+cabrera <- cabrera |> 
+  mutate(H = ifelse(h_fl > 0, 1, 0),
+         DATE = str_sub(game_id, 4, 12),
+         AB = 1,
+         AB_Num = row_number()) |> 
+  arrange(DATE)
+```
+
+We can then use the streaks function we defined last class to calculate the length of hit streaks and out streaks. 
+
+```{r}
+streaks <- function(y){
+  x <- rle(y)
+  class(x) <- "list"
+  return(as_tibble(x))
+}
+
+# First, let's look at hit streaks.
+cab_hits <- cabrera |> 
+  pull(H) |> 
+  streaks() |>
+  filter(values == 1)
+
+cab_hits |> 
+  pull(lengths) 
+```
+
+**What can you learn from looking at Cabrera's hitting streaks over the season?**
+
+\vspace{1in}
+
+```{r, fig.height = 2.5}
+library(zoo)
+moving_average <- function(df, width){
+  N <- nrow(df)
+  df |> 
+    transmute(Game = rollmean(1:N, k = width, fill = NA),
+              Average = rollsum(H, width, fill = NA) / rollsum(AB, width, fill = NA))
+}
+
+# Let's assume ~3 ABs/game, so 30 ABs will give us a ~10-game window.
+moving_average(cabrera, 30) |> 
+  ggplot(aes(Game, Average)) +
+  geom_line() + xlab("AB") +
+  geom_hline(yintercept = mean(cabrera$H)) +
+  geom_rug(data = cabrera |> filter(H==1),
+           aes(AB_Num, .3 * H), sides = "b")
+```
+
+**After looking at the plot, does it change your conclusions from before?**
+
+\vspace{1in}
+
+Now let's look at Cabrera's hitting slumps.  
+
+```{r}
+# Find Cabrera's hitting slumps.
+cab_outs <- cabrera |> 
+  pull(H) |> 
+  streaks() |>
+  filter(values == 0)
+
+cab_outs |> 
+  pull(lengths) 
+```
+
+**What can you learn from looking at Cabrera's hitting slumps over the season?**
+
+\vspace{1in}
+
+How does this compare to the rest of the league?  Since Cabrera had 572 at bats over the season, let's compare him to other players who had over 500 at-bats.
+
+```{r}
+# Filter the data to get all players with over 500 at-bats in the season.
+retro_500 = retro2011 |> 
+  group_by(bat_id) |> 
+  summarise(AB = sum(ab_fl)) |> 
+  filter(AB >= 500) |> 
+  pull(bat_id)
+
+# Create a function to calculate the longest slump for each player.
+longest_ofer <- function(batter){
+  retro2011 |> 
+    filter(bat_id == batter, ab_fl == TRUE) |> 
+    mutate(H = ifelse(h_fl > 0, 1, 0),
+           DATE = substr(game_id, 4, 12)) |> 
+    arrange(DATE) |> 
+    pull(H) |> 
+    streaks() |> 
+    filter(values == 0) |> 
+    summarize(MAX_STREAK = max(lengths))
+}
+
+# Find each player's longest slump.
+retro_500 |> 
+  map_df(longest_ofer) |> 
+  mutate(BAT_ID = retro_500) |> 
+  left_join(People |> select(nameFirst, nameLast, retroID), 
+            by = c("BAT_ID" = "retroID")) |> 
+  arrange(-MAX_STREAK) |> 
+  mutate(Rank = row_number()) |> 
+  knitr::kable()
+```
+
+# A Streakiness Statistic
+
+We can quantify streakiness by looking at the sum of the squares of the gaps between successive hits (called the "streakiness" or "clumpiness" coefficient).
+
+Calculate the streakiness coefficient for Cabrera.
+
+```{r}
+# Streakiness Coefficient 
+cabrera_coeff <- cabrera |> 
+  pull(H) |>
+  streaks() |> 
+  filter(values == 0) |> 
+  summarize(C = sum(lengths ^ 2)) |> 
+  pull()
+
+cabrera_coeff
+```
+
+Now we can simulate what may have happened at random for a player with the same number of hits and outs as Cabrera.
+
+```{r}
+# Create a function to simulate the streakiness coefficient.
+random_mix <- function(y) {
+  y |> 
+    sample() |> 
+    streaks() |> 
+    filter(values == 0) |> 
+    summarize(C = sum(lengths ^ 2)) |> 
+    pull()
+}
+
+# Run the simulation 10000 times.
+cabrera_random <- replicate(10000, random_mix(cabrera$H))
+```
+
+Plot the simulation results.
+
+```{R, fig.height = 3, fig.cap="Histogram of ten thousand values of the clumpiness statistic assuming all arrangements of hits and outs for Cabrera are equally likely. The observed value of the clumpiness statistic for Cabrera is shown using a vertical line."}
+
+ggplot(data.frame(cabrera_random), aes(cabrera_random)) +
+  geom_histogram(aes(y = stat(density)), bins = 20, 
+                 color = "blue", fill = "white") +
+  geom_vline(xintercept = cabrera_coeff, size = 2) +
+  annotate(geom = "text", x = cabrera_coeff * 1.05,
+           y = 0.0010, label = "OBSERVED", size = 5) +
+  theme_minimal() + 
+  labs(x = "Clumpiness Statistic",
+       y = "Density")
+```
+
+**How do we interpret the plot?**
+
+
+
+

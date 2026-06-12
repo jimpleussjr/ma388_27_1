@@ -1,0 +1,254 @@
+---
+title: "MA388 Sabermetrics: Lesson 11"
+subtitle: "Behaviors by Count: Swinging Tendencies"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+```
+
+# Review
+
+Last class, we calculated the mean run values for singles, doubles, triples, and home runs (Table 1).  
+
+```{r}
+mean_run_value <- data.frame(hit_type = c("single", "double", "triple", "home run"),
+                             mean_value = c(0.442418556, 0.735933749,
+                                            1.064453731, 1.392392642))
+
+mean_run_value |> 
+  kable(digits = 2, caption = "Mean Run Values (2011 season)")
+```
+
+*How might you use these average run values to calculate the overall value of different players?*
+
+\vspace{1in}
+
+*How might your proposed method of evaluating players improve upon slugging percentage (SLG) and batting average (AVG)?*
+
+\vspace{1in}
+
+## Chapter 6
+
+In Chapter 5, we used run values to evaluate players (RE24) and plays (sacrifice bunting).  In this chapter, we'll use run values to evaluate other aspects of the game.  Along the way, you'll gain some experience working with strings.  For example, we might want to investigate the effect of ball-strike count on expected runs.  
+
+*Why does ball-strike count affect expected runs?*
+
+\vspace{.75in}
+
+The goal of today is to calculate the change in expected run value for at-bats passing through each count.  Retrosheet play-by-play data records the sequence of pitches in each at-bat in the variable `pitch_seq_tx`.
+
+```{r, cache = TRUE}
+# Load the 2011 Retrosheet play-by-play data for 2011.
+site = "https://raw.githubusercontent.com/maxtoki/baseball_R/"
+fields <- read_csv(file = paste(site, "master/data/fields.csv", sep =""))
+retro2011 <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
+                    col_names = pull(fields, Header),
+                    na = character())
+colnames(retro2011) <- tolower(colnames(retro2011))
+
+# Add states and run_value to every play.
+# (Note the data set has to be called retro2011.)
+source("./RunExpectancyMatrix.R")
+
+retro2011 |> 
+  select(game_id, bat_id, pit_id, pitch_seq_tx, event_cd, inn_ct, outs_ct) |> 
+  head(10) |> 
+  kable()
+```
+
+*Briefly explain what happened in the first plate appearance of the season `pitch_seq_tx = "FBSX"`. Pitch and event codes are at the end of these lesson notes.*
+
+\vspace{1in}
+
+Unfortunately, we have some work to do to get our data in a useful format.  Currently, we just have the pitch sequence. Instead, we want a variable for each count indicating whether the plate appearance passed through the count.  For example, we'll create a variable called "c01" indicating whether the plate appearance ever passed through a no balls, one strike count.
+
+*Outline steps to transform the pitch sequence into the indicator variables discussed above for each count.*
+
+\vspace{2in}
+
+### Regular Expressions
+
+*Regular expressions* are useful for detecting and replacing patterns in strings (what's a string again?).  Every programming language uses them.  [Here is a useful cheat sheet for regular expressions in R.](https://posit.co/wp-content/uploads/2022/10/regex.pdf)
+
+Some useful string functions in R include (all from the `stringr` package with its [cheat sheet located here](https://rstudio.github.io/cheatsheets/strings.pdf)):
+
+* `str_detect()` (replaces the `grepl()` function) - detects the presence of a pattern in a string
+
+* `str_replace_all()` (replaces the `gsub()` function) - replaces part of a string with another string
+
+* `str_sub()` - extracts substrings based on their location in the string
+
+1. First, we are going to remove characters in the pitch sequence that aren't actual pitches (pick off attempts, stolen bases, etc).
+
+*Which function above should I use?*
+
+\vspace{1.5in}
+
+```{r}
+retro2011 <- retro2011 |> 
+  mutate(pseq = str_replace_all(pitch_seq_tx, "[.>123N+*]", replacement = ""))
+retro2011 |> 
+  select(game_id, pitch_seq_tx,pseq) |> 
+  head(10) |> 
+  kable()
+```
+
+2. Second, let's create the "c10" variable indicating the plate appearance passes through a one ball, no strikes count.  This occurs when the first pitch of the sequence is B, I, P, or V.  In the regular expression below, the "^" indicates the pattern must occur at the beginning of the string.
+
+```{r}
+retro2011 <- retro2011 |> 
+  mutate(c10 = str_detect(pseq, "^[BIPV]"))
+
+retro2011 |> 
+  select(game_id, pitch_seq_tx, pseq, c10) |> 
+  head(10) |> 
+  kable()
+```
+
+2. Next, let's create the "c01" variable indicating the plate appearance passes through a no balls, one strike count.  This occurs when the first pitch of the sequence is C, F, K, L, M, O, Q, R, S, or T.  
+
+```{r}
+retro2011 <- retro2011 |> 
+  mutate(c01 = str_detect(pseq, "^[CFKLMOQRST]"))
+
+retro2011 |> 
+  select(game_id, pitch_seq_tx, pseq, c10, c01) |> 
+  head(10) |> 
+  kable()
+```
+
+3. Now, things start getting a little more complicated.  Next, let's create variables for 2-0, 3-0, and 0-2 counts.  With these, we just have to see if the patterns repeat themselves. In the regular expression below, the "{2}" and "{3}" indicate the number of repetitions of the pattern required for a match.
+
+```{r}
+retro2011 <- retro2011 |> 
+  mutate(c20 = str_detect(pseq, "^[BIPV]{2}"),
+         c30 = str_detect(pseq, "^[BIPV]{3}"),
+         c02 = str_detect(pseq, "^[CFKLMOQRST]{2}"))
+
+retro2011 |> 
+  select(game_id, pseq, c10, c01, c20, c30, c02) |> 
+  head(10) |> 
+  kable()
+```
+
+\newpage
+
+Counts with some number of balls and one strike aren't much more difficult to find; you just have to account for the different combinations.
+
+```{r}
+# Ball codes.
+b <- "[BIPV]"
+# Strike codes.
+s <- "[CFKLMOQRST]"  
+
+# 1-1, 2-1, and 3-1 counts.
+retro2011 <- retro2011 |>  
+  mutate(c11 = str_detect(pseq, paste0("^", s, b,
+                                 "|", b, s)),
+         c21 = str_detect(pseq, paste0("^", s, b, b, 
+                                 "|", b, s, b, 
+                                 "|", b, b, s)),  
+         c31 = str_detect(pseq, paste0("^", s, b, b, b,  
+                                 "|", b, s, b, b, 
+                                 "|", b, b, s, b, 
+                                 "|", b, b, b, s))) 
+```
+
+Two strike counts are considerably different.  A foul ball keeps the number of strikes at two.  In other words, the hitter can hit foul balls indefinitely without changing the count when there are two strikes.
+
+\newpage
+
+```{r}
+# 1-2, 2-2, and 3-2 counts.
+retro2011 <- retro2011 |> 
+  mutate(c12 = str_detect(pseq, paste0("^", b, s, s,  
+                                       "|", s, b, s,
+                                       "|", s, s, "[FR]*", b)), 
+         c22 = str_detect(pseq, paste0("^", b, b, s, s, 
+                                       "|", b, s, b, s, 
+                                       "|", b, s, s, "[FR]*", b,  
+                                       "|", s, b, b, s, 
+                                       "|", s, b, s, "[FR]*", b,  
+                                       "|", s, s, "[FR]*", b, "[FR]*", b)),
+         c32 = str_detect(pseq, paste0("^", s, "*", b, s, 
+                                       "*", b, s,
+                                       "*", b))  & 
+           str_detect(pseq, paste0("^", b, "*", s, b, "*", s))) 
+
+retro2011 |> 
+  select(pseq, c10, c01,c20, c30, c02, c11, c21, c31, c12, c22, c32) |> 
+  head(10) |> 
+  kable()
+```
+
+Lastly, let's convert to long format (why is the current format called wide?) and filter for counts the plate appearances passed through.
+
+\newpage
+
+```{r}
+# Convert to long format.
+pbp_counts <- retro2011 |> 
+  mutate(c00 = TRUE) |>  # All plate appearances pass through 0-0 count.
+  select(starts_with("c"), run_value) |> 
+  pivot_longer(cols = -run_value,
+               names_to = "count",
+               values_to = "passes_thru") |> 
+  filter(passes_thru == TRUE)
+
+pbp_counts |> 
+  head(10)
+
+run_value_by_count <- pbp_counts |> 
+  group_by(count) |> 
+  summarize(mean_run_value = mean(run_value))
+
+run_value_by_count |> 
+  kable()
+```
+
+\newpage
+
+```{r}
+# Plot the results.
+run_value_by_count |> 
+  mutate(balls = str_sub(count,2,2),
+         strikes = str_sub(count,3,3)) |> 
+  ggplot(aes(x = strikes, y = balls, fill = mean_run_value)) +
+  geom_tile() +
+  geom_text(aes(label = round(mean_run_value,3))) +
+  scale_fill_gradient2("Mean Run Value", 
+                       low = "grey10",
+                       high = "blue",
+                       mid = "white",
+                       midpoint = 0) + 
+  labs(title = "Mean Run Value for Possible Ball-Strike Counts")
+```
+
+\newpage 
+
+## Pitch and Event Codes
+
+![Retrosheet Pitch Codes](pitchcodes.png){width=70%}
+
+![EVENT\_CD codes](eventcodes.png){width=40%}
+

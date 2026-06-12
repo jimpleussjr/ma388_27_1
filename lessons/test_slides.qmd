@@ -1,0 +1,153 @@
+---
+title: "OPS+ and BABIP Analysis"
+author: ""
+format:
+  revealjs:
+    theme: dark
+    slide-number: true
+    transition: slide
+    background-transition: fade
+    css: styles.css
+execute:
+  echo: true
+---
+
+# ⚾ OPS+ & BABIP
+
+## A Data Story in Baseball
+
+------------------------------------------------------------------------
+
+## Why This Matters
+
+-   OPS+ captures overall offensive value
+-   BABIP reflects outcomes on balls in play
+-   Together: signal vs. noise in hitting performance
+
+------------------------------------------------------------------------
+
+## Key Question
+
+> How much of offensive performance is skill vs. luck?
+
+------------------------------------------------------------------------
+
+## Dataset Overview
+
+-   League: MLB
+-   Variables:
+    -   OPS+
+    -   BABIP
+-   Goal: Understand relationship and variability
+
+------------------------------------------------------------------------
+
+## OPS+ Explained
+
+-   Adjusted for park and league
+
+-   100 = league average
+
+-   
+
+    > 100 = above average hitter
+
+------------------------------------------------------------------------
+
+## BABIP Explained
+
+-   Batting Average on Balls In Play
+-   Influenced by:
+    -   Defense\
+    -   Luck\
+    -   Contact quality
+
+------------------------------------------------------------------------
+
+## Hypothesis
+
+-   Higher BABIP → Higher OPS+
+-   But not perfectly (luck plays a role)
+
+------------------------------------------------------------------------
+
+## Visualization
+
+```{r}
+# (Paste your original plotting code here)
+```
+
+------------------------------------------------------------------------
+
+## What We See
+
+-   Positive relationship\
+-   Considerable spread\
+-   Outliers matter
+
+------------------------------------------------------------------------
+
+## Interpretation
+
+-   Some players sustain high BABIP (skill)\
+-   Others regress (luck)
+
+------------------------------------------------------------------------
+
+## Takeaways
+
+-   OPS+ is more stable\
+-   BABIP is more volatile\
+-   Combining both gives better insight
+
+------------------------------------------------------------------------
+
+## Final Thought
+
+> Not all hits are created equal ⚾
+
+------------------------------------------------------------------------
+
+## Thank You
+
+Questions?
+
+------------------------------------------------------------------------
+
+```{=html}
+<style>
+.reveal {
+  background-image: url('https://images.unsplash.com/photo-1508341591423-4347099e1f19');
+  background-size: cover;
+  background-position: center;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.reveal section {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 20px;
+}
+</style>
+```
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```

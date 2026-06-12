@@ -1,0 +1,241 @@
+---
+title: "MA388 Sabermetrics: Lesson 26"
+subtitle: "Statast Spray Charts"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(baseballr)
+```
+
+
+Review
+
+**Last class we talked about the streakiness or clumpiness coefficient.  What does this metric measure and how do we calculate it?**
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+**True or False.  If a player had a high batting average for the season, this means that they were not a streaky player.**
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+**Could a player be temporally streaky but spatially predictable?**
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+What do Joey Gallo, Albert Pujols, and DJ LeMahieu have in common?
+
+*Here's one answer:* They had some of the most extreme spray charts among MLB hitters in 2017.
+
+Of course, all three hitters went to different extremes -- Gallo was one of MLB's most pull-heavy hitters, Pujols hit balls to center field more than almost anyone, and LeMahieu used the opposite field like nobody else in baseball. 
+
+Here is the full article: [Extreme pull and opposite-field hitters (MLB.com, 2017)](https://www.mlb.com/news/statcast-extreme-pull-oppo-hitters-2017-c262687474)
+
+Let's explore their spray charts for that year.  
+
+```{r}
+library(tidyverse)
+library(baseballr)
+``` 
+
+```{r, cache=TRUE}
+gallo <- scrape_statcast_savant(start_date = "2017-05-01", 
+                                 end_date = "2017-12-31", 
+                                 playerid = 608336,
+                                 player_type = "batter")
+
+pujols <- scrape_statcast_savant(start_date = "2017-05-01", 
+                                 end_date = "2017-12-31", 
+                                 playerid = 405395,
+                                 player_type = "batter")
+
+lemahieu <- scrape_statcast_savant(start_date = "2017-05-01", 
+                                 end_date = "2017-12-31", 
+                                 playerid = 518934,
+                                 player_type = "batter")
+
+all_data = rbind(gallo, lemahieu, pujols)
+```
+
+Filter the data to only include balls in play.
+
+```{r}
+all_bip <- all_data |>
+  filter(type == "X")
+
+# hc_x and hc_y are the hit coordinates for balls in play.
+all_bip |>
+  select(player_name, events, hc_x, hc_y) |>
+  head()
+```
+
+Now let's create the base plot for our spray chart.  
+
+```{r}
+spray_chart <- function(...) {
+  ggplot(...) + 
+    geom_curve(x = 33, xend = 223, y = -100, yend = -100,
+               curvature = -.65) +
+    geom_segment(x = 128, xend = 33, y = -208, yend = -100) +
+    geom_segment(x = 128, xend = 223, y = -208, yend = -100) +
+    geom_curve(x = 83, xend = 173, y = -155, yend = -156,
+               curvature = -.65, linetype = "dotted") +
+    coord_fixed() + 
+    scale_x_continuous(NULL, limits = c(25, 225)) + 
+    scale_y_continuous(NULL, limits = c(-225, -25))
+}
+```
+
+**Where would we expect these different events to occur?**  
+
+```{r}
+spray_chart(all_bip, aes(x = hc_x, y = -hc_y, color = events)) + 
+  scale_color_hue()+
+  theme_bw()
+```
+
+Let's look at all three players together.  
+
+```{r}
+spray_chart(all_bip, aes(x = hc_x, y = -hc_y, color = events)) + 
+  geom_point() +
+  scale_color_hue()+
+  theme_bw()
+```
+
+Now let's take a look at each player individually.
+
+```{r}
+all_bip |> 
+  filter(player_name=="Gallo, Joey") |> 
+  spray_chart(aes(x = hc_x, y = -hc_y, color = events)) + 
+  geom_point() + 
+  scale_color_hue()+
+  labs(title = "Spray Chart Joey Gallo (Left Handed)")+
+  theme_bw()
+```
+
+```{r}
+all_bip |> 
+  filter(player_name=="Pujols, Albert") |> 
+  spray_chart(aes(x = hc_x, y = -hc_y, color = events)) + 
+  geom_point() + 
+  scale_color_hue()+
+  labs(title = "Spray Chart Albert Pujols (Right Handed)")+
+  theme_bw()
+```
+
+```{r}
+all_bip |> 
+  filter(player_name=="LeMahieu, DJ") |> 
+  spray_chart(aes(x = hc_x, y = -hc_y, color = events)) + 
+  geom_point() + 
+  scale_color_hue()+
+  labs(title = "Spray Chart DJ LeMahieu (Right Handed)")+
+  theme_bw()
+```
+
+For a side-by-side comparison:
+
+```{r}
+all_bip |>
+  spray_chart(aes(x = hc_x, y = -hc_y, color = events)) + 
+  geom_point() + 
+  scale_color_hue()+
+  theme_bw()+
+  theme(legend.position = "none")+
+  facet_wrap(~player_name)
+```
+
+```{r}
+# Traditional defensive alignment
+traditional_defense <- tibble(
+  position = c("P", "C", "1B", "2B", "SS", "3B", "LF", "CF", "RF"),
+  x = c(128, 128, 160, 140, 115, 95, 80, 128, 180),
+  y = c(-165, -220, -150, -135, -135, -150, -80, -60, -80)
+)
+
+# Shift vs pull-heavy LEFTY (e.g., Gallo)
+shift_defense <- tibble(
+  position = c("P", "C", "1B", "2B_shift", "SS_shift", "3B_shift", "LF", "CF", "RF"),
+  x = c(128, 128, 165, 155, 135, 110, 90, 135, 185),
+  y = c(-165, -220, -150, -115, -125, -135, -85, -65, -85)
+)
+
+add_defense <- function(defense_data, color = "black") {
+  list(
+    geom_point(data = defense_data,
+               aes(x = x, y = y),
+               color = color,
+               size = 3),
+    
+    geom_text(data = defense_data,
+              aes(x = x, y = y, label = position),
+              vjust = -1,
+              color = color,
+              size = 3)
+  )
+}
+
+all_bip |>
+  # filter(player_name == "Gallo, Joey") |> 
+  spray_chart(aes(x = hc_x, y = -hc_y, color = events)) + 
+  # geom_point(alpha = 0.6) +
+  add_defense(traditional_defense, color = "blue") +
+  add_defense(shift_defense, color = "red") +
+  # labs(title = "Joey Gallo vs Traditional Defense") +
+  theme_bw()
+
+```
+
+
+In general, players hit ground balls to the pull side of the field.  Let's take a look at how these three players hit their ground balls and the percentage of times they faced infield shifts.
+
+```{r}
+left_handed_batters = gallo |> 
+  filter(launch_angle < 10) |> 
+  summarize(N = n(),
+            Pulled = 100 * mean(hc_x > 125.42, na.rm = TRUE),
+            Shift = 100 * 
+              mean(if_fielding_alignment == "Infield shift",
+                   na.rm = TRUE),.by='player_name')
+
+right_handed_batters = all_data |> 
+  filter(player_name!="Gallo, Joey") |> 
+  filter(launch_angle < 10) |> 
+  summarize(N = n(),
+            Pulled = 100 * mean(hc_x < 125.42, na.rm = TRUE),
+            Shift = 100 * 
+              mean(if_fielding_alignment == "Infield shift",
+                   na.rm = TRUE),.by='player_name') 
+
+rbind(left_handed_batters, right_handed_batters)
+```
+
+What does this tell us about the tendencies of these batters and how defenses approached them?
+
+

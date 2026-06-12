@@ -1,0 +1,112 @@
+---
+title: "MA388 Sabermetrics: Lesson 19"
+subtitle: "Comparing Peak Trajectories - Part II"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+## Comparing Trajectories of Home Run Hitters
+
+1. Find the ten players in baseball history who have hit the most career home runs.
+
+```{r}
+library(tidyverse)
+library(Lahman)
+library(knitr)
+```
+
+```{r}
+
+Top10 <- Batting |> 
+  summarize(totalHR = sum(HR), .by ='playerID') |> 
+  slice_max(totalHR,n=10) |> 
+  inner_join(People, by = "playerID") |> 
+  mutate(label = str_c(nameFirst,nameLast,sep=' ')) |> 
+  relocate(label,totalHR)
+
+Top10 |> 
+  select(label, totalHR, debut) |> 
+  kable()
+  
+```
+
+2. Fit quadratic functions to the home run rates of the ten players, where HR.RATE = HR / AB.  Display the fitted trajectories in a single figure.
+
+```{r}
+
+top10_stats <- Batting |> 
+  filter(playerID %in% Top10$playerID) |> 
+  summarize(HR.RATE = sum(HR)/sum(AB),.by=c('playerID','yearID')) |> 
+  inner_join(People, by = "playerID") |> 
+  mutate(birthyear = ifelse(birthMonth >= 7,
+                            birthYear + 1, birthYear),
+         label = str_c(nameFirst,nameLast,sep=' '), 
+         Age = yearID - birthyear)
+
+top10_stats |> 
+  ggplot(aes(x = Age, y = HR.RATE)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", formula = y~poly(x,2), se = FALSE) + 
+  facet_wrap(~label, ncol = 5)
+```
+
+3. On the basis of your work, which player had the highest estimated home run rate at his peak?  Which player among the ten had the smallest peak home run rate?
+
+```{r}
+
+top10_model <- function(this_playerID){
+  
+  this_player_stats <- top10_stats |> 
+    filter(playerID == this_playerID)
+  
+  fit <- lm(HR.RATE ~ I(Age - 30) + I((Age - 30)^2), data = this_player_stats)
+  
+  A <- coef(fit)[1]
+  B <- coef(fit)[2]
+  C <- coef(fit)[3]
+  
+  # Return all the stuff you just obtained.
+  tibble(label = head(this_player_stats$label,1), playerID = this_playerID, A, B, C,
+         age.max = 30 - B / C / 2, 
+         max = A - B^2 / C / 4)
+}
+
+# Map the model function to the list of playerIDs you obtained in 1.
+HR_results <- map_df(Top10$playerID,top10_model)
+HR_results |> 
+  kable()
+```
+
+```{r}
+# Highest estimated max HR rate:
+HR_results |> 
+  slice_max(max)
+```
+
+```{r}
+# Lowest estimated max HR rate:
+HR_results |> 
+  slice_min(max) 
+```
+
+*Your answer here.*
+
+4. Do any of the players have unusual career trajectory shapes?  Is there any possible explanation for these unusual shapes?
+
+*Your answer here.*
+

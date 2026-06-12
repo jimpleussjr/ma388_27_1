@@ -1,0 +1,213 @@
+---
+title: "MA388 Sabermetrics: Lesson 13"
+subtitle: "Catcher Framing Ability - Visualization"
+author: "LTC Jim Pleuss"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+## Chapter 7
+
+In this chapter, we investigate whether catchers have the ability to consistently frame close pitches, which some believe makes it more likely the umpire will call a strike.
+
+*Do you think some catchers are better than others at framing pitches, and how important is this skill?*
+
+* [Video 1](https://www.youtube.com/watch?v=tkjCx56nFlQ)
+
+* [Video 2](https://www.youtube.com/watch?v=kQdkeYXHh6Y) 
+
+*How could we investigate whether some catchers are better than others? List some challenges with answering this question with data.*
+
+
+\vspace{2in}
+
+
+```{r}
+
+library(tidyverse)
+library(knitr)
+library(baseballr)
+```
+
+The code below imports the all pitches thrown in May 2019.
+
+```{r, cache = TRUE}
+# If you've already collected the pitch data below, just load it.  Otherwise,
+# collect it from scratch.
+
+if("statcast_may_2019.rds" %in% dir(getwd())){
+  pitches <- readRDS("statcast_may_2019.rds")
+}else{
+  
+  # Retrieve pitch-level data from May 2019.  
+
+get_statcast_pitches <- function(start_day, end_day, chunk_size = 5) {
+
+  # Coerce to Date
+  start_day <- as.Date(start_day)
+  end_day   <- as.Date(end_day)
+
+  # Create sequence of chunk start dates
+  chunk_starts <- seq(start_day, end_day, by = paste(chunk_size, "days"))
+
+  # Build data
+  pitch_data <- map_dfr(chunk_starts, function(chunk_start) {
+
+    chunk_end <- min(chunk_start + days(chunk_size - 1), end_day)
+       statcast_search(
+        start_date = chunk_start,
+        end_date   = chunk_end
+      )
+  })
+  return(pitch_data)
+}  
+  
+  # If we want to limit to a certain number of pitches, we might take the head()
+  # or sample_n() to get the number we want.
+  pitches <- get_statcast_pitches('2019-05-01','2019-05-31')
+
+  saveRDS(pitches, "statcast_may_2019.rds")
+}
+```
+
+\newpage
+
+Here is a small sample of the Statcast pitches and variables we've collected.
+
+```{r}
+pitches %>% 
+  select(description, release_speed, pitch_name, 
+         plate_x, plate_z, balls, strikes, fielder_2) %>% 
+  head(10) %>% 
+  kable()
+```
+
+One of the variables in `pitches` is the catcher's ID. Let's add the catcher's name to each pitch in our data frame using the master list available at https://www.smartfantasybaseball.com/tools/.
+
+```{r}
+# This CSV is available at https://www.smartfantasybaseball.com/tools/.
+mlb_IDs <- read_csv("./PLAYERIDMAP.csv")
+
+pitches <- pitches %>% 
+  left_join(select(mlb_IDs, PLAYERNAME, MLBID),
+            by = c("fielder_2" = "MLBID")) %>% 
+  rename(catcher_name = PLAYERNAME)
+```
+
+Let's look at the 10 catchers with the most pitches thrown to them in early May 2019.
+
+```{r}
+top10catchers <- pitches %>% 
+  count(catcher_name) %>% 
+  arrange(-n) %>% 
+  head(10) %>%
+  pull(catcher_name)
+
+top10catchers   
+```
+\newpage
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Okay, let's see if we can see anything by looking at called strikes versus balls.
+
+```{r, out.width="100%"}
+# Let's plot the strike zone.
+# Note px and pz in the book are actually plate_x and plate_z, respectively.
+plate_width <- 17 + 2 * (9/pi)
+k_zone_plot <- ggplot(NULL, aes(x = plate_x, y = plate_z)) +  
+  geom_rect(xmin = -(plate_width / 2) / 12,
+            xmax = (plate_width / 2) / 12,
+            ymin = 1.5,
+            ymax = 3.6, 
+            color = "blue",
+            alpha = 0) +
+  coord_equal() +
+  scale_x_continuous("Horizontal Location (ft)", limits = c(-2,2)) +
+  scale_y_continuous("Vertical Location (ft)", limits = c(0,5))
+
+# Look at only taken pitches caught by one of the 10 top catchers.
+pitches_taken <- pitches %>% 
+  filter(catcher_name %in% top10catchers,
+         description %in% c("ball", "called_strike")) %>% 
+  mutate(description = str_replace(description, "_", " "))
+
+# Plot pitches that were balls or called strikes.
+k_zone_plot %+% pitches_taken +
+  aes(color = description) +
+  geom_point(alpha = 0.15, size = .5) +
+  scale_color_manual(values = c("blue", "red")) +
+  facet_wrap(~catcher_name, ncol = 5) + 
+  theme(legend.position = "bottom") + 
+  labs(title = "Strike vs. Ball Calls on Taken Pitches",
+       color = "Umpire Decision")
+```
+
+How can we make some sense of the different panels in this figure?  Look closely -- does anything jump out at you?
+
+\newpage
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+Okay, this is admittedly pretty subjective, and we can't stop here.  We need a quantitative assessment of how different catchers may or may not be contributing to different proportions of called strikes on pitches where batters didn't swing.
+
+```{r}
+pitches_taken %>% 
+  count(catcher_name, description) %>% 
+  group_by(catcher_name) %>% 
+  mutate(prop = n / sum(n)) %>% 
+  filter(description == "called strike") %>% 
+  arrange(-prop) %>% 
+  kable(digits = 3, 
+        caption = "Proportion of taken pitches that were called strikes by catcher.")
+```
+
+*Does it appear catchers make a difference?*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+*Now that we've been talking about this for a while, what new considerations come to mind?*
+
+\vspace{1in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+*How could a model-based approach improve upon this analysis?*
+
+\vspace{1in}
+
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+**Exercise**
+
+Calculate that same called strike proportion for pitches that are within 2 inches of the edge of the strike zone?
+
+*Hint: Use `case_when()` to establish a new variable that signifies whether a ball is `sz_edge` based on `plate_x`, `plate_z`, `sz_top`, `sz_bottom` and -.95 to .95 for plate edge.*
+

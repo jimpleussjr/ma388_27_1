@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="LTC Jim Pleuss">
+
+<title>MA388 Sabermetrics: Lesson 32 – MA388 Sabermetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MA388 Sabermetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-1-10" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 1-10</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-1-10">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
+ <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_3_intro_to_R_II.html">
+ <span class="dropdown-text">Lesson 3: Introduction to R II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_4_r_graphics_I.html">
+ <span class="dropdown-text">Lesson 4: R Graphics I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_5_r_graphics_II.html">
+ <span class="dropdown-text">Lesson 5: R Graphics II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_6_runs_and_wins_I.html">
+ <span class="dropdown-text">Lesson 6: Runs and Wins I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_8_runs_and_wins_II.html">
+ <span class="dropdown-text">Lesson 8: Runs and Wins II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_9_runs_expectancy_matrix.html">
+ <span class="dropdown-text">Lesson 9: Value of Plays: Run Expectancy Matrix</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_10_hits_stealing.html">
+ <span class="dropdown-text">Lesson 10: Value of Plays: Base Hits and Stealing</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-11-20" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 11-20</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-11-20">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_11_swinging_tendencies.html">
+ <span class="dropdown-text">Lesson 11: Behaviors by Count: Swinging Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_12_umpire_tendencies.html">
+ <span class="dropdown-text">Lesson 12: Behaviors by Count: Umpire Tendencies</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_13_catcher_framing_visualization.html">
+ <span class="dropdown-text">Lesson 13: Catcher Framing Ability - Visualizations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_14_logistic_regression.html">
+ <span class="dropdown-text">Lesson 14: Introduction to Logistic Regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_15_catcher_framing_modeling.html">
+ <span class="dropdown-text">Lesson 15: Catcher Framing Ability: Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_16_catcher_framing_random_effects.html">
+ <span class="dropdown-text">Lesson 16: Catcher Framing Ability: Random Effects</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_18_peak_trajectories_I.html">
+ <span class="dropdown-text">Lesson 18: Comparing Peak Trajectories I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_19_peak_trajectories_II.html">
+ <span class="dropdown-text">Lesson 19: Comparing Peak Trajectories II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_20_multilevel_modeling.html">
+ <span class="dropdown-text">Lesson 20: Multilevel Modeling</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-21-30" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 21-30</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-21-30">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_21_simulation_I.html">
+ <span class="dropdown-text">Lesson 21: Simulating Baseball - Part I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_22_simulation_II.html">
+ <span class="dropdown-text">Lesson 22: Simulating Baseball - Part II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_23_the_great_streak.html">
+ <span class="dropdown-text">Lesson 23: Baseball Streaks - The Great Streak</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_24_streakiness_statistics.html">
+ <span class="dropdown-text">Lesson 24: Baseball Streaks - Streakiness Statistics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_26_statcast_spray_charts.html">
+ <span class="dropdown-text">Lesson 26: Working with Large Data - Statcast Spray Charts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_27_launch_angles_exit_velocity.html">
+ <span class="dropdown-text">Lesson 27: Working with Large Data - Launch Angles and Exit Velocity</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_28_home_run_hitting_I.html">
+ <span class="dropdown-text">Lesson 28: Home Run Hitting I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_29_home_run_hitting_II.html">
+ <span class="dropdown-text">Lesson 29: Home Run Hitting II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_30_equivalence_coefficient.html">
+ <span class="dropdown-text">Lesson 30: Equivalence Coefficient</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-31-40" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 31-40</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-31-40">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_31_ops+_babip.html">
+ <span class="dropdown-text">Lesson 31: OPS+ and BABIP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_32_linear_weights.html">
+ <span class="dropdown-text">Lesson 32: Linear Weights</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_33_runs_created_solution.html">
+ <span class="dropdown-text">Lesson 33: Runs Created School</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentations.html">
+ <span class="dropdown-text">Lesson 34: Quarto Presentations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_34_quarto_presentation_demo.html">
+ <span class="dropdown-text">Example Quarto Presentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_35_shiny.html">
+ <span class="dropdown-text">Lesson 35: Shiny</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../calendar/calendar.html"> 
+<span class="menu-text">Calendar</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/grab_bag.html"> 
+<span class="menu-text">Grab Bag Topics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../grab_bag/march_madness.html"> 
+<span class="menu-text">March Madness</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review">Review</a></li>
+  <li><a href="#linear-weights" id="toc-linear-weights" class="nav-link" data-scroll-target="#linear-weights">Linear Weights</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_32_linear_weights.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MA388 Sabermetrics: Lesson 32</h1>
+<p class="subtitle lead">Linear Weights</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>LTC Jim Pleuss </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="review" class="level2">
+<h2 class="anchored" data-anchor-id="review">Review</h2>
+<p><strong>What characteristics of a hitter does OPS quantify?</strong></p>
+<p><strong>Why might one use OPS+ or adjusted OPS+ instead of OPS?</strong></p>
+<p><strong>What are some limitations of these statistics?</strong></p>
+</section>
+<section id="linear-weights" class="level2">
+<h2 class="anchored" data-anchor-id="linear-weights">Linear Weights</h2>
+<p><strong>Recall we talked about the relationship between Runs and Wins in Chapter 4 of the Albert text. What was the rule of thumb we used?</strong></p>
+<p>(<em>Understanding Sabermetrics</em> page 136) Ideally, we want a statistic for batters that:</p>
+<ul>
+<li>quantifies their contribution to runs scored.</li>
+<li>is not based upon the situations the batters faced when they came to the plate (since their batting actions did not create those situations).</li>
+</ul>
+<p><strong>How about RBIs? A batter is awarded Runs Batted In (RBIs) for most situations when his plate appearance results in runs scored. Why are RBIs not a good measure of a player’s contribution to runs scored?</strong></p>
+<p>Various researchers have proposed linear models to quantify a player’s contribution to runs scored. These models give weights to various individual statistics. For the purposes of today’s lesson, let’s investigate the condensed model proposed by Thorn and Palmer (<em>Understanding Sabermetrics</em>, page 143). I’ll refer to this model as the Linear Weights Model:</p>
+<p><span class="math display">\[BattingRuns = w_11B + w_22B + w_33B + w_4HR + w_5(BB + HBP) - w_6(AB - H)\]</span></p>
+<p>How can we get weights for the Linear Weights Model?</p>
+<div class="html">
+<div style="margin-top: .5 in;">
+
+</div>
+</div>
+<p><span class="math display">\[RV = EXP_{New} - EXP_{Old} + RunsScored\]</span></p>
+<p>How do we interpret BattingRuns?</p>
+<div class="html">
+<div style="margin-top: .5 in;">
+
+</div>
+</div>
+<p>Let’s see what this looks like for the 2011 season.</p>
+<!-- \newpage -->
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate weights from run values using Retrosheet play-by-play data.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># We're getting this file from GitHub in the linear_weights() function, </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># but you can adapt it to a Retrosheet file you have locally if desired.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"linear_weights.R"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">linear_weights</span>(<span class="dv">2011</span>) <span class="sc">|&gt;</span> <span class="fu">pluck</span>(<span class="st">"weights"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>weights <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Event</th>
+<th style="text-align: right;">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1B</td>
+<td style="text-align: right;">0.442</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2B</td>
+<td style="text-align: right;">0.736</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3B</td>
+<td style="text-align: right;">1.064</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BB.HBP</td>
+<td style="text-align: right;">0.289</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HR</td>
+<td style="text-align: right;">1.392</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Out</td>
+<td style="text-align: right;">-0.255</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>How do these weights compare to those in slugging percentage (SLG)?</p>
+<!-- \newpage -->
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for 2011 Players with at least 500 at-bats.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"AB"</span>, <span class="st">"H"</span>, <span class="st">"X2B"</span>, <span class="st">"X3B"</span>, <span class="st">"HR"</span>, <span class="st">"BB"</span>, <span class="st">"HBP"</span>, <span class="st">"SF"</span>, <span class="st">"RBI"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2011</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID,teamID) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_at</span>(vars, sum) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AB <span class="sc">&gt;=</span> <span class="dv">500</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(People <span class="sc">|&gt;</span> <span class="fu">select</span>(nameLast, nameFirst, playerID) )<span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">paste</span>(nameFirst, nameLast, <span class="at">sep =</span> <span class="st">" "</span>))<span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, <span class="fu">everything</span>(), <span class="sc">-</span>nameLast, <span class="sc">-</span>nameFirst) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">X1B =</span> H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span>HR,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">SLG =</span> (X1B <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>X2B <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>X3B <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>HR) <span class="sc">/</span> AB,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">OBP =</span> (H <span class="sc">+</span> HBP <span class="sc">+</span> BB) <span class="sc">/</span> (AB <span class="sc">+</span> HBP <span class="sc">+</span> SF <span class="sc">+</span> BB),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">OPS =</span> SLG <span class="sc">+</span> OBP,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">AVG =</span> H <span class="sc">/</span> AB) <span class="ot">-&gt;</span> batting_2011</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculates Batting Runs using Thorn and Palmer's condensed Linear Weights model.</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Statistics and weights have to be in the same order.</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>batting_runs_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(statistics, weights){</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  runs <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">sum</span>(statistics <span class="sc">*</span> weights), <span class="dv">1</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(runs)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">batting_runs =</span> <span class="fu">batting_runs_fn</span>(<span class="at">statistics =</span> <span class="fu">c</span>(X1B, X2B, X3B, </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                                                       BB <span class="sc">+</span> HBP, HR, AB <span class="sc">-</span> H),</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">weights =</span> weights <span class="sc">|&gt;</span> <span class="fu">pull</span>(weight))) <span class="sc">|&gt;</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>batting_runs) <span class="ot">-&gt;</span> batting_2011</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, AB, H, HR, RBI, AVG, OPS, batting_runs) <span class="sc">|&gt;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">"Top 10 MLB Players (with at least 500 at bats) - Batting Runs 2011"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Top 10 MLB Players (with at least 500 at bats) - Batting Runs 2011</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">AB</th>
+<th style="text-align: right;">H</th>
+<th style="text-align: right;">HR</th>
+<th style="text-align: right;">RBI</th>
+<th style="text-align: right;">AVG</th>
+<th style="text-align: right;">OPS</th>
+<th style="text-align: right;">batting_runs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Jose Bautista</td>
+<td style="text-align: right;">513</td>
+<td style="text-align: right;">155</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">0.302</td>
+<td style="text-align: right;">1.056</td>
+<td style="text-align: right;">66.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Miguel Cabrera</td>
+<td style="text-align: right;">572</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">0.344</td>
+<td style="text-align: right;">1.033</td>
+<td style="text-align: right;">66.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matt Kemp</td>
+<td style="text-align: right;">602</td>
+<td style="text-align: right;">195</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">0.324</td>
+<td style="text-align: right;">0.986</td>
+<td style="text-align: right;">54.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Prince Fielder</td>
+<td style="text-align: right;">569</td>
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">0.299</td>
+<td style="text-align: right;">0.981</td>
+<td style="text-align: right;">54.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Adrian Gonzalez</td>
+<td style="text-align: right;">630</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">117</td>
+<td style="text-align: right;">0.338</td>
+<td style="text-align: right;">0.957</td>
+<td style="text-align: right;">51.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ryan Braun</td>
+<td style="text-align: right;">563</td>
+<td style="text-align: right;">187</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: right;">0.332</td>
+<td style="text-align: right;">0.994</td>
+<td style="text-align: right;">51.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Joey Votto</td>
+<td style="text-align: right;">599</td>
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">0.309</td>
+<td style="text-align: right;">0.947</td>
+<td style="text-align: right;">50.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jacoby Ellsbury</td>
+<td style="text-align: right;">660</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">0.321</td>
+<td style="text-align: right;">0.928</td>
+<td style="text-align: right;">44.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">David Ortiz</td>
+<td style="text-align: right;">525</td>
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">0.309</td>
+<td style="text-align: right;">0.953</td>
+<td style="text-align: right;">41.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Curtis Granderson</td>
+<td style="text-align: right;">583</td>
+<td style="text-align: right;">153</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0.262</td>
+<td style="text-align: right;">0.916</td>
+<td style="text-align: right;">39.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>How many wins would you attribute to Prince Fielder in the 2011 season?</strong></p>
+<div class="html">
+<div style="margin-top: .5 in;">
+
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, AB, H, HR, RBI, AVG, OPS, batting_runs) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">"Bottom 10 MLB Players (with at least 500 at bats) - Batting Runs 2011"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Bottom 10 MLB Players (with at least 500 at bats) - Batting Runs 2011</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">AB</th>
+<th style="text-align: right;">H</th>
+<th style="text-align: right;">HR</th>
+<th style="text-align: right;">RBI</th>
+<th style="text-align: right;">AVG</th>
+<th style="text-align: right;">OPS</th>
+<th style="text-align: right;">batting_runs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Juan Pierre</td>
+<td style="text-align: right;">639</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.279</td>
+<td style="text-align: right;">0.657</td>
+<td style="text-align: right;">-14.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vernon Wells</td>
+<td style="text-align: right;">505</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">0.218</td>
+<td style="text-align: right;">0.660</td>
+<td style="text-align: right;">-15.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ian Desmond</td>
+<td style="text-align: right;">584</td>
+<td style="text-align: right;">148</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">0.253</td>
+<td style="text-align: right;">0.656</td>
+<td style="text-align: right;">-15.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yuniesky Betancourt</td>
+<td style="text-align: right;">556</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">0.252</td>
+<td style="text-align: right;">0.652</td>
+<td style="text-align: right;">-16.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Alcides Escobar</td>
+<td style="text-align: right;">548</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">0.254</td>
+<td style="text-align: right;">0.633</td>
+<td style="text-align: right;">-19.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alex Gonzalez</td>
+<td style="text-align: right;">564</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">0.241</td>
+<td style="text-align: right;">0.642</td>
+<td style="text-align: right;">-19.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ichiro Suzuki</td>
+<td style="text-align: right;">677</td>
+<td style="text-align: right;">184</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">0.272</td>
+<td style="text-align: right;">0.645</td>
+<td style="text-align: right;">-19.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Casey McGehee</td>
+<td style="text-align: right;">546</td>
+<td style="text-align: right;">122</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.626</td>
+<td style="text-align: right;">-20.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jason Bartlett</td>
+<td style="text-align: right;">554</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.245</td>
+<td style="text-align: right;">0.615</td>
+<td style="text-align: right;">-20.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alex Rios</td>
+<td style="text-align: right;">537</td>
+<td style="text-align: right;">122</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">0.227</td>
+<td style="text-align: right;">0.613</td>
+<td style="text-align: right;">-23.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>What happens if you total up all the batting runs in a season?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>batting_2011 <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">tot_batting_runs=</span><span class="fu">sum</span>(batting_runs),<span class="at">.by=</span><span class="st">'teamID'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>tot_batting_runs) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(Teams <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID<span class="sc">==</span><span class="dv">2011</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(teamID,<span class="at">actual_wins=</span>W), <span class="at">by =</span> <span class="st">'teamID'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">teamID</th>
+<th style="text-align: right;">tot_batting_runs</th>
+<th style="text-align: right;">actual_wins</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">BOS</td>
+<td style="text-align: right;">162.0</td>
+<td style="text-align: right;">90</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NYA</td>
+<td style="text-align: right;">116.7</td>
+<td style="text-align: right;">97</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DET</td>
+<td style="text-align: right;">99.0</td>
+<td style="text-align: right;">95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TOR</td>
+<td style="text-align: right;">78.3</td>
+<td style="text-align: right;">81</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CIN</td>
+<td style="text-align: right;">76.0</td>
+<td style="text-align: right;">79</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">KCA</td>
+<td style="text-align: right;">74.9</td>
+<td style="text-align: right;">71</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MIL</td>
+<td style="text-align: right;">69.3</td>
+<td style="text-align: right;">96</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LAN</td>
+<td style="text-align: right;">59.6</td>
+<td style="text-align: right;">82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BAL</td>
+<td style="text-align: right;">48.5</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TEX</td>
+<td style="text-align: right;">48.2</td>
+<td style="text-align: right;">96</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s see how BattingRuns compares to traditional statistics.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>title_size <span class="ot">=</span> <span class="dv">12</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plot_rbi <span class="ot">&lt;-</span> batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> name,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> batting_runs,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> RBI)) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear Weights vs. RBI"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> title_size))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plot_avg <span class="ot">&lt;-</span> batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> name,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> batting_runs,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> AVG)) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear Weights vs. Batting Average"</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> title_size))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plot_slg <span class="ot">&lt;-</span> batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> name,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> batting_runs,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> SLG)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear Weights vs. Slugging"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> title_size))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plot_ops <span class="ot">&lt;-</span> batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">label =</span> name,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> batting_runs,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> OPS)) <span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear Weights vs. OPS"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> title_size))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(plot_rbi, plot_avg, plot_slg, plot_ops, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lsn_32_linear_weights_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let’s say you’re a general manager. Which statistic would you use?</p>
+<div class="html">
+<div style="margin-top: .5 in;">
+
+</div>
+</div>
+<p>What other factors would you want to consider?</p>
+<div class="html">
+<div style="margin-top: .5 in;">
+
+</div>
+</div>
+<!-- \newpage -->
+<p>In terms of BattingRuns, is it more important to hit for power or on base percentage?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>batting_2011 <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> <span class="co"># Before adding this, scale() returned NaN for everything.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">OBP_scaled =</span> <span class="fu">scale</span>(OBP),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">SLG_scaled =</span> <span class="fu">scale</span>(SLG),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">BR_scaled =</span> <span class="fu">scale</span>(batting_runs)) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> OBP_scaled, <span class="at">y =</span> SLG_scaled, <span class="at">color =</span> BR_scaled)) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_b</span>() <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lsn_32_linear_weights_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

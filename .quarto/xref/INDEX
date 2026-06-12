@@ -1,0 +1,216 @@
+{
+  "lessons/lsn_1_course_intro.qmd": {
+    "lsn_1_course_intro.html": "7e0dd08f",
+    "lsn_1_course_intro.tex": "958f2e50"
+  },
+  "lessons/Lsn 1 - Course Introduction.Rmd": {
+    "Lsn 1 - Course Introduction.html": "2c3dec51"
+  },
+  "lessons/Lsn 2 - Intro to R Part I.Rmd": {
+    "Lsn 2 - Intro to R Part I.html": "9f45f55e"
+  },
+  "lessons/lsn_2_intro_to_R.Rmd": {
+    "lsn_2_intro_to_R.html": "812caa62"
+  },
+  "index.qmd": {
+    "index.html": "b35a8d72"
+  },
+  "lessons/lsn_2_intro_to_R.qmd": {
+    "lsn_2_intro_to_R.html": "a78faf9a",
+    "lsn_2_intro_to_R.tex": "32217543"
+  },
+  "lessons/textbook_toc.qmd": {
+    "textbook_toc.html": "d72398a2"
+  },
+  "lessons/lsn_3_intro_to_R_II.qmd": {
+    "lsn_3_intro_to_R_II.html": "6124b9b0",
+    "lsn_3_intro_to_R_II.tex": "a9975169"
+  },
+  "lessons/class_notes.qmd": {
+    "class_notes.tex": "e9607377",
+    "class_notes.html": "d8763466"
+  },
+  "calendar/calendar.qmd": {
+    "calendar.html": "847ff55c",
+    "calendar.tex": "0ca0a146"
+  },
+  "lessons/lsn_4_r_graphics_I.qmd": {
+    "lsn_4_r_graphics_I.html": "0f84d491",
+    "lsn_4_r_graphics_I.tex": "438d247a"
+  },
+  "lessons/lsn_4_r_graphics_II.qmd": {
+    "lsn_4_r_graphics_II.html": "a06a4f19",
+    "lsn_4_r_graphics_II.tex": "fdb8d41d"
+  },
+  "lessons/lsn_5_r_graphics_II.qmd": {
+    "lsn_5_r_graphics_II.html": "5c8370eb",
+    "lsn_5_r_graphics_II.tex": "3c953302"
+  },
+  "lessons/lsn_6_runs_and_wins_I.qmd": {
+    "lsn_6_runs_and_wins_I.html": "f2c15605",
+    "lsn_6_runs_and_wins_I.tex": "07be3b4e"
+  },
+  "lessons/lsn_7_runs_and_wins_II.qmd": {
+    "lsn_7_runs_and_wins_II.html": "765d7867",
+    "lsn_7_runs_and_wins_II.tex": "175a57bf"
+  },
+  "lessons/lsn_8_runs_expectancy_matrix.qmd": {
+    "lsn_8_runs_expectancy_matrix.html": "6f6f50b3",
+    "lsn_8_runs_expectancy_matrix.tex": "54b8ac24"
+  },
+  "lessons/lsn_9_runs_expectancy_matrix.qmd": {
+    "lsn_9_runs_expectancy_matrix.html": "d3484993",
+    "lsn_9_runs_expectancy_matrix.tex": "263d3041"
+  },
+  "lessons/lsn_8_runs_and_wins_II.qmd": {
+    "lsn_8_runs_and_wins_II.html": "d70e8adb",
+    "lsn_8_runs_and_wins_II.tex": "ce049891"
+  },
+  "lessons/lsn_10_hits_stealing.qmd": {
+    "lsn_10_hits_stealing.html": "7d98ed27",
+    "lsn_10_hits_stealing.tex": "d99fcc16"
+  },
+  "lessons/lsn_11_swinging_tendencies.qmd": {
+    "lsn_11_swinging_tendencies.html": "ed9dda42",
+    "lsn_11_swinging_tendencies.tex": "e4eb8357"
+  },
+  "lessons/lsn_12_umpire_tendencies.qmd": {
+    "lsn_12_umpire_tendencies.html": "7891fa14",
+    "lsn_12_umpire_tendencies.tex": "1801ffb8"
+  },
+  "lessons/lsn_13_catcher_framing_visualization.qmd": {
+    "lsn_13_catcher_framing_visualization.html": "e00a6100",
+    "lsn_13_catcher_framing_visualization.tex": "d929603c"
+  },
+  "lessons/lsn_12_umpire_tendencies.knit.md": {
+    "lsn_12_umpire_tendencies.knit.html": "b8719f44"
+  },
+  "lessons/lsn_14_logistic_regression.qmd": {
+    "lsn_14_logistic_regression.html": "a947246a",
+    "lsn_14_logistic_regression.tex": "babedf58"
+  },
+  "lessons/lsn_15_catcher_framing_modeling.qmd": {
+    "lsn_15_catcher_framing_modeling.html": "88746c4c",
+    "lsn_15_catcher_framing_modeling.tex": "26da4495"
+  },
+  "lessons/lsn_16_catcher_framing_random_effects.qmd": {
+    "lsn_16_catcher_framing_random_effects.html": "16bc2979",
+    "lsn_16_catcher_framing_random_effects.tex": "7e03b787"
+  },
+  "lessons/lsn_17_peak_trajectories_I.qmd": {
+    "lsn_17_peak_trajectories_I.html": "3c422b04",
+    "lsn_17_peak_trajectories_I.tex": "1135c2f4"
+  },
+  "lessons/lsn_18_peak_trajectories_I.qmd": {
+    "lsn_18_peak_trajectories_I.html": "82a35d94",
+    "lsn_18_peak_trajectories_I.tex": "d03856ba"
+  },
+  "grab_bag/grab_bag.qmd": {
+    "grab_bag.html": "bb4a4c40",
+    "grab_bag.tex": "23da18a5"
+  },
+  "lessons/lsn_19_peak_trajectories_II.qmd": {
+    "lsn_19_peak_trajectories_II.html": "62994b1a",
+    "lsn_19_peak_trajectories_II.tex": "c24859cf"
+  },
+  "lessons/lsn_19_peak_trajectories_II.Rmd": {
+    "lsn_19_peak_trajectories_II.html": "9366c4a6"
+  },
+  "lessons/lsn_19_peak_trajectories_II_cadets.Rmd": {
+    "lsn_19_peak_trajectories_II_cadets.html": "3525c242"
+  },
+  "lessons/lsn_20_multilevel_modeling.qmd": {
+    "lsn_20_multilevel_modeling.html": "c81c41f8",
+    "lsn_20_multilevel_modeling.tex": "bfe9179c"
+  },
+  "lessons/lsn_20_multilevel_modeling.knit.md": {
+    "lsn_20_multilevel_modeling.knit.html": "14e0031e",
+    "lsn_20_multilevel_modeling.knit.tex": "ae844c8d"
+  },
+  "lessons/lsn_21_simulation_I.qmd": {
+    "lsn_21_simulation_I.html": "2c782ae8",
+    "lsn_21_simulation_I.tex": "e71ecef8"
+  },
+  "lessons/lsn_22_simulation_II.qmd": {
+    "lsn_22_simulation_II.html": "0de4307f",
+    "lsn_22_simulation_II.tex": "6e5ab548"
+  },
+  "lessons/lsn_23_the_great_streak.qmd": {
+    "lsn_23_the_great_streak.html": "bbc4b213",
+    "lsn_23_the_great_streak.tex": "4273b840"
+  },
+  "lessons/lsn_24_streakiness_statistics.qmd": {
+    "lsn_24_streakiness_statistics.html": "c667d16d",
+    "lsn_24_streakiness_statistics.tex": "a01ff57f"
+  },
+  "lessons/lsn_24_streaky_performances.qmd": {
+    "lsn_24_streaky_performances.html": "8a7b0435",
+    "lsn_24_streaky_performances.tex": "a813039f"
+  },
+  "grab_bag/march_madness.qmd": {
+    "march_madness.html": "2a9e6ade",
+    "march_madness.tex": "25ed02a7"
+  },
+  "lessons/lsn_25_statcast_spray_charts.qmd": {
+    "lsn_25_statcast_spray_charts.html": "29ef1a26",
+    "lsn_25_statcast_spray_charts.tex": "f934ce8f"
+  },
+  "lessons/lsn_26_statcast_spray_charts.qmd": {
+    "lsn_26_statcast_spray_charts.html": "fc544706",
+    "lsn_26_statcast_spray_charts.tex": "de67b186"
+  },
+  "lessons/lsn_27_launch_angles_exit_velocity.qmd": {
+    "lsn_27_launch_angles_exit_velocity.html": "9525f607",
+    "lsn_27_launch_angles_exit_velocity.tex": "1f0346e8"
+  },
+  "lessons/lsn_28_home_run_hitting_I.qmd": {
+    "lsn_28_home_run_hitting_I.html": "e248ac8b",
+    "lsn_28_home_run_hitting_I.tex": "5bbd3cd2"
+  },
+  "lessons/lsn_29_home_run_hitting_II.qmd": {
+    "lsn_29_home_run_hitting_II.html": "c9c96ed4",
+    "lsn_29_home_run_hitting_II.tex": "e5c993cb"
+  },
+  "lessons/lsn_30_equivalence_coefficient.qmd": {
+    "lsn_30_equivalence_coefficient.html": "56d376f9",
+    "lsn_30_equivalence_coefficient.tex": "900cede9"
+  },
+  "lessons/lsn_31_ops+_babip.qmd": {
+    "lsn_31_ops+_babip.html": "b0c99c05",
+    "lsn_31_ops+_babip.tex": "17c86135"
+  },
+  "lessons/test_slides.qmd": {
+    "test_slides.html": "00b4bc75"
+  },
+  "lessons/lsn_32_linear_weights.qmd": {
+    "lsn_32_linear_weights.html": "b9caa91d",
+    "lsn_32_linear_weights.tex": "4d9fb1e3"
+  },
+  "lessons/lsn_33_runs_created.qmd": {
+    "lsn_33_runs_created.html": "f108b19b",
+    "lsn_33_runs_created.tex": "0b7dc87d"
+  },
+  "lessons/lsn_33_runs_created_solution.qmd": {
+    "lsn_33_runs_created_solution.html": "d4ec082a",
+    "lsn_33_runs_created_solution.tex": "111193a9"
+  },
+  "lessons/lsn_34_quarto_presentations.qmd": {
+    "lsn_34_quarto_presentations.html": "a148a5f7",
+    "lsn_34_quarto_presentations.tex": "b2cc9ec5"
+  },
+  "lessons/quarto_slides_demo.qmd": {
+    "quarto_slides_demo.html": "e7a581f5",
+    "demo_slides.html": "889c111b"
+  },
+  "lessons/lsn_34_quarto_presentation_demo.qmd": {
+    "lsn_34_quarto_presentation_demo.html": "ac030fb7"
+  },
+  "lessons/slide_demo.qmd": {
+    "slide_demo.html": "40d90eed",
+    "Hitting_Leaders.html": "0b8026c9"
+  },
+  "lessons/lsn_35_shiny.qmd": {
+    "lsn_35_shiny.html": "75a2be09",
+    "lsn_35_shiny.tex": "1ff81b1a"
+  }
+}

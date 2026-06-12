@@ -1,0 +1,21 @@
+---
+title: "MA388 Sabermetrics Calendar"
+subtitle: "MA388 AY26-2 Calendar"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+<iframe src="MA388_CompositeCalendar_AY26-2_Current.pdf" width="140%" height="900" style="border: none;">
+  Your browser does not support PDFs. 
+  <a href="MA388_CompositeCalendar_AY26-2_Current.pdf">Download the calendar PDF</a>.
+</iframe>
+

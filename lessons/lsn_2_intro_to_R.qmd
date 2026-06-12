@@ -1,0 +1,115 @@
+---
+title: "MA388 Sabermetrics: Lesson 2"
+subtitle: "Introduction to R"
+format:
+  html:
+    theme: cosmo
+    toc: true
+  pdf:
+    documentclass: article
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+library(Lahman)
+library(tidyverse)
+library(knitr)
+```
+
+## Compiling an .qmd file
+
+You'll submit most assignments in this course as PDFs via Canvas.  Let's make sure you can produce a PDF from Quarto Markdown.  If you already know how to do this, sit tight for a minute...
+
+If this is new for you, you'll need to install a TeX distribution.  This is easy with `TinyTeX`.
+
+```{r}
+#| eval: false
+install.packages("tinytex")
+```
+
+With that package loaded, you're ready to install TeX.
+
+```{r}
+#| eval: false
+tinytex::install_tinytex()
+```
+
+Now you should be able to download the source file for these class notes (see "lsn_2_intro_to_R.qmd") and "Render to PDF."  Make sure this works before the end of class today.
+
+## R Syntax Best Practices
+
+### Variable Assignemnt
+
+A lot of folks like to use the `=` sign to assign variable names. While it generally does work, the more appropriate syntax is `->` or `<-`, depending on which side of the argument your variable name is. `=` is used more for 
+
+### Piping
+
+The pipe passes the output of the previous argument to the first argument of the following function. It's incredibly useful for data munging. You are probably most familiar with the pipe that looks like `%>%`. However, that pipe is specific to the `dplyr` package. There is now a pipe that is native to base R that is probably better to use `|>`.
+
+## Review
+
+* You are investigating whether the hit-and-run is a good strategy.  Which data set should you use?
+
+\vspace{.5in}
+
+* You are investigating whether pitchers throw more fastballs to hitters at the bottom of the batting order.  Which data set would you use?
+
+\vspace{.5in}
+
+* Use R to find career batting average (H/AB) leaders of your favorite team.  More specifically, select a team and report a table of the 10 players with at least 2500 at bats (AB) with the highest batting averages while playing for that team.
+
+\vspace{2in}
+
+```{r}
+#| echo: false
+redSox <- Batting |>
+  filter(teamID == "BOS") |>
+  group_by(playerID) |>
+  summarize(H = sum(H),
+            AB = sum(AB)) |>
+  filter(AB >= 2500) |>
+  mutate(AVG = H/AB) |>
+  arrange(-AVG)
+
+redSox |>
+  head(10) |>
+  kable(digits = 3, caption = "Red Sox Career Batting Average Leaders")
+```
+
+## Merging Data Frames (pg 41)
+
+When using a relational database (what does that mean again?), a common task is to add information from one table to another.  For example, consider our table above from the review.  Add the player's name and when they played their final game.
+
+```{r}
+# I called my table from the review redSox.
+
+redSox <- redSox |>
+  left_join(select(People, playerID, nameLast, nameFirst, finalGame), by = "playerID" )
+```
+
+Your turn...the `HallofFame` data frame contains data on every Hall of Fame ballot.  Add to your table above whether the player is in the Hall of Fame. (hint: `filter(inducted == "Y")`)
+
+\vspace{.5in}
+
+```{r}
+#| echo: false
+inductee <- HallOfFame |>
+  filter(inducted == "Y") |>
+  select(playerID, yearID, inducted)
+
+redSox <- redSox |>
+  left_join(inductee, by = "playerID")
+
+redSox |>
+  head(10) |>
+  kable(digits = 3, caption = "Red Sox career batting average leaders")
+```
+
+What cleaning would you still want to do to this table to make it more readable?
+
+\vspace{.25in}
+
+What is the difference between left\_join(), right\_join(), inner\_join(), and outer\_join()?
