@@ -1,11 +1,11 @@
 ---
-title: "MA388 Sabermetrics AY26-2"
+title: "MA388 Sabermetrics AY27-1"
 editor: 
   markdown: 
     wrap: sentence
 ---
 
-#### Welcome to MA388 Sabermetrics for AY26-2.
+#### Welcome to MA388 Sabermetrics for AY27-1.
 
 Use the navigation menu above to access lesson materials.
 
