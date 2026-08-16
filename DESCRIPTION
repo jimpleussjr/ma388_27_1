@@ -1,0 +1,25 @@
+Package: ma388_27_1
+Title: MA388 Sabermetrics Course Website
+Version: 0.1.0
+Description: Course website for MA388 Sabermetrics AY27-1
+Depends:
+    R (>= 4.0)
+Imports:
+    tidyverse,
+    knitr,
+    Lahman,
+    ggrepel,
+    baseballr,
+    broom,
+    mgcv,
+    modelr,
+    lubridate,
+    zoo,
+    patchwork,
+    glue,
+    plotly,
+    gridExtra,
+    lme4,
+    kableExtra,
+    brms,
+    rstan

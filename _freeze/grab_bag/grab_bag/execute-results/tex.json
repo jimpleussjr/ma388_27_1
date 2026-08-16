@@ -1,0 +1,17 @@
+{
+  "hash": "f6f254abac1051514f73501b52539f4e",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"LTC Pleuss Grab Bag Topics\"\nsubtitle: \"What Should We Talk About?\"\nformat:\n  html:\n    theme: cosmo\n\n  pdf:\n    documentclass: article\nexecute:\n  echo: true\n  warning: false\n  message: false\n---\n\n<iframe src=\"topics.png\" width=\"140%\" height=\"900\" style=\"border: none;\">\n</iframe>\n\n\n\n\n\n",
+    "supporting": [
+      "grab_bag_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}

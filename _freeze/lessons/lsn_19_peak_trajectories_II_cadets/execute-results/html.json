@@ -1,0 +1,15 @@
+{
+  "hash": "e3e67278e6c951e32812fc6edb307310",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"MA388 Sabermetrics: Lesson 18\"\nsubtitle: \"Comparing Peak Trajectories - Part II\"\nauthor: \"Your Name Here\"\noutput:\n  pdf_document: default\n  html_document:\n    df_print: paged\nurlcolor: blue\n---\n\n\n\n## Comparing Trajectories of Home Run Hitters\n\n1. Find the ten players in baseball history who have hit the most career home runs.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(Lahman)\nlibrary(knitr)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# ***Your code here.***\n```\n:::\n\n\n2. Fit quadratic functions to the home run rates of the ten players, where HR.RATE = HR / AB.  Display the fitted trajectories in a single figure.\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# ***Your code here.***\n```\n:::\n\n\n3. On the basis of your work, which player had the highest estimated home run rate at his peak?  Which player among the ten had the smallest peak home run rate?\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# ***Your code here.***\n```\n:::\n\n\n*Your answer here.*\n\n4. Do any of the players have unusual career trajectory shapes?  Is there any possible explanation for these unusual shapes?\n\n*Your answer here.*\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

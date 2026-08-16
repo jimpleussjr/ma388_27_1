@@ -1,0 +1,21 @@
+{
+  "hash": "3658cc9d4bcf44e8c92faf3a6ac32874",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Milwaukee Brewers: <br> Batting <br> 2000 - 2025\"\nformat:\n  revealjs:\n    theme: solarized\n    slide-number: true\n    transition: fade\n    incremental: false\n    chalkboard: true\n    preview-links: auto\neditor: visual\nparams:\n  teamID: \"MIL\"\n  team_name: \"Milwaukee Brewers:\"\n  year_start: 2000\n  year_end: 2025\n---\n\n\n\n# Why Quarto + RevealJS?\n\n## Cool Interactive Features {.smaller}\n\n::: incremental\n-   Incremental bullet builds\n-   Fragments that appear on click\n-   Code highlighting line-by-line\n-   Auto-animate transitions\n-   Speaker notes / chalkboard\n-   Embedded HTML widgets\n:::\n\n# Batting Leaders\n\n## Home Run Leaders\n\n\n::: {.cell}\n::: {.cell-output-display}\n\n\n|Name           |  HR|\n|:--------------|---:|\n|Ryan Braun     | 352|\n|Prince Fielder | 230|\n|Geoff Jenkins  | 182|\n|Corey Hart     | 154|\n|Rickie Weeks   | 148|\n\n\n:::\n:::\n\n\n## OPS Leaders\n\n\n::: {.cell}\n::: {.cell-output-display}\n\n\n|Name             |   OPS|\n|:----------------|-----:|\n|Ryan Braun       | 0.350|\n|Prince Fielder   | 0.348|\n|Richie Sexson    | 0.343|\n|Carlos Lee       | 0.333|\n|Christian Yelich | 0.332|\n\n\n:::\n:::\n\n\n::: fragment\nOPS combines ability to get on base **and** hit for power.\n:::\n\n::: fragment\nGreat single-number summary for offensive value.\n:::\n\n# Batting Trends\n\n## Batting Average Trend\n\n\n::: {.cell}\n\n```{.r .cell-code  code-fold=\"true\" code-line-numbers=\"2|3|4\"}\nteam_stats |>\n  ggplot(aes(yearID, BA)) +\n  geom_line(linewidth = 1.2) +\n  geom_point(size = 2) +\n  theme_bw() +\n  labs(x = \"Year\", y = \"Batting Average\")\n```\n\n::: {.cell-output-display}\n![](lsn_34_quarto_presentation_demo_files/figure-revealjs/unnamed-chunk-4-1.png){width=960}\n:::\n:::\n\n\n## Milwaukee Brewers: Home Runs {auto-animate=\"true\"}\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](lsn_34_quarto_presentation_demo_files/figure-revealjs/unnamed-chunk-5-1.png){width=960}\n:::\n:::\n\n\n::: fragment\nPeak power occurs in 2019 with 250 homeruns\n:::\n\n::: fragment\nShortened 2020 season.\n:::\n\n## Milwaukee Brewers: Home Runs vs League Average {auto-animate=\"true\"}\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](lsn_34_quarto_presentation_demo_files/figure-revealjs/unnamed-chunk-6-1.png){width=960}\n:::\n:::\n\n-   Peak power occurs in 2019 with 250 homeruns\n-   Shortened 2020 season.",
+    "supporting": [
+      "lsn_34_quarto_presentation_demo_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    // dispatch for htmlwidgets\n    function fireSlideEnter() {\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n    }\n\n    function fireSlideChanged(previousSlide, currentSlide) {\n      fireSlideEnter();\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

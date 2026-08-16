@@ -212,5 +212,8 @@
   "lessons/lsn_35_shiny.qmd": {
     "lsn_35_shiny.html": "75a2be09",
     "lsn_35_shiny.tex": "1ff81b1a"
+  },
+  "lessons/lesson_objectives_mapping.Rmd": {
+    "lesson_objectives_mapping.html": "4ebdd31f"
   }
 }
