@@ -27,15 +27,15 @@ PACE: email, Teams, drop-in, phone
 
 Sabermetrics
 
--   Course Texts/Videos/Blogs
+- Course Texts/Videos/Blogs
 
--   Hands-on/Interactive
+- Hands-on/Interactive
 
--   R/RStudio
+- R/RStudio
 
--   Calendar Overview
+- Calendar Overview
 
--   Graded Events (Problem Sets and Project)
+- Graded Events (Problem Sets and Project)
 
 # Introductions
 
@@ -43,19 +43,19 @@ At some point this semester everyone in this room will be graded on their abilit
 
 Please tell us your:
 
--   Preferred Name
+- Preferred Name
 
--   Hometown
+- Hometown
 
--   Major
+- Major
 
--   Branch/Desired Branch
+- Branch/Desired Branch
 
--   Activities (Sports, Clubs, Interests)
+- Activities (Sports, Clubs, Interests)
 
--   Unique Skill / Random Fact
+- Unique Skill / Random Fact
 
--   Song (title and artist) that ups your mood anytime you hear it.
+- Song (title and artist) that ups your mood anytime you hear it.
 
 ```{r, echo=FALSE, out.height="45%", fig.align='center'}
 knitr::include_graphics("who_am_i_1.png")
@@ -67,7 +67,7 @@ knitr::include_graphics("who_am_i_1.png")
 knitr::include_graphics("who_am_i_2.png")
 ```
 
-# DAW, Section Marcher Role
+# DAAW, Section Marcher Role
 
 Bottom line: Do the right thing. I don't want to have to correct you, but I will. If you don't know what the right thing to do is, just ask. Too easy!
 
@@ -75,55 +75,55 @@ Bottom line: Do the right thing. I don't want to have to correct you, but I will
 
 This course is about three big things (in my mind):
 
--   baseball
+- baseball
 
--   statistics
+- statistics
 
--   data science skills
+- data science skills
 
 You're going to learn a lot about all three. My hope is that you will recognize that the statistics we study and the data science skills you learn through our study of baseball are applicable to many other domains outside of baseball. Are we tricking you into learning some valuable skills by making it about baseball? Maybe...
 
 ### You can expect me to...
 
--   Be kind and treat you with respect.
+- Be kind and treat you with respect.
 
--   Be approachable and available.
+- Be approachable and available.
 
--   Get to know you as an individual.
+- Get to know you as an individual.
 
--   Be enthusiastic and show relevance of the course to your life.
+- Be enthusiastic and show relevance of the course to your life.
 
--   Set the conditions for your success.
+- Set the conditions for your success.
 
--   Understand you have other things going on in your life.
+- Understand you have other things going on in your life.
 
--   Make mistakes.
+- Make mistakes.
 
 ### I expect you to...
 
--   Keep an open mind and grow as future officers in our profession.
+- Keep an open mind and grow as future officers in our profession.
 
--   Be responsible for your learning.
+- Be responsible for your learning.
 
--   Use a variety of sources to aid in understanding.
+- Use a variety of sources to aid in understanding.
 
--   Keep me informed of what’s going on in your life.
+- Keep me informed of what’s going on in your life.
 
--   Actively participate in class.
+- Actively participate in class.
 
--   Be respectful of your classmates
+- Be respectful of your classmates
 
--   Make mistakes. Maybe even more than me...
+- Make mistakes. Maybe even more than me...
 
 ### Course Documentation (located on Canvas)
 
--   Syllabus (Course Calendar)
+- Syllabus (Course Calendar)
 
--   Instructional Memo
+- Instructional Memo
 
--   Lesson Notes (prior to the lesson)
+- Lesson Notes (prior to the lesson)
 
--   Problem Sets (about 10 days in advance of due date)
+- Problem Sets (about 10 days in advance of due date)
 
 ### Course Texts
 
@@ -137,17 +137,17 @@ The Costa, Huber, and Saccoman text will be provided by the instructor later in 
 
 If you need a short introduction to the rules and general flow of a baseball game, this video is a good place to start.
 
--   <https://www.youtube.com/watch?v=skOsApsF0jQ>
+- <https://www.youtube.com/watch?v=skOsApsF0jQ>
 
 # Chapter 1 - Baseball Datasets
 
--   The Lahman Database - Season by Season Data (since 1871)
+- The Lahman Database - Season by Season Data (since 1871)
 
--   Retrosheet - Game by Game Data (since 1871); Play by Play Data (since 1921)
+- Retrosheet - Game by Game Data (since 1871); Play by Play Data (since 1921)
 
--   PITCHf/x - Pitch by Pitch (since 2008)
+- PITCHf/x - Pitch by Pitch (since 2008)
 
--   Statcast - Launch Angle, Exit Velocity, Distance, Player Positioning (since 2015)
+- Statcast - Launch Angle, Exit Velocity, Distance, Player Positioning (since 2015)
 
 How do we get all this amazing baseball data? Read Section 1.7 in ABDWR closely. Some data we'll use will come from packages, and some data will take a bit more effort to assemble...but we can do it.
 
@@ -157,17 +157,17 @@ How do we get all this amazing baseball data? Read Section 1.7 in ABDWR closely.
 
 Tidyverse Verbs
 
--   select()
+- select()
 
--   filter()
+- filter()
 
--   mutate()
+- mutate()
 
--   group_by()
+- group_by()
 
--   summarize()
+- summarize()
 
--   arrange()
+- arrange()
 
 Let's investigate how home run rates in Major League Baseball have changed over time. The R package *Lahman* imports data from Sean Lahman's Baseball Archive. In this example, we will use the `Batting` data frame in the package.
 

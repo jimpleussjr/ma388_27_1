@@ -1,0 +1,402 @@
+---
+title: "MA388 Sabermetrics — Lesson Objectives Mapped to Course Objectives"
+author: "LTC Jim Pleuss"
+date: "AY27-1"
+output: pdf_document
+header-includes:
+  - \usepackage{amssymb}
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(knitr)
+```
+
+# Course Objectives
+
+**CO1:** Use the investigative process in statistics to answer research questions of interest in sabermetrics.  
+**CO2:** Use statistical software to obtain, prepare, summarize, visualize, and model complex data.  
+**CO3:** Identify and employ advanced statistical methods for estimation and prediction to answer questions in sabermetrics.  
+**CO4:** Draw appropriate conclusions from statistical analyses and communicate them to general audiences.  
+**CO5:** Appreciate the importance and limitations of statistical inquiry to answer questions of interest.  
+**CO6:** Be critical consumers of statistically based results and recognize whether reported results reasonably follow from the study and analysis conducted.
+
+---
+
+# Lesson 1 — Course Introduction
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 1.1 | Identify major baseball data sources (Lahman, Retrosheet, PITCHf/x, Statcast) and their appropriate use cases. | 1, 2 |
+| 1.2 | Navigate course resources including texts, problem sets, and the course calendar to plan learning. | 1 |
+| 1.3 | Recognize the three pillars of the course: baseball, statistics, and data science skills. | 5 |
+| 1.4 | Explore data using basic tidyverse verbs (select, filter, mutate, group_by, summarize, arrange) to calculate home run rates over time. | 2 |
+| 1.5 | Produce a line plot showing how home run rates have changed across decades. | 2, 4 |
+
+# Lesson 2 — Introduction to R
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 2.1 | Compile a Quarto Markdown document to PDF using TinyTeX. | 2 |
+| 2.2 | Use `left_join()` and other join operations to merge information across relational database tables. | 2 |
+| 2.3 | Use the native R pipe `|>` and tidyverse verbs to answer a question about career batting average leaders. | 1, 2 |
+
+# Lesson 3 — Introduction to R Part II
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 3.1 | Implement the split-apply-combine strategy using `group_by`/`summarize` and `split()`/`map_df()`. | 2 |
+| 3.2 | Write a custom function and apply it across grouped data to find per-season win leaders. | 2, 3 |
+| 3.3 | Distinguish between `select()` and `pull()` for extracting data from a data frame. | 2 |
+
+# Lesson 4 — R Graphics Part I
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 4.1 | Use `ggplot` with aesthetic mappings (color, linetype, shape) to visualize data in long format. | 2 |
+| 4.2 | Transform data between wide and long format using `pivot_wider()`. | 2 |
+| 4.3 | Create a scatter plot with color-coded groups and meaningful axis labels. | 2, 4 |
+| 4.4 | Map a function over a sequence of years to compute cumulative career home run leaders. | 2, 3 |
+
+# Lesson 5 — R Graphics Part II
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 5.1 | Create factor variables using `cut()` to categorize numeric data by baseball era. | 2 |
+| 5.2 | Construct boxplots and line plots with multiple groups (e.g., salary by decade, runs per game by league). | 2 |
+| 5.3 | Use `geom_smooth()` to add smoothed trends to scatter plots. | 2 |
+| 5.4 | Evaluate Hall of Fame voting patterns and compare pitcher statistics by induction status using visualization. | 1, 4 |
+
+# Lesson 6 — Runs and Wins Part I
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 6.1 | Fit a linear regression model to quantify the relationship between run differential and wins. | 3 |
+| 6.2 | Interpret regression coefficients and derive the "10 runs = 1 win" rule of thumb. | 3, 4 |
+| 6.3 | Assess model fit using residual plots and `broom::augment()`. | 3, 6 |
+| 6.4 | Determine the number of wins typically needed to make the playoffs using historical data. | 1, 4 |
+
+# Lesson 8 — Runs and Wins Part II
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 8.1 | Compare three models (linear, Pythagorean with k=2, Pythagorean with estimated k) for predicting win percentage. | 3, 6 |
+| 8.2 | Derive and compute incremental runs per win under the Pythagorean model. | 3 |
+| 8.3 | Use RMSE to evaluate and compare model performance. | 3, 6 |
+| 8.4 | Estimate the Pythagorean exponent via log-log regression without an intercept. | 3 |
+
+# Lesson 9 — Run Expectancy Matrix
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 9.1 | Construct a run expectancy matrix from Retrosheet play-by-play data. | 2, 3 |
+| 9.2 | Interpret run expectancy values for each game state (bases/outs combination). | 4 |
+| 9.3 | Calculate the run value of individual plays using the change in run expectancy. | 3 |
+| 9.4 | Distinguish between a run expectancy matrix and a run probability matrix. | 5 |
+
+# Lesson 10 — Value of Hits and Stealing
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 10.1 | Compute RE24 to aggregate a player's run value across all plate appearances. | 3, 4 |
+| 10.2 | Compare batting average and slugging percentage to run-value-based measures of performance. | 6 |
+| 10.3 | Evaluate the expected value of a stolen base attempt using the run expectancy matrix. | 3 |
+| 10.4 | Calculate mean run values for singles, doubles, triples, and home runs. | 3, 4 |
+
+# Lesson 11 — Swinging Tendencies
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 11.1 | Use regular expressions and stringr functions to process pitch sequence data. | 2 |
+| 11.2 | Create indicator variables for whether a plate appearance passed through each ball-strike count. | 2 |
+| 11.3 | Compute and visualize the mean run value for each count. | 3, 4 |
+| 11.4 | Explain why ball-strike count affects expected run value. | 1, 5 |
+
+# Lesson 12 — Umpire Tendencies
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 12.1 | Collect Statcast pitch-level data using the `baseballr` package. | 2 |
+| 12.2 | Fit a LOESS model to estimate the probability of a called strike as a function of pitch location. | 3 |
+| 12.3 | Visualize umpire strike zones across different counts using contour plots and faceting. | 4 |
+| 12.4 | Assess whether umpires adjust their strike zone based on the count. | 1, 6 |
+
+# Lesson 13 — Catcher Framing Visualization
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 13.1 | Import and merge Statcast pitch data with player ID maps to add catcher names. | 2 |
+| 13.2 | Create faceted visualizations to compare called-strike proportions across catchers. | 2, 4 |
+| 13.3 | Discuss challenges in isolating catcher framing ability from confounding factors. | 5, 6 |
+| 13.4 | Calculate called-strike proportions for pitches near the edge of the strike zone. | 3 |
+
+# Lesson 14 — Logistic Regression
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 14.1 | Fit a logistic regression model for a binary response (called strike vs. ball). | 3 |
+| 14.2 | Interpret logistic regression coefficients in terms of odds and log-odds. | 3, 4 |
+| 14.3 | Explain why logistic regression uses the logit link (sigmoid transformation). | 3 |
+| 14.4 | Identify confounders (e.g., count) and adjust for them in a multiple logistic regression model. | 3, 5 |
+
+# Lesson 15 — Catcher Framing Modeling
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 15.1 | Fit a generalized additive model (GAM) to model called-strike probability as a smooth function of pitch location. | 3 |
+| 15.2 | Use a GAM to adjust for pitch location when comparing catchers. | 3 |
+| 15.3 | Compare a simple linear logistic model with a smooth spatial model for strike-zone decisions. | 3, 6 |
+| 15.4 | Extend a two-catcher comparison to consider modeling many catchers simultaneously. | 3, 5 |
+
+# Lesson 16 — Catcher Framing Random Effects
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 16.1 | Fit a fixed-effects model with many catcher indicators and discuss its limitations. | 3, 6 |
+| 16.2 | Fit a random-effects (multilevel) model to estimate catcher-to-catcher variability. | 3 |
+| 16.3 | Use likelihood ratio tests to compare nested models with and without catcher random effects. | 3, 6 |
+| 16.4 | Interpret variance components to assess whether catchers meaningfully affect called-strike rates. | 4, 5 |
+
+# Lesson 18 — Peak Trajectories Part I
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 18.1 | Fit a quadratic model to describe a player's OPS as a function of age. | 3 |
+| 18.2 | Derive expressions for peak age and peak OPS from a quadratic model. | 3 |
+| 18.3 | Discuss the trade-offs of using a simple parametric curve to model career trajectories. | 5, 6 |
+| 18.4 | Explain why centering age at 30 improves interpretability of the model coefficients. | 3 |
+
+# Lesson 19 — Peak Trajectories Part II
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 19.1 | Map a quadratic model function over multiple players to compare career trajectories. | 2, 3 |
+| 19.2 | Identify which historical home run hitter had the highest estimated peak HR rate. | 1, 4 |
+| 19.3 | Recognize unusual trajectory shapes and hypothesize explanations (e.g., injuries, era effects). | 5, 6 |
+
+# Lesson 20 — Multilevel Modeling
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 20.1 | Fit individual quadratic OBP trajectories and identify their limitations (overfitting for short careers). | 3, 6 |
+| 20.2 | Fit a Bayesian multilevel model using `brms` that pools information across players. | 3 |
+| 20.3 | Compare individual-model estimates with multilevel-model estimates (shrinkage effect). | 3, 6 |
+| 20.4 | Explain how Bayesian methods combine prior information with observed data to improve estimates. | 5 |
+
+# Lesson 21 — Simulation Part I (Markov Chains)
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 21.1 | Construct a transition probability matrix from Retrosheet play-by-play data. | 2, 3 |
+| 21.2 | Model a baseball half-inning as a Markov chain and simulate 10,000 half-innings. | 1, 3 |
+| 21.3 | Compute the distribution of runs scored per half-inning and the average runs per half-inning. | 1, 4 |
+| 21.4 | Discuss the memoryless property of Markov chains and whether it allows for momentum. | 5 |
+
+# Lesson 22 — Simulation Part II (Season Simulation)
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 22.1 | Use the Bradley-Terry model to compute the probability one team beats another. | 3 |
+| 22.2 | Build a Monte Carlo simulation of an entire baseball season, including schedule generation. | 1, 2 |
+| 22.3 | Compare simulated season results to the underlying talent levels of teams. | 4, 6 |
+| 22.4 | Generalize the Monte Carlo framework to simulate other probabilistic events. | 1, 3 |
+
+# Lesson 23 — The Great Streak (DiMaggio)
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 23.1 | Calculate run-length encoding (streaks) from a sequence of binary outcomes. | 2 |
+| 23.2 | Compute a moving average to visualize streaky performance over a season. | 2, 4 |
+| 23.3 | Use simulation (random shuffling) to assess how unusual DiMaggio's 56-game hitting streak was. | 1, 3 |
+| 23.4 | Interpret p-values from a permutation/simulation test in the context of streak analysis. | 4, 6 |
+
+# Lesson 24 — Streakiness Statistics
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 24.1 | Calculate a clumpiness/streakiness coefficient (sum of squared gap lengths) for any player. | 3 |
+| 24.2 | Use simulation to generate the null distribution of the streakiness coefficient under randomness. | 1, 3 |
+| 24.3 | Compare a player's observed streakiness to the simulated null distribution. | 4, 6 |
+| 24.4 | Identify the longest hitless streaks among MLB players and interpret them. | 1, 4 |
+
+# Lesson 26 — Statcast Spray Charts
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 26.1 | Retrieve Statcast data for individual batters using `scrape_statcast_savant()`. | 2 |
+| 26.2 | Build a spray chart showing where batters hit balls in play on the field. | 2, 4 |
+| 26.3 | Compare pull-happy vs. opposite-field hitters and relate tendencies to defensive shifts. | 1, 4 |
+| 26.4 | Compute percentages of pulled ground balls and infield shifts faced for individual players. | 2, 3 |
+
+# Lesson 27 — Launch Angles & Exit Velocity
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 27.1 | Create a scatter plot showing the relationship between exit velocity, launch angle, and batting average. | 2, 4 |
+| 27.2 | Compare 2015 and 2017 Statcast data to investigate changes in home run rates. | 1, 6 |
+| 27.3 | Use wOBA as an alternative outcome measure on launch-angle/exit-velocity plots. | 3 |
+| 27.4 | Construct histograms of launch angle and exit velocity for home runs in different years. | 2, 4 |
+
+# Lesson 28 — Home Run Hitting Part I
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 28.1 | Fit a GAM to model home run probability as a smooth function of launch speed and launch angle. | 3 |
+| 28.2 | Use the 2015 model to predict home run probability on 2017 batted balls. | 3, 6 |
+| 28.3 | Simulate 1,000 seasons to compare predicted vs. actual home run counts in 2017. | 1, 3 |
+| 28.4 | Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates. | 1, 5 |
+
+# Lesson 29 — Home Run Hitting Part II
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 29.1 | Estimate the optimal launch angle for hitting a home run using 2023 Statcast data. | 1, 3 |
+| 29.2 | Analyze spray angle distributions for home runs by batter handedness. | 2, 4 |
+| 29.3 | Compute park factors to determine which ballparks favor home run hitting. | 3, 4 |
+| 29.4 | Fit a random effects model to decompose home run responsibility between pitchers and batters. | 3, 5 |
+
+# Lesson 30 — Equivalence Coefficient (Hall of Fame)
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 30.1 | Use logistic regression to model Hall of Fame selection probability from career statistics. | 3 |
+| 30.2 | Compute the equivalence coefficient to project how a player's statistics would change with additional PA. | 3 |
+| 30.3 | Compare Don Mattingly to Harold Baines and other Hall of Famers using raw and adjusted metrics. | 1, 4 |
+| 30.4 | Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths. | 5, 6 |
+
+# Lesson 31 — OPS+ and BABIP
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 31.1 | Calculate OPS+ to compare batters across different offensive eras. | 3, 4 |
+| 31.2 | Explain why raw OPS is not appropriate for cross-era comparisons and how OPS+ adjusts for league context. | 5, 6 |
+| 31.3 | Compute Isolated Power (ISO) to distinguish between different types of hitters. | 2, 3 |
+| 31.4 | Calculate BABIP and explain what it communicates about a player's performance on balls in play. | 1, 4 |
+
+# Lesson 32 — Linear Weights
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 32.1 | Derive linear weights for singles, doubles, triples, home runs, walks, and outs from run-value data. | 3 |
+| 32.2 | Compute Batting Runs for each player using Thorn and Palmer's linear weights model. | 3 |
+| 32.3 | Compare Batting Runs to traditional statistics (AVG, SLG, OPS, RBI) and assess which better measures offensive contribution. | 4, 6 |
+| 32.4 | Convert Batting Runs to wins using the 10-runs-per-win rule of thumb. | 3, 4 |
+
+# Lesson 33 — Runs Created
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 33.1 | Compute the Basic, Stolen Base, and Technical versions of Runs Created from Lahman data. | 2, 3 |
+| 33.2 | Diagnose data coverage limitations across baseball history for each Runs Created formula. | 5, 6 |
+| 33.3 | Compute runs-created rate per game and use the Pythagorean formula to estimate a player's win percentage. | 3 |
+| 33.4 | Use Runs Created to answer "Who is the best batter in history?" and "Which team had the greatest lineup?" | 1, 4 |
+
+# Lesson 34 — Quarto Presentations
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 34.1 | Create a Quarto presentation (Reveal JS) that displays dynamic content from R code chunks. | 2, 4 |
+| 34.2 | Use YAML parameters (`params`) to make a parameterized report that can be rendered for different inputs. | 2 |
+| 34.3 | Programmatically render multiple presentations in a loop, varying the parameter each time. | 2 |
+| 34.4 | Scale analysis pipelines to produce customized products for any player, team, or season with minimal extra effort. | 2, 5 |
+
+# Lesson 35 — Shiny Apps
+
+| # | Lesson Objective | CO |
+|---|---|---|
+| 35.1 | Build a basic Shiny app with a user interface (inputs) and server (reactive outputs). | 2, 4 |
+| 35.2 | Connect slider inputs and radio button selections to dynamically rendered plots and tables. | 2 |
+| 35.3 | Recognize the advantages (interactivity, customizability) and limitations (hosting, reproducibility) of Shiny compared to static documents. | 5 |
+| 35.4 | Create a Shiny app that lets users explore batting statistics across user-selected time periods. | 1, 2 |
+
+---
+
+# Graded Events Summary
+
+## Problem Sets (8 total)
+
+| PS | Title | Lessons Covered | COs Assessed |
+|---|---|---|---|
+| 1 | Introduction to Course Datasets and Tidyverse Verbs | 1–6 | 1, 2 |
+| 2 | Tidyverse Verbs and Graphics | 2–5 | 1, 2 |
+| 3 | Runs and Bunts | 6, 8, 9, 10 | 1, 2, 3, 5, 6 |
+| 4 | Balls, Strikes, and Umpire Variability | 12, 13, 14, 15 | 1, 2, 3, 4, 5, 6 |
+| 5 | Mixed Models and Peak Trajectories | 16, 18, 19, 20 | 1, 2, 3, 4, 5, 6 |
+| 6 | Simulating Baseball Games with Markov Chains | 21, 22 | 1, 2, 3, 4 |
+| 7 | Banning the Infield Shift | 28, 29 | 1, 2, 3, 4, 5, 6 |
+| 8 | Understanding Sabermetrics | 30, 31, 32, 33 | 1, 2, 3, 4 |
+
+## Exams
+
+| Exam | Lessons Covered | COs Assessed |
+|---|---|---|
+| WPR (Written Progress Review) | 1–22 | 1, 3, 4, 5, 6 |
+| TEE (Term End Examination) | 1–33 | 1, 3, 4, 5, 6 |
+
+## Course Project
+
+| Item | Lessons Covered | COs Assessed |
+|---|---|---|
+| SCORE Module | All | 1, 2, 3, 4, 5, 6 |
+
+---
+
+# Gap Analysis: Lesson Content vs. Graded Events
+
+## Well-Assessed Areas
+
+- **Tidyverse data wrangling (Lsn 1–5):** PS1, PS2 comprehensively test these skills. \checkmark
+- **Linear regression / Pythagorean model (Lsn 6, 8):** PS3, WPR Q1, TEE Q1 directly assess. \checkmark
+- **Run expectancy matrix / run values (Lsn 9–10):** PS3, WPR Q2 assess interpretation and calculation. \checkmark
+- **Logistic regression / GAMs (Lsn 14–15):** PS4, PS7, WPR Q3, TEE Q4 thoroughly assess. \checkmark
+- **Random effects / multilevel models (Lsn 16, 20):** PS5 directly assesses mixed models. \checkmark
+- **Career trajectories (Lsn 18–20):** PS5, TEE Q6 assess quadratic trajectories and multilevel shrinkage. \checkmark
+- **Simulation (Lsn 21–24):** PS6, TEE Q3 assess Markov chains and permutation tests. \checkmark
+- **Linear weights / OPS+ / equivalence coefficient (Lsn 30–33):** PS8, TEE Q7 assess these metrics. \checkmark
+- **Communication / conclusions (All):** Project, PS discussion questions, and exam interpretations assess CO4. \checkmark
+
+## Partially Assessed Areas
+
+| Topic | Lessons | Assessment | Gap |
+|---|---|---|---|
+| **String processing / regular expressions** | Lsn 11 | Not directly assessed | Students create count indicators in class but no graded event requires regex. Consider adding a regex question to a PS or exam. |
+| **LOESS models** | Lsn 12 | Not directly assessed | LOESS is used to model umpire strike zones but only GAMs appear on graded events. Minor gap — GAMs subsume this. |
+| **Bayesian multilevel models (brms)** | Lsn 20 | PS5 covers multilevel concepts, but the Bayesian fitting (brms/MCMC) is not assessed | Acceptable since PS5 covers the key concept (shrinkage) through `lme4` instead. |
+| **Spray charts** | Lsn 26 | Not directly assessed | PS7 touches on shift analysis using GAMs, but constructing spray charts is not tested. Consider a PS question. |
+| **Launch angle / exit velocity visualization** | Lsn 27 | TEE Q5 examines the conceptual understanding of the GAM surface | Reasonable coverage. |
+| **Home run simulation (2015→2017)** | Lsn 28 | PS7 mirrors this approach for the shift analysis | Adequately covered by transfer of the method. |
+| **Park factors** | Lsn 29 | TEE Q7 asks for a definition only | Could be strengthened with a computation question. |
+| **BABIP** | Lsn 31 | Not directly assessed | Simple calculation — could be added to PS8 or an exam. |
+| **Runs Created formulas** | Lsn 33 | PS8 does not cover this; the "solution" file for PS8 includes it but the actual PS8 omits it | The solution `.qmd` contains RC analysis but the student-facing PS8 does not. This is a **gap** — consider adding an RC problem. |
+
+## Not Assessed Areas
+
+| Topic | Lessons | Why It Matters |
+|---|---|---|
+| **Quarto presentations (parameterized reporting)** | Lsn 34 | This lesson supports the project presentation component, but is not itself graded. Students are not required to demonstrate parameterized rendering. If this skill is a course goal, consider a small graded deliverable. |
+| **Shiny apps** | Lsn 35 | This is an enrichment lesson. Students build a Shiny app as an in-class exercise but it is not graded. This is acceptable if kept as enrichment. |
+
+## Course Objective Coverage Summary
+
+| CO | PS1 | PS2 | PS3 | PS4 | PS5 | PS6 | PS7 | PS8 | WPR | TEE | Project |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| CO1 (Investigate) | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
+| CO2 (Software) | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | — | — | \checkmark |
+| CO3 (Methods) | — | — | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
+| CO4 (Communicate) | — | — | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
+| CO5 (Limitations) | — | — | \checkmark | \checkmark | \checkmark | — | \checkmark | — | \checkmark | \checkmark | \checkmark |
+| CO6 (Critical consumer) | — | — | \checkmark | \checkmark | \checkmark | — | \checkmark | — | \checkmark | \checkmark | \checkmark |
+
+## Recommended Adjustments
+
+1. **PS8 should include a Runs Created problem.** The student-facing PS8 only covers equivalence coefficient, OPS+, and linear weights, but the solution `.qmd` (`lsn_33_runs_created_solution.qmd`) includes a full RC analysis. This is a disconnect.
+
+2. **Add a string processing question to a problem set or exam.** Regular expressions for pitch sequence data (Lsn 11) is a valuable data science skill that is currently untested.
+
+3. **CO5 is lightly assessed in PS3 and PS8.** The project is the main vehicle for CO5. Consider adding a brief reflection question to PS6 (simulation) asking students to discuss the limitations of the Markov assumption.
+
+4. **CO2 is not assessed by WPR or TEE** (both are written exams with no coding). This is by design — the project covers CO2 comprehensively. No change needed.
+
+5. **PS6 does not assess CO5 or CO6.** Consider adding a question about the limitations of the Markov chain memoryless property in the context of baseball momentum (already a lesson objective 21.4).
