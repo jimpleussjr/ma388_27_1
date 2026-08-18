@@ -57,13 +57,13 @@ Please tell us your:
 
 - Song (title and artist) that ups your mood anytime you hear it.
 
-```{r, echo=FALSE, out.height="45%", fig.align='center'}
+```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("who_am_i_1.png")
 ```
 
 \vspace{.25in}
 
-```{r, echo=FALSE, out.height="45%", fig.align='center'}
+```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("who_am_i_2.png")
 ```
 
