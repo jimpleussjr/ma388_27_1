@@ -169,6 +169,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -210,8 +214,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#random-effects-models" id="toc-random-effects-models" class="nav-link active" data-scroll-target="#random-effects-models">Random Effects Models</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#random-effects-models" id="toc-random-effects-models" class="nav-link" data-scroll-target="#random-effects-models">Random Effects Models</a></li>
   <li><a href="#lets-talk-course-project" id="toc-lets-talk-course-project" class="nav-link" data-scroll-target="#lets-talk-course-project">Let’s talk course project!</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_16_catcher_framing_random_effects.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -244,6 +251,14 @@ window.Quarto = {
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Fit a fixed-effects model with many catcher indicators and discuss its limitations.</li>
+<li>Fit a random-effects (multilevel) model to estimate catcher-to-catcher variability.</li>
+<li>Use likelihood ratio tests to compare nested models with and without catcher random effects.</li>
+<li>Interpret variance components to assess whether catchers meaningfully affect called-strike rates.</li>
+</ol>
 <p>Last class, we were primarily comparing called strikes for Buster Posey and Yadier Molina. Today we’ll look at more catchers from June 2019.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -563,6 +578,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h3 class="anchored" data-anchor-id="lets-talk-course-project">Let’s talk course project!</h3>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

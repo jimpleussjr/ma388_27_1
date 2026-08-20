@@ -9,7 +9,7 @@ editor:
 
 Use the navigation menu above to access lesson materials.
 
-#### Course Objectives. By the end of the semester, you should be able to:
+#### Student Learning Objectives. By the end of the semester, you should be able to:
 
 -   Use the investigative process in statistics to answer research questions of interest in sabermetrics.
 

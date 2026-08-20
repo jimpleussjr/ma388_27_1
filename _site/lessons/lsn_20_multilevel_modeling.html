@@ -169,6 +169,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -210,7 +214,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#admin-note" id="toc-admin-note" class="nav-link active" data-scroll-target="#admin-note">Admin Note</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#admin-note" id="toc-admin-note" class="nav-link" data-scroll-target="#admin-note">Admin Note</a></li>
   <li><a href="#multilevel-modeling" id="toc-multilevel-modeling" class="nav-link" data-scroll-target="#multilevel-modeling">Multilevel Modeling</a></li>
   <li><a href="#players-who-debuted-in-2001" id="toc-players-who-debuted-in-2001" class="nav-link" data-scroll-target="#players-who-debuted-in-2001">Players Who Debuted in 2001</a></li>
   <li><a href="#obp-trajectories" id="toc-obp-trajectories" class="nav-link" data-scroll-target="#obp-trajectories">OBP Trajectories</a></li>
@@ -221,6 +227,7 @@ window.Quarto = {
   <li><a href="#fully-multilevel-model-random-intercepts-slopes" id="toc-fully-multilevel-model-random-intercepts-slopes" class="nav-link" data-scroll-target="#fully-multilevel-model-random-intercepts-slopes">4. Fully Multilevel Model (Random Intercepts &amp; Slopes)</a></li>
   <li><a href="#connection-to-logit-and-pooled-regression" id="toc-connection-to-logit-and-pooled-regression" class="nav-link" data-scroll-target="#connection-to-logit-and-pooled-regression">5. Connection to Logit and Pooled Regression</a></li>
   <li><a href="#trajectories-from-multilevel-models" id="toc-trajectories-from-multilevel-models" class="nav-link" data-scroll-target="#trajectories-from-multilevel-models">Trajectories from Multilevel Models</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_20_multilevel_modeling.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -253,6 +260,14 @@ window.Quarto = {
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Fit individual quadratic OBP trajectories and identify their limitations (overfitting for short careers).</li>
+<li>Fit a Bayesian multilevel model using <code>brms</code> that pools information across players.</li>
+<li>Compare individual-model estimates with multilevel-model estimates (shrinkage effect).</li>
+<li>Explain how Bayesian methods combine prior information with observed data to improve estimates.</li>
+</ol>
 <section id="admin-note" class="level2">
 <h2 class="anchored" data-anchor-id="admin-note">Admin Note</h2>
 <p>I’m using some packages (<code>rstan</code>, <code>StanHeaders</code>, and <code>brms</code>) in this lesson that may not be easy to get working properly depending on your version of R.With R 4.5 installed, I needed to first install <code>RTools</code> for R 4.5 (I already had it for R 4.4). Then I was able to install the below packages from CRAN, and everything worked perfectly. In R, packages are often version-specific. Some packages will have to be updated when you update your version of R.</p>
@@ -750,6 +765,7 @@ A simple approach is <strong>pooled logistic regression</strong>:</p>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

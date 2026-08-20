@@ -140,6 +140,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -181,11 +185,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review">Review</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review">Review</a></li>
   <li><a href="#dimaggios-streak" id="toc-dimaggios-streak" class="nav-link" data-scroll-target="#dimaggios-streak">DiMaggio’s Streak</a></li>
   <li><a href="#moving-average" id="toc-moving-average" class="nav-link" data-scroll-target="#moving-average">Moving Average</a></li>
   <li><a href="#how-unusual-was-dimaggios-streak-for-a-player-who-hit-safely-in-114-of-139-games" id="toc-how-unusual-was-dimaggios-streak-for-a-player-who-hit-safely-in-114-of-139-games" class="nav-link" data-scroll-target="#how-unusual-was-dimaggios-streak-for-a-player-who-hit-safely-in-114-of-139-games">How unusual was DiMaggio’s streak for a player who hit safely in 114 of 139 games?</a></li>
   <li><a href="#streakiness-statistic" id="toc-streakiness-statistic" class="nav-link" data-scroll-target="#streakiness-statistic">Streakiness Statistic</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_23_the_great_streak.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -218,6 +225,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Calculate run-length encoding (streaks) from a sequence of binary outcomes.</li>
+<li>Compute a moving average to visualize streaky performance over a season.</li>
+<li>Use simulation (random shuffling) to assess how unusual DiMaggio’s 56-game hitting streak was.</li>
+<li>Interpret p-values from a permutation/simulation test in the context of streak analysis.</li>
+</ol>
 <section id="review" class="level2">
 <h2 class="anchored" data-anchor-id="review">Review</h2>
 <p>Bayesian Multilevel Modeling</p>
@@ -433,6 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>How would you quantify a player’s streakiness? Does your favorite player get hot or go cold more than would be expected by random variation alone? Let’s come up with some ideas before we discuss it further next time.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

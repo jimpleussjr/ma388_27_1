@@ -139,6 +139,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -176,8 +180,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_26_statcast_spray_charts.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_26_statcast_spray_charts.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -206,6 +216,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baseballr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Retrieve Statcast data for individual batters using <code>scrape_statcast_savant()</code>.</li>
+<li>Build a spray chart showing where batters hit balls in play on the field.</li>
+<li>Compare pull-happy vs.&nbsp;opposite-field hitters and relate tendencies to defensive shifts.</li>
+<li>Compute percentages of pulled ground balls and infield shifts faced for individual players.</li>
+</ol>
 <p>Review</p>
 <p><strong>Last class we talked about the streakiness or clumpiness coefficient. What does this metric measure and how do we calculate it?</strong></p>
 <div class="html">
@@ -458,6 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>What does this tell us about the tendencies of these batters and how defenses approached them?</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -169,6 +169,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -210,10 +214,13 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#measures-of-association-for-binary-responses" id="toc-measures-of-association-for-binary-responses" class="nav-link active" data-scroll-target="#measures-of-association-for-binary-responses">Measures of Association for Binary Responses</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#measures-of-association-for-binary-responses" id="toc-measures-of-association-for-binary-responses" class="nav-link" data-scroll-target="#measures-of-association-for-binary-responses">Measures of Association for Binary Responses</a></li>
   <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
   <ul class="collapse">
   <li><a href="#why-log-odds" id="toc-why-log-odds" class="nav-link" data-scroll-target="#why-log-odds">Why Log Odds?</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_14_logistic_regression.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -247,6 +254,14 @@ window.Quarto = {
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Fit a logistic regression model for a binary response (called strike vs.&nbsp;ball).</li>
+<li>Interpret logistic regression coefficients in terms of odds and log-odds.</li>
+<li>Explain why logistic regression uses the logit link (sigmoid transformation).</li>
+<li>Identify confounders (e.g., count) and adjust for them in a multiple logistic regression model.</li>
+</ol>
 <ul>
 <li>Where is a pitch with location <em>plate_x</em> = -1 and <em>plate_z</em> = 2.5?</li>
 </ul>
@@ -738,6 +753,7 @@ p(x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}.
 <p>Based on this count-adjusted model, is there evidence Molina has more called strikes in the long term?</p>
 
 
+</section>
 </section>
 </section>
 

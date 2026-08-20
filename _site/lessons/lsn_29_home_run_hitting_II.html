@@ -169,6 +169,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -210,7 +214,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-the-optimal-launch-angle-for-a-home-run" id="toc-what-is-the-optimal-launch-angle-for-a-home-run" class="nav-link active" data-scroll-target="#what-is-the-optimal-launch-angle-for-a-home-run">What is the optimal launch angle for a home run?</a>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a></li>
+  <li><a href="#what-is-the-optimal-launch-angle-for-a-home-run" id="toc-what-is-the-optimal-launch-angle-for-a-home-run" class="nav-link" data-scroll-target="#what-is-the-optimal-launch-angle-for-a-home-run">What is the optimal launch angle for a home run?</a>
   <ul class="collapse">
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps:</a></li>
   </ul></li>
@@ -267,6 +272,14 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baseballr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Estimate the optimal launch angle for hitting a home run using 2023 Statcast data.</li>
+<li>Analyze spray angle distributions for home runs by batter handedness.</li>
+<li>Compute park factors to determine which ballparks favor home run hitting.</li>
+<li>Fit a random effects model to decompose home run responsibility between pitchers and batters.</li>
+</ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Statcast season window for 2023 (regular + early postseason window as example)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># start_date &lt;- as.Date("2023-04-02")</span></span>
@@ -315,6 +328,7 @@ window.Quarto = {
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df_23 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"statcast_2023_bip.csv"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">HR =</span> events <span class="sc">==</span> <span class="st">"home_run"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
 <section id="what-is-the-optimal-launch-angle-for-a-home-run" class="level1">
 <h1>What is the optimal launch angle for a home run?</h1>
 <p>We know from previous lessons that home runs require both a suitable launch angle and exit velocity. Let’s assume you can hit it hard enough, which tends to be 100+ mph for nearly all home runs.</p>

@@ -139,6 +139,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -180,7 +184,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review">Review</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review">Review</a></li>
   <li><a href="#whats-with-all-these-home-runs" id="toc-whats-with-all-these-home-runs" class="nav-link" data-scroll-target="#whats-with-all-these-home-runs">What’s with all these home runs?</a>
   <ul class="collapse">
   <li><a href="#some-potential-explanations" id="toc-some-potential-explanations" class="nav-link" data-scroll-target="#some-potential-explanations">Some potential explanations:</a></li>
@@ -189,6 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#fit-a-model-for-home-run-probability-in-2015." id="toc-fit-a-model-for-home-run-probability-in-2015." class="nav-link" data-scroll-target="#fit-a-model-for-home-run-probability-in-2015.">Fit a model for home run probability in 2015.</a></li>
   <li><a href="#use-the-2015-model-to-predict-on-2017." id="toc-use-the-2015-model-to-predict-on-2017." class="nav-link" data-scroll-target="#use-the-2015-model-to-predict-on-2017.">Use the 2015 model to predict on 2017.</a></li>
   <li><a href="#simulate-1000-seasons." id="toc-simulate-1000-seasons." class="nav-link" data-scroll-target="#simulate-1000-seasons.">Simulate 1,000 seasons.</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_28_home_run_hitting_I.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -221,6 +228,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baseballr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Fit a GAM to model home run probability as a smooth function of launch speed and launch angle.</li>
+<li>Use the 2015 model to predict home run probability on 2017 batted balls.</li>
+<li>Simulate 1,000 seasons to compare predicted vs.&nbsp;actual home run counts in 2017.</li>
+<li>Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates.</li>
+</ol>
 <section id="review" class="level2">
 <h2 class="anchored" data-anchor-id="review">Review</h2>
 <p><strong>In a logistic model for hit probability, is it appropriate to use a linear function of launch angle and exit velocity? Explain.</strong></p>
@@ -579,6 +594,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
 </section>
 </section>
 

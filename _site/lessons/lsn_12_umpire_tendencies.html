@@ -140,6 +140,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -181,7 +185,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#digging-into-the-code" id="toc-digging-into-the-code" class="nav-link active" data-scroll-target="#digging-into-the-code">Digging into the Code!</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#digging-into-the-code" id="toc-digging-into-the-code" class="nav-link" data-scroll-target="#digging-into-the-code">Digging into the Code!</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_12_umpire_tendencies.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -219,6 +226,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baseballr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Collect Statcast pitch-level data using the <code>baseballr</code> package.</li>
+<li>Fit a LOESS model to estimate the probability of a called strike as a function of pitch location.</li>
+<li>Visualize umpire strike zones across different counts using contour plots and faceting.</li>
+<li>Assess whether umpires adjust their strike zone based on the count.</li>
+</ol>
 <p>Today we’re going to take our first look at pitch data in terms of where a pitch crossed (or didn’t cross) home plate and the umpire’s associated call.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_statcast_pitches <span class="ot">&lt;-</span> <span class="cf">function</span>(start_day, end_day, <span class="at">chunk_size =</span> <span class="dv">5</span>) {</span>
@@ -344,6 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Next, we compute a set of predictions for each point on our grid for each count (one model per split in our original data frame). We then convert the numeric matrices returned by predict into a numeric vector called <code>fit</code> before turning those vectors into one dimensional data frames. These data frames are then added to the <code>pred_area</code> data frame with the <code>bind_cols()</code> command, effectively adding the likelihood of a strike call to every <code>(px,pz)</code> combination for every count (0-0, 0-2, 3-0).</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

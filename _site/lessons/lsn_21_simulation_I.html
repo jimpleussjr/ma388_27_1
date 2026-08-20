@@ -168,6 +168,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -209,7 +213,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#markov-chains" id="toc-markov-chains" class="nav-link active" data-scroll-target="#markov-chains">Markov Chains</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#markov-chains" id="toc-markov-chains" class="nav-link" data-scroll-target="#markov-chains">Markov Chains</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_21_simulation_I.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -236,6 +243,14 @@ window.Quarto = {
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Construct a transition probability matrix from Retrosheet play-by-play data.</li>
+<li>Model a baseball half-inning as a Markov chain and simulate 10,000 half-innings.</li>
+<li>Compute the distribution of runs scored per half-inning and the average runs per half-inning.</li>
+<li>Discuss the memoryless property of Markov chains and whether it allows for momentum.</li>
+</ol>
 <section id="markov-chains" class="level2">
 <h2 class="anchored" data-anchor-id="markov-chains">Markov Chains</h2>
 <p>Markov chains model the probabilities of moving between different states. I want you to draw a state diagram (think a network diagram with states as circles and lines connecting the states with probabilities) for a baseball half-inning based on the number of outs where probabilities reflect the state transitions after one plate appearance. Assume that every plate appearance has a .7 probability of resulting in an out and .3 probability of not and there is never more than one out for a plate appearance.</p>
@@ -832,6 +847,7 @@ runs = \left(N_{runners}^{(before)} + Outs^{(before)} + 1\right) - \left(N_{runn
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

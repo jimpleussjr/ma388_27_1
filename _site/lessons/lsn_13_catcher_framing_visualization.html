@@ -140,6 +140,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -181,7 +185,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#chapter-7" id="toc-chapter-7" class="nav-link active" data-scroll-target="#chapter-7">Chapter 7</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#chapter-7" id="toc-chapter-7" class="nav-link" data-scroll-target="#chapter-7">Chapter 7</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_13_catcher_framing_visualization.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -214,6 +221,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Import and merge Statcast pitch data with player ID maps to add catcher names.</li>
+<li>Create faceted visualizations to compare called-strike proportions across catchers.</li>
+<li>Discuss challenges in isolating catcher framing ability from confounding factors.</li>
+<li>Calculate called-strike proportions for pitches near the edge of the strike zone.</li>
+</ol>
 <section id="chapter-7" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-7">Chapter 7</h2>
 <p>In this chapter, we investigate whether catchers have the ability to consistently frame close pitches, which some believe makes it more likely the umpire will call a strike.</p>
@@ -591,6 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>Hint: Use <code>case_when()</code> to establish a new variable that signifies whether a ball is <code>sz_edge</code> based on <code>plate_x</code>, <code>plate_z</code>, <code>sz_top</code>, <code>sz_bottom</code> and -.95 to .95 for plate edge.</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

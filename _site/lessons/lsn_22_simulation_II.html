@@ -168,6 +168,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -209,8 +213,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#simulating-a-game" id="toc-simulating-a-game" class="nav-link active" data-scroll-target="#simulating-a-game">Simulating a Game</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#simulating-a-game" id="toc-simulating-a-game" class="nav-link" data-scroll-target="#simulating-a-game">Simulating a Game</a></li>
   <li><a href="#simulating-a-season" id="toc-simulating-a-season" class="nav-link" data-scroll-target="#simulating-a-season">Simulating a Season</a></li>
+  </ul></li>
   <li><a href="#simulating-talent" id="toc-simulating-talent" class="nav-link" data-scroll-target="#simulating-talent">Simulating Talent</a>
   <ul class="collapse">
   <li><a href="#season-standings" id="toc-season-standings" class="nav-link" data-scroll-target="#season-standings">Season Standings</a></li>
@@ -245,6 +252,14 @@ window.Quarto = {
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Use the Bradley-Terry model to compute the probability one team beats another.</li>
+<li>Build a Monte Carlo simulation of an entire baseball season, including schedule generation.</li>
+<li>Compare simulated season results to the underlying talent levels of teams.</li>
+<li>Generalize the Monte Carlo framework to simulate other probabilistic events.</li>
+</ol>
 <section id="simulating-a-game" class="level2">
 <h2 class="anchored" data-anchor-id="simulating-a-game">Simulating a Game</h2>
 <p>In the last lesson, we simulated the number of runs in a half-inning by modeling individual at-bats and state transitions. Now we’re going to simulate a whole season. Instead of simulating each at-bat, we’ll start our simulation efforts at the level of modeling individual game outcomes.</p>
@@ -391,6 +406,7 @@ window.Quarto = {
 </div>
 </div>
 <div style="page-break-after: always;"></div>
+</section>
 </section>
 <section id="simulating-talent" class="level1">
 <h1>Simulating Talent</h1>

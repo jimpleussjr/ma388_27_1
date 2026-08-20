@@ -169,6 +169,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../lessons/lsn_1_course_intro.html">
  <span class="dropdown-text">Lesson 1: Course Introduction</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_2_intro_to_R.html">
+ <span class="dropdown-text">Lesson 2: Introduction to R</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -210,7 +214,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link active" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
+  <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
+  <ul class="collapse">
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_15_catcher_framing_modeling.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -243,6 +250,14 @@ window.Quarto = {
 </header>
 
 
+<section id="lesson-objectives" class="level1">
+<h1>Lesson Objectives</h1>
+<ol type="1">
+<li>Fit a generalized additive model (GAM) to model called-strike probability as a smooth function of pitch location.</li>
+<li>Use a GAM to adjust for pitch location when comparing catchers.</li>
+<li>Compare a simple linear logistic model with a smooth spatial model for strike-zone decisions.</li>
+<li>Extend a two-catcher comparison to consider modeling many catchers simultaneously.</li>
+</ol>
 <p>Last class, we began comparing called strikes for Buster Posey and Yadier Molina. Today let’s look at their results from June 2019.</p>
 <p><img src="molina.jpg" class="img-fluid" style="width:45.0%" alt="Yadier Molina"> <img src="posey.jpg" class="img-fluid" style="width:45.0%" alt="Buster Posey"></p>
 <p>Let’s grab the data first. This should look familiar (see lesson 13).</p>
@@ -555,6 +570,7 @@ UBRE = -0.63719  Scale est. = 1         n = 2057</code></pre>
 <p>Right now we’re looking at just two catchers in a binary categorical sense. How might we extend this to many catchers at the same time?</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
