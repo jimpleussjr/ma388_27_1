@@ -21,6 +21,13 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 
+# Lesson Objectives
+
+1. Fit a logistic regression model for a binary response (called strike vs. ball).
+2. Interpret logistic regression coefficients in terms of odds and log-odds.
+3. Explain why logistic regression uses the logit link (sigmoid transformation).
+4. Identify confounders (e.g., count) and adjust for them in a multiple logistic regression model.
+
 * Where is a pitch with location *plate\_x* = -1 and *plate\_z* = 2.5?
 
 \vspace{.5in}

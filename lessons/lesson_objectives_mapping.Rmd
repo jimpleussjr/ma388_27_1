@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics — Lesson Objectives Mapped to Course Objectives"
+title: "MA388 Sabermetrics — Lesson Objectives Mapped to Student Learning Objectives"
 author: "LTC Jim Pleuss"
 date: "AY27-1"
 output: pdf_document
@@ -14,30 +14,27 @@ library(tidyverse)
 library(knitr)
 ```
 
-# Course Objectives
+# Student Learning Objectives
 
-**CO1:** Use the investigative process in statistics to answer research questions of interest in sabermetrics.  
-**CO2:** Use statistical software to obtain, prepare, summarize, visualize, and model complex data.  
-**CO3:** Identify and employ advanced statistical methods for estimation and prediction to answer questions in sabermetrics.  
-**CO4:** Draw appropriate conclusions from statistical analyses and communicate them to general audiences.  
-**CO5:** Appreciate the importance and limitations of statistical inquiry to answer questions of interest.  
-**CO6:** Be critical consumers of statistically based results and recognize whether reported results reasonably follow from the study and analysis conducted.
+**SLO1:** Use the investigative process in statistics to answer research questions of interest in sabermetrics.  
+**SLO2:** Use statistical software to obtain, prepare, summarize, visualize, and model complex data.  
+**SLO3:** Identify and employ advanced statistical methods for estimation and prediction to answer questions in sabermetrics.  
+**SLO4:** Draw appropriate conclusions from statistical analyses and communicate them to general audiences.  
+**SLO5:** Appreciate the importance and limitations of statistical inquiry to answer questions of interest.  
+**SLO6:** Be critical consumers of statistically based results and recognize whether reported results reasonably follow from the study and analysis conducted.
 
 ---
 
 # Lesson 1 — Course Introduction
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 1.1 | Identify major baseball data sources (Lahman, Retrosheet, PITCHf/x, Statcast) and their appropriate use cases. | 1, 2 |
-| 1.2 | Navigate course resources including texts, problem sets, and the course calendar to plan learning. | 1 |
-| 1.3 | Recognize the three pillars of the course: baseball, statistics, and data science skills. | 5 |
-| 1.4 | Explore data using basic tidyverse verbs (select, filter, mutate, group_by, summarize, arrange) to calculate home run rates over time. | 2 |
-| 1.5 | Produce a line plot showing how home run rates have changed across decades. | 2, 4 |
+| 1.2 | Explore data using basic tidyverse verbs (select, filter, mutate, group_by, summarize, arrange). | 2 |
 
 # Lesson 2 — Introduction to R
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 2.1 | Compile a Quarto Markdown document to PDF using TinyTeX. | 2 |
 | 2.2 | Use `left_join()` and other join operations to merge information across relational database tables. | 2 |
@@ -45,7 +42,7 @@ library(knitr)
 
 # Lesson 3 — Introduction to R Part II
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 3.1 | Implement the split-apply-combine strategy using `group_by`/`summarize` and `split()`/`map_df()`. | 2 |
 | 3.2 | Write a custom function and apply it across grouped data to find per-season win leaders. | 2, 3 |
@@ -53,7 +50,7 @@ library(knitr)
 
 # Lesson 4 — R Graphics Part I
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 4.1 | Use `ggplot` with aesthetic mappings (color, linetype, shape) to visualize data in long format. | 2 |
 | 4.2 | Transform data between wide and long format using `pivot_wider()`. | 2 |
@@ -62,7 +59,7 @@ library(knitr)
 
 # Lesson 5 — R Graphics Part II
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 5.1 | Create factor variables using `cut()` to categorize numeric data by baseball era. | 2 |
 | 5.2 | Construct boxplots and line plots with multiple groups (e.g., salary by decade, runs per game by league). | 2 |
@@ -71,7 +68,7 @@ library(knitr)
 
 # Lesson 6 — Runs and Wins Part I
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 6.1 | Fit a linear regression model to quantify the relationship between run differential and wins. | 3 |
 | 6.2 | Interpret regression coefficients and derive the "10 runs = 1 win" rule of thumb. | 3, 4 |
@@ -80,7 +77,7 @@ library(knitr)
 
 # Lesson 8 — Runs and Wins Part II
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 8.1 | Compare three models (linear, Pythagorean with k=2, Pythagorean with estimated k) for predicting win percentage. | 3, 6 |
 | 8.2 | Derive and compute incremental runs per win under the Pythagorean model. | 3 |
@@ -89,7 +86,7 @@ library(knitr)
 
 # Lesson 9 — Run Expectancy Matrix
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 9.1 | Construct a run expectancy matrix from Retrosheet play-by-play data. | 2, 3 |
 | 9.2 | Interpret run expectancy values for each game state (bases/outs combination). | 4 |
@@ -98,7 +95,7 @@ library(knitr)
 
 # Lesson 10 — Value of Hits and Stealing
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 10.1 | Compute RE24 to aggregate a player's run value across all plate appearances. | 3, 4 |
 | 10.2 | Compare batting average and slugging percentage to run-value-based measures of performance. | 6 |
@@ -107,7 +104,7 @@ library(knitr)
 
 # Lesson 11 — Swinging Tendencies
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 11.1 | Use regular expressions and stringr functions to process pitch sequence data. | 2 |
 | 11.2 | Create indicator variables for whether a plate appearance passed through each ball-strike count. | 2 |
@@ -116,7 +113,7 @@ library(knitr)
 
 # Lesson 12 — Umpire Tendencies
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 12.1 | Collect Statcast pitch-level data using the `baseballr` package. | 2 |
 | 12.2 | Fit a LOESS model to estimate the probability of a called strike as a function of pitch location. | 3 |
@@ -125,7 +122,7 @@ library(knitr)
 
 # Lesson 13 — Catcher Framing Visualization
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 13.1 | Import and merge Statcast pitch data with player ID maps to add catcher names. | 2 |
 | 13.2 | Create faceted visualizations to compare called-strike proportions across catchers. | 2, 4 |
@@ -134,7 +131,7 @@ library(knitr)
 
 # Lesson 14 — Logistic Regression
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 14.1 | Fit a logistic regression model for a binary response (called strike vs. ball). | 3 |
 | 14.2 | Interpret logistic regression coefficients in terms of odds and log-odds. | 3, 4 |
@@ -143,7 +140,7 @@ library(knitr)
 
 # Lesson 15 — Catcher Framing Modeling
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 15.1 | Fit a generalized additive model (GAM) to model called-strike probability as a smooth function of pitch location. | 3 |
 | 15.2 | Use a GAM to adjust for pitch location when comparing catchers. | 3 |
@@ -152,7 +149,7 @@ library(knitr)
 
 # Lesson 16 — Catcher Framing Random Effects
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 16.1 | Fit a fixed-effects model with many catcher indicators and discuss its limitations. | 3, 6 |
 | 16.2 | Fit a random-effects (multilevel) model to estimate catcher-to-catcher variability. | 3 |
@@ -161,7 +158,7 @@ library(knitr)
 
 # Lesson 18 — Peak Trajectories Part I
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 18.1 | Fit a quadratic model to describe a player's OPS as a function of age. | 3 |
 | 18.2 | Derive expressions for peak age and peak OPS from a quadratic model. | 3 |
@@ -170,7 +167,7 @@ library(knitr)
 
 # Lesson 19 — Peak Trajectories Part II
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 19.1 | Map a quadratic model function over multiple players to compare career trajectories. | 2, 3 |
 | 19.2 | Identify which historical home run hitter had the highest estimated peak HR rate. | 1, 4 |
@@ -178,7 +175,7 @@ library(knitr)
 
 # Lesson 20 — Multilevel Modeling
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 20.1 | Fit individual quadratic OBP trajectories and identify their limitations (overfitting for short careers). | 3, 6 |
 | 20.2 | Fit a Bayesian multilevel model using `brms` that pools information across players. | 3 |
@@ -187,7 +184,7 @@ library(knitr)
 
 # Lesson 21 — Simulation Part I (Markov Chains)
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 21.1 | Construct a transition probability matrix from Retrosheet play-by-play data. | 2, 3 |
 | 21.2 | Model a baseball half-inning as a Markov chain and simulate 10,000 half-innings. | 1, 3 |
@@ -196,7 +193,7 @@ library(knitr)
 
 # Lesson 22 — Simulation Part II (Season Simulation)
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 22.1 | Use the Bradley-Terry model to compute the probability one team beats another. | 3 |
 | 22.2 | Build a Monte Carlo simulation of an entire baseball season, including schedule generation. | 1, 2 |
@@ -205,7 +202,7 @@ library(knitr)
 
 # Lesson 23 — The Great Streak (DiMaggio)
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 23.1 | Calculate run-length encoding (streaks) from a sequence of binary outcomes. | 2 |
 | 23.2 | Compute a moving average to visualize streaky performance over a season. | 2, 4 |
@@ -214,7 +211,7 @@ library(knitr)
 
 # Lesson 24 — Streakiness Statistics
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 24.1 | Calculate a clumpiness/streakiness coefficient (sum of squared gap lengths) for any player. | 3 |
 | 24.2 | Use simulation to generate the null distribution of the streakiness coefficient under randomness. | 1, 3 |
@@ -223,7 +220,7 @@ library(knitr)
 
 # Lesson 26 — Statcast Spray Charts
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 26.1 | Retrieve Statcast data for individual batters using `scrape_statcast_savant()`. | 2 |
 | 26.2 | Build a spray chart showing where batters hit balls in play on the field. | 2, 4 |
@@ -232,7 +229,7 @@ library(knitr)
 
 # Lesson 27 — Launch Angles & Exit Velocity
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 27.1 | Create a scatter plot showing the relationship between exit velocity, launch angle, and batting average. | 2, 4 |
 | 27.2 | Compare 2015 and 2017 Statcast data to investigate changes in home run rates. | 1, 6 |
@@ -241,7 +238,7 @@ library(knitr)
 
 # Lesson 28 — Home Run Hitting Part I
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 28.1 | Fit a GAM to model home run probability as a smooth function of launch speed and launch angle. | 3 |
 | 28.2 | Use the 2015 model to predict home run probability on 2017 batted balls. | 3, 6 |
@@ -250,7 +247,7 @@ library(knitr)
 
 # Lesson 29 — Home Run Hitting Part II
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 29.1 | Estimate the optimal launch angle for hitting a home run using 2023 Statcast data. | 1, 3 |
 | 29.2 | Analyze spray angle distributions for home runs by batter handedness. | 2, 4 |
@@ -259,7 +256,7 @@ library(knitr)
 
 # Lesson 30 — Equivalence Coefficient (Hall of Fame)
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 30.1 | Use logistic regression to model Hall of Fame selection probability from career statistics. | 3 |
 | 30.2 | Compute the equivalence coefficient to project how a player's statistics would change with additional PA. | 3 |
@@ -268,7 +265,7 @@ library(knitr)
 
 # Lesson 31 — OPS+ and BABIP
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 31.1 | Calculate OPS+ to compare batters across different offensive eras. | 3, 4 |
 | 31.2 | Explain why raw OPS is not appropriate for cross-era comparisons and how OPS+ adjusts for league context. | 5, 6 |
@@ -277,7 +274,7 @@ library(knitr)
 
 # Lesson 32 — Linear Weights
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 32.1 | Derive linear weights for singles, doubles, triples, home runs, walks, and outs from run-value data. | 3 |
 | 32.2 | Compute Batting Runs for each player using Thorn and Palmer's linear weights model. | 3 |
@@ -286,7 +283,7 @@ library(knitr)
 
 # Lesson 33 — Runs Created
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 33.1 | Compute the Basic, Stolen Base, and Technical versions of Runs Created from Lahman data. | 2, 3 |
 | 33.2 | Diagnose data coverage limitations across baseball history for each Runs Created formula. | 5, 6 |
@@ -295,7 +292,7 @@ library(knitr)
 
 # Lesson 34 — Quarto Presentations
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 34.1 | Create a Quarto presentation (Reveal JS) that displays dynamic content from R code chunks. | 2, 4 |
 | 34.2 | Use YAML parameters (`params`) to make a parameterized report that can be rendered for different inputs. | 2 |
@@ -304,7 +301,7 @@ library(knitr)
 
 # Lesson 35 — Shiny Apps
 
-| # | Lesson Objective | CO |
+| # | Lesson Objective | SLO |
 |---|---|---|
 | 35.1 | Build a basic Shiny app with a user interface (inputs) and server (reactive outputs). | 2, 4 |
 | 35.2 | Connect slider inputs and radio button selections to dynamically rendered plots and tables. | 2 |
@@ -317,7 +314,7 @@ library(knitr)
 
 ## Problem Sets (8 total)
 
-| PS | Title | Lessons Covered | COs Assessed |
+| PS | Title | Lessons Covered | SLOs Assessed |
 |---|---|---|---|
 | 1 | Introduction to Course Datasets and Tidyverse Verbs | 1–6 | 1, 2 |
 | 2 | Tidyverse Verbs and Graphics | 2–5 | 1, 2 |
@@ -330,14 +327,14 @@ library(knitr)
 
 ## Exams
 
-| Exam | Lessons Covered | COs Assessed |
+| Exam | Lessons Covered | SLOs Assessed |
 |---|---|---|
 | WPR (Written Progress Review) | 1–22 | 1, 3, 4, 5, 6 |
 | TEE (Term End Examination) | 1–33 | 1, 3, 4, 5, 6 |
 
 ## Course Project
 
-| Item | Lessons Covered | COs Assessed |
+| Item | Lessons Covered | SLOs Assessed |
 |---|---|---|
 | SCORE Module | All | 1, 2, 3, 4, 5, 6 |
 
@@ -380,14 +377,14 @@ library(knitr)
 
 ## Course Objective Coverage Summary
 
-| CO | PS1 | PS2 | PS3 | PS4 | PS5 | PS6 | PS7 | PS8 | WPR | TEE | Project |
+| SLO | PS1 | PS2 | PS3 | PS4 | PS5 | PS6 | PS7 | PS8 | WPR | TEE | Project |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| CO1 (Investigate) | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
-| CO2 (Software) | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | — | — | \checkmark |
-| CO3 (Methods) | — | — | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
-| CO4 (Communicate) | — | — | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
-| CO5 (Limitations) | — | — | \checkmark | \checkmark | \checkmark | — | \checkmark | — | \checkmark | \checkmark | \checkmark |
-| CO6 (Critical consumer) | — | — | \checkmark | \checkmark | \checkmark | — | \checkmark | — | \checkmark | \checkmark | \checkmark |
+| SLO1 (Investigate) | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
+| SLO2 (Software) | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | — | — | \checkmark |
+| SLO3 (Methods) | — | — | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
+| SLO4 (Communicate) | — | — | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark | \checkmark |
+| SLO5 (Limitations) | — | — | \checkmark | \checkmark | \checkmark | — | \checkmark | — | \checkmark | \checkmark | \checkmark |
+| SLO6 (Critical consumer) | — | — | \checkmark | \checkmark | \checkmark | — | \checkmark | — | \checkmark | \checkmark | \checkmark |
 
 ## Recommended Adjustments
 
@@ -395,8 +392,8 @@ library(knitr)
 
 2. **Add a string processing question to a problem set or exam.** Regular expressions for pitch sequence data (Lsn 11) is a valuable data science skill that is currently untested.
 
-3. **CO5 is lightly assessed in PS3 and PS8.** The project is the main vehicle for CO5. Consider adding a brief reflection question to PS6 (simulation) asking students to discuss the limitations of the Markov assumption.
+3. **SLO5 is lightly assessed in PS3 and PS8.** The project is the main vehicle for SLO5. Consider adding a brief reflection question to PS6 (simulation) asking students to discuss the limitations of the Markov assumption.
 
-4. **CO2 is not assessed by WPR or TEE** (both are written exams with no coding). This is by design — the project covers CO2 comprehensively. No change needed.
+4. **SLO2 is not assessed by WPR or TEE** (both are written exams with no coding). This is by design — the project covers SLO2 comprehensively. No change needed.
 
-5. **PS6 does not assess CO5 or CO6.** Consider adding a question about the limitations of the Markov chain memoryless property in the context of baseball momentum (already a lesson objective 21.4).
+5. **PS6 does not assess SLO5 or SLO6.** Consider adding a question about the limitations of the Markov chain memoryless property in the context of baseball momentum (already a lesson objective 21.4).

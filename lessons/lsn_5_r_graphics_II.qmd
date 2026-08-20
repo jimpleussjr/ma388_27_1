@@ -26,6 +26,13 @@ library(tidyverse)
 library(knitr)
 ```
 
+# Lesson Objectives
+
+1. Create factor variables using `cut()` to categorize numeric data by baseball era.
+2. Construct boxplots and line plots with multiple groups (e.g., salary by decade, runs per game by league).
+3. Use `geom_smooth()` to add smoothed trends to scatter plots.
+4. Evaluate Hall of Fame voting patterns and compare pitcher statistics by induction status using visualization.
+
 Review: 
 
 I found the plot below [here](https://studentwork.prattsi.org/infovis/visualization/visualizing-exploring-home-run-rates-baseball-history/). Let's recreate it!  You can get part of the way there with what you already know.

@@ -19,6 +19,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Construct a transition probability matrix from Retrosheet play-by-play data.
+2. Model a baseball half-inning as a Markov chain and simulate 10,000 half-innings.
+3. Compute the distribution of runs scored per half-inning and the average runs per half-inning.
+4. Discuss the memoryless property of Markov chains and whether it allows for momentum.
+
 ## Markov Chains
 
 

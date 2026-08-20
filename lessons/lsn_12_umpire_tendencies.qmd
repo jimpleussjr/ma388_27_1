@@ -26,6 +26,13 @@ library(knitr)
 library(baseballr)
 ```
 
+# Lesson Objectives
+
+1. Collect Statcast pitch-level data using the `baseballr` package.
+2. Fit a LOESS model to estimate the probability of a called strike as a function of pitch location.
+3. Visualize umpire strike zones across different counts using contour plots and faceting.
+4. Assess whether umpires adjust their strike zone based on the count.
+
 Today we're going to take our first look at pitch data in terms of where a pitch crossed (or didn't cross) home plate and the umpire's associated call.
 
 ```{r, cache = TRUE}

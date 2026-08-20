@@ -22,6 +22,13 @@ knitr::opts_chunk$set(echo = TRUE,
 
 
 
+# Lesson Objectives
+
+1. Calculate run-length encoding (streaks) from a sequence of binary outcomes.
+2. Compute a moving average to visualize streaky performance over a season.
+3. Use simulation (random shuffling) to assess how unusual DiMaggio's 56-game hitting streak was.
+4. Interpret p-values from a permutation/simulation test in the context of streak analysis.
+
 ## Review
 
 Bayesian Multilevel Modeling

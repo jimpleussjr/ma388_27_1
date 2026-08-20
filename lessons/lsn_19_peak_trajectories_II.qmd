@@ -20,6 +20,12 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Map a quadratic model function over multiple players to compare career trajectories.
+2. Identify which historical home run hitter had the highest estimated peak HR rate.
+3. Recognize unusual trajectory shapes and hypothesize explanations (e.g., injuries, era effects).
+
 ## Comparing Trajectories of Home Run Hitters
 
 1. Find the ten players in baseball history who have hit the most career home runs.

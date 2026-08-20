@@ -20,6 +20,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Fit a generalized additive model (GAM) to model called-strike probability as a smooth function of pitch location.
+2. Use a GAM to adjust for pitch location when comparing catchers.
+3. Compare a simple linear logistic model with a smooth spatial model for strike-zone decisions.
+4. Extend a two-catcher comparison to consider modeling many catchers simultaneously.
+
 Last class, we began comparing called strikes for Buster Posey and Yadier Molina. Today let's look at their results from June 2019.
 
 ![Yadier Molina](molina.jpg){width=45%} \hspace{.5in} ![Buster Posey](posey.jpg){width=45%}

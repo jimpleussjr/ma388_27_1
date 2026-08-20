@@ -18,6 +18,13 @@ execute:
 knitr::opts_chunk$set(echo = TRUE, message= FALSE, warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Build a basic Shiny app with a user interface (inputs) and server (reactive outputs).
+2. Connect slider inputs and radio button selections to dynamically rendered plots and tables.
+3. Recognize the advantages (interactivity, customizability) and limitations (hosting, reproducibility) of Shiny compared to static documents.
+4. Create a Shiny app that lets users explore batting statistics across user-selected time periods.
+
 ## Purpose
 
 Last class we focused on generating slides using Quarto, and we explored ways to scale up your production to generate a set of slides for any combination of teams, years, etc.  

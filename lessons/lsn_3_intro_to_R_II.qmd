@@ -25,6 +25,12 @@ library(tidyverse)
 library(knitr)
 ```
 
+# Lesson Objectives
+
+1. Implement the split-apply-combine strategy using `group_by`/`summarize` and `split()`/`map_df()`.
+2. Write a custom function and apply it across grouped data to find per-season win leaders.
+3. Distinguish between `select()` and `pull()` for extracting data from a data frame.
+
 ## Review
 
 Key Concepts

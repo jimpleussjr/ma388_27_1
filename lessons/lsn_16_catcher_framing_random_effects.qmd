@@ -20,6 +20,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Fit a fixed-effects model with many catcher indicators and discuss its limitations.
+2. Fit a random-effects (multilevel) model to estimate catcher-to-catcher variability.
+3. Use likelihood ratio tests to compare nested models with and without catcher random effects.
+4. Interpret variance components to assess whether catchers meaningfully affect called-strike rates.
+
 Last class, we were primarily comparing called strikes for Buster Posey and Yadier Molina.  Today we'll look at more catchers from June 2019.
 
 ```{r}

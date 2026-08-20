@@ -28,6 +28,13 @@ library(ggrepel)
 library(broom)
 ```
 
+# Lesson Objectives
+
+1. Compare three models (linear, Pythagorean with k=2, Pythagorean with estimated k) for predicting win percentage.
+2. Derive and compute incremental runs per win under the Pythagorean model.
+3. Use RMSE to evaluate and compare model performance.
+4. Estimate the Pythagorean exponent via log-log regression without an intercept.
+
 ## Review
 
 In our last lesson, we discussed the following model:

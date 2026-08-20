@@ -20,6 +20,13 @@ library(knitr)
 library(baseballr)
 ```
 
+# Lesson Objectives
+
+1. Fit a GAM to model home run probability as a smooth function of launch speed and launch angle.
+2. Use the 2015 model to predict home run probability on 2017 batted balls.
+3. Simulate 1,000 seasons to compare predicted vs. actual home run counts in 2017.
+4. Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates.
+
 ## Review
 
 **In a logistic model for hit probability, is it appropriate to use a linear function of launch angle and exit velocity? Explain.**

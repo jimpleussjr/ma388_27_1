@@ -19,6 +19,12 @@ library(tidyverse)
 library(knitr)
 ```
 
+# Lesson Objectives
+
+1. Compile a Quarto Markdown document to PDF using TinyTeX.
+2. Use `left_join()` and other join operations to merge information across relational database tables.
+3. Use the native R pipe `|>` and tidyverse verbs to answer a question about career batting average leaders.
+
 ## Compiling an .qmd file
 
 You'll submit most assignments in this course as PDFs via Canvas.  Let's make sure you can produce a PDF from Quarto Markdown.  If you already know how to do this, sit tight for a minute...

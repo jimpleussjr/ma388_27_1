@@ -28,6 +28,13 @@ library(ggrepel)
 library(broom)
 ```
 
+# Lesson Objectives
+
+1. Construct a run expectancy matrix from Retrosheet play-by-play data.
+2. Interpret run expectancy values for each game state (bases/outs combination).
+3. Calculate the run value of individual plays using the change in run expectancy.
+4. Distinguish between a run expectancy matrix and a run probability matrix.
+
 ## Review
 
 Last lesson, we discussed the following three models:

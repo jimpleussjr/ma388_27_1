@@ -18,6 +18,13 @@ execute:
 knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Derive linear weights for singles, doubles, triples, home runs, walks, and outs from run-value data.
+2. Compute Batting Runs for each player using Thorn and Palmer's linear weights model.
+3. Compare Batting Runs to traditional statistics (AVG, SLG, OPS, RBI) and assess which better measures offensive contribution.
+4. Convert Batting Runs to wins using the 10-runs-per-win rule of thumb.
+
 ## Review
 
 **What characteristics of a hitter does OPS quantify?**

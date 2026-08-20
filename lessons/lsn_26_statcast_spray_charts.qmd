@@ -20,6 +20,12 @@ library(knitr)
 library(baseballr)
 ```
 
+# Lesson Objectives
+
+1. Retrieve Statcast data for individual batters using `scrape_statcast_savant()`.
+2. Build a spray chart showing where batters hit balls in play on the field.
+3. Compare pull-happy vs. opposite-field hitters and relate tendencies to defensive shifts.
+4. Compute percentages of pulled ground balls and infield shifts faced for individual players.
 
 Review
 

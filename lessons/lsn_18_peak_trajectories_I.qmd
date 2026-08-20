@@ -20,6 +20,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Fit a quadratic model to describe a player's OPS as a function of age.
+2. Derive expressions for peak age and peak OPS from a quadratic model.
+3. Discuss the trade-offs of using a simple parametric curve to model career trajectories.
+4. Explain why centering age at 30 improves interpretability of the model coefficients.
+
 ## Review
 
 What is a *fixed effect*?

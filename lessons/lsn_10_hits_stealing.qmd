@@ -20,6 +20,12 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Compute RE24 to aggregate a player's run value across all plate appearances.
+2. Compare batting average and slugging percentage to run-value-based measures of performance.
+3. Evaluate the expected value of a stolen base attempt using the run expectancy matrix.
+4. Calculate mean run values for singles, doubles, triples, and home runs.
 
 ## Review
 

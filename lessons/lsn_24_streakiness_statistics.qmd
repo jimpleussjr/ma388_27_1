@@ -20,6 +20,13 @@ library(knitr)
 library(baseballr)
 ```
 
+# Lesson Objectives
+
+1. Calculate a clumpiness/streakiness coefficient (sum of squared gap lengths) for any player.
+2. Use simulation to generate the null distribution of the streakiness coefficient under randomness.
+3. Compare a player's observed streakiness to the simulated null distribution.
+4. Identify the longest hitless streaks among MLB players and interpret them.
+
 ## Review - DiMaggio's Streak 
 
 Last class we talked about the incredible hitting streak of Joe DiMaggio.  In 1941, Joe DiMaggio of the New York Yankees hit safely (got at least one hit) in 56 straight games. The streak began on May 15th, 1941 when DiMaggio went 1-for-4 against the Chicago White Sox and ended on July 17th when he went 0-for-3 with a walk against the Cleveland Indians.  

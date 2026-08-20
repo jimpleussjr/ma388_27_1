@@ -17,6 +17,13 @@ execute:
 knitr::opts_chunk$set(echo = TRUE, message= FALSE, warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Create a Quarto presentation (Reveal JS) that displays dynamic content from R code chunks.
+2. Use YAML parameters (`params`) to make a parameterized report that can be rendered for different inputs.
+3. Programmatically render multiple presentations in a loop, varying the parameter each time.
+4. Scale analysis pipelines to produce customized products for any player, team, or season with minimal extra effort.
+
 ## Purpose
 
 You have acquired the skills to analyze players, teams, pitches, and much more this semester.  You know how to translate a baseball question into code.  With the right data, you can answer lots of interesting questions.  It's time to scale up your productivity:

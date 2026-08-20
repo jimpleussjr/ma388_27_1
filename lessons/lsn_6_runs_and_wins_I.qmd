@@ -28,6 +28,13 @@ library(ggrepel)
 library(broom)
 ```
 
+# Lesson Objectives
+
+1. Fit a linear regression model to quantify the relationship between run differential and wins.
+2. Interpret regression coefficients and derive the "10 runs = 1 win" rule of thumb.
+3. Assess model fit using residual plots and `broom::augment()`.
+4. Determine the number of wins typically needed to make the playoffs using historical data.
+
 ## Review
 
 We finished our intro to R! I hope you feel more confident in your ability to work with databases and large data sets.

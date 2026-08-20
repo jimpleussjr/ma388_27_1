@@ -16,6 +16,13 @@ execute:
 knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Use logistic regression to model Hall of Fame selection probability from career statistics.
+2. Compute the equivalence coefficient to project how a player's statistics would change with additional PA.
+3. Compare Don Mattingly to Harold Baines and other Hall of Famers using raw and adjusted metrics.
+4. Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths.
+
 # Don Mattingly (“Donnie Baseball”) - Should he be in the Hall of Fame?
 
 Excerpts from *Here’s the HOF case for and against Mattingly* by Paul Casella on [mlb.com](https://www.mlb.com/news/don-mattingly-hall-of-fame-case).

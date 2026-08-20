@@ -20,6 +20,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Fit individual quadratic OBP trajectories and identify their limitations (overfitting for short careers).
+2. Fit a Bayesian multilevel model using `brms` that pools information across players.
+3. Compare individual-model estimates with multilevel-model estimates (shrinkage effect).
+4. Explain how Bayesian methods combine prior information with observed data to improve estimates.
+
 ## Admin Note
 
 I'm using some packages (`rstan`, `StanHeaders`, and `brms`) in this lesson that may not be easy to get working properly depending on your version of R.With R 4.5 installed, I needed to first install `RTools` for R 4.5 (I already had it for R 4.4).  Then I was able to install the below packages from CRAN, and everything worked perfectly.  In R, packages are often version-specific.  Some packages will have to be updated when you update your version of R.

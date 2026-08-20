@@ -26,6 +26,13 @@ library(Lahman)
 library(knitr)
 ```
 
+# Lesson Objectives
+
+1. Use regular expressions and stringr functions to process pitch sequence data.
+2. Create indicator variables for whether a plate appearance passed through each ball-strike count.
+3. Compute and visualize the mean run value for each count.
+4. Explain why ball-strike count affects expected run value.
+
 # Review
 
 Last class, we calculated the mean run values for singles, doubles, triples, and home runs (Table 1).  

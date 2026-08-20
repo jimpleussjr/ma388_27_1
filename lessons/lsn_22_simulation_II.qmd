@@ -13,6 +13,13 @@ execute:
   message: false
 ---
 
+# Lesson Objectives
+
+1. Use the Bradley-Terry model to compute the probability one team beats another.
+2. Build a Monte Carlo simulation of an entire baseball season, including schedule generation.
+3. Compare simulated season results to the underlying talent levels of teams.
+4. Generalize the Monte Carlo framework to simulate other probabilistic events.
+
 ## Simulating a Game
 
 In the last lesson, we simulated the number of runs in a half-inning by modeling individual at-bats and state transitions.  Now we're going to simulate a whole season.  Instead of simulating each at-bat, we'll start our simulation efforts at the level of modeling individual game outcomes.

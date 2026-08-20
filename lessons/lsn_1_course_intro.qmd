@@ -139,6 +139,11 @@ If you need a short introduction to the rules and general flow of a baseball gam
 
 - <https://www.youtube.com/watch?v=skOsApsF0jQ>
 
+# Lesson Objectives
+
+1.  Identify major baseball data sources (Lahman, Retrosheet, PITCHf/x, Statcast) and their appropriate use cases.
+2.  Explore data using basic tidyverse verbs (select, filter, mutate, group_by, summarize, arrange).
+
 # Chapter 1 - Baseball Datasets
 
 - The Lahman Database - Season by Season Data (since 1871)

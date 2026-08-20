@@ -25,6 +25,13 @@ library(tidyverse)
 library(knitr)
 ```
 
+# Lesson Objectives
+
+1. Use `ggplot` with aesthetic mappings (color, linetype, shape) to visualize data in long format.
+2. Transform data between wide and long format using `pivot_wider()`.
+3. Create a scatter plot with color-coded groups and meaningful axis labels.
+4. Map a function over a sequence of years to compute cumulative career home run leaders.
+
 ## Henry ("Hank") Aaron (1934-2021)
 
 ![Henry Aaron (Source: *New York Times*)](aaron.png){width="50%"}

@@ -26,6 +26,13 @@ library(knitr)
 library(baseballr)
 ```
 
+# Lesson Objectives
+
+1. Estimate the optimal launch angle for hitting a home run using 2023 Statcast data.
+2. Analyze spray angle distributions for home runs by batter handedness.
+3. Compute park factors to determine which ballparks favor home run hitting.
+4. Fit a random effects model to decompose home run responsibility between pitchers and batters.
+
 ```{r}
 # Statcast season window for 2023 (regular + early postseason window as example)
 # start_date <- as.Date("2023-04-02")

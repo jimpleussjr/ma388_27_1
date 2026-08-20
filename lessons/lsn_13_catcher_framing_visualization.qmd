@@ -20,6 +20,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Import and merge Statcast pitch data with player ID maps to add catcher names.
+2. Create faceted visualizations to compare called-strike proportions across catchers.
+3. Discuss challenges in isolating catcher framing ability from confounding factors.
+4. Calculate called-strike proportions for pitches near the edge of the strike zone.
+
 ## Chapter 7
 
 In this chapter, we investigate whether catchers have the ability to consistently frame close pitches, which some believe makes it more likely the umpire will call a strike.

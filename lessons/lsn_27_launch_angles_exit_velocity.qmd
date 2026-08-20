@@ -20,6 +20,12 @@ library(knitr)
 library(baseballr)
 ```
 
+# Lesson Objectives
+
+1. Create a scatter plot showing the relationship between exit velocity, launch angle, and batting average.
+2. Compare 2015 and 2017 Statcast data to investigate changes in home run rates.
+3. Use wOBA as an alternative outcome measure on launch-angle/exit-velocity plots.
+4. Construct histograms of launch angle and exit velocity for home runs in different years.
 
 After seeing a rise in home runs starting in 2015, Baseball Commissioner Robert D. Manfred, Jr. assembled a commission to analyze the situation. A press release outlining the commission's findings and MLB's actions can be found [here](https://www.mlb.com/press-release/major-league-baseball-receives-report-on-increased-home-run-rate-278136100).
 

@@ -17,6 +17,13 @@ execute:
 knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FALSE)
 ```
 
+# Lesson Objectives
+
+1. Compute the Basic, Stolen Base, and Technical versions of Runs Created from Lahman data.
+2. Diagnose data coverage limitations across baseball history for each Runs Created formula.
+3. Compute runs-created rate per game and use the Pythagorean formula to estimate a player's win percentage.
+4. Use Runs Created to answer "Who is the best batter in history?" and "Which team had the greatest lineup?"
+
 # Runs Created Formulas
 
 We encounter three main formulas in *Understanding Sabermetrics* that attempt to quantify a player's offensive production in a season.  Each formula gets successively more complicated and is the result of the trend of having more and more offensive statistics available throughout baseball history.
