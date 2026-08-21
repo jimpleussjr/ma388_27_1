@@ -21,9 +21,9 @@ library(knitr)
 
 # Lesson Objectives
 
-1.  Compile a Quarto Markdown document to PDF using TinyTeX.
+1.  Compile a R Markdown document to PDF.
 2.  Use `left_join()` and other join operations to merge information across relational database tables.
-3.  Use the native R pipe `|>` and tidyverse verbs to answer a question about career batting average leaders.
+3.  Use the R pipe `|>` and `->` `<-` functions to conduct assignment and pipeline actions.
 
 ## Compiling an .qmd file
 

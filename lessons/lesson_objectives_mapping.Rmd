@@ -36,17 +36,16 @@ library(knitr)
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 2.1 | Compile a Quarto Markdown document to PDF using TinyTeX. | 2 |
+| 2.1 | Compile a R Markdown document to PDF. | 2 |
 | 2.2 | Use `left_join()` and other join operations to merge information across relational database tables. | 2 |
-| 2.3 | Use the native R pipe `|>` and tidyverse verbs to answer a question about career batting average leaders. | 1, 2 |
+| 2.3 | Use the R pipe `|>` and `->` `<-` functions to conduct assignment and pipeline actions. | 1, 2 |
 
 # Lesson 3 — Introduction to R Part II
 
 | # | Lesson Objective | SLO |
 |---|---|---|
 | 3.1 | Implement the split-apply-combine strategy using `group_by`/`summarize` and `split()`/`map_df()`. | 2 |
-| 3.2 | Write a custom function and apply it across grouped data to find per-season win leaders. | 2, 3 |
-| 3.3 | Distinguish between `select()` and `pull()` for extracting data from a data frame. | 2 |
+| 3.2 | Write a custom function and apply it across grouped data. | 2, 3 |
 
 # Lesson 4 — R Graphics Part I
 

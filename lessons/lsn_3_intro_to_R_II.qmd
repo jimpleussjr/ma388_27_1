@@ -28,8 +28,7 @@ library(knitr)
 # Lesson Objectives
 
 1. Implement the split-apply-combine strategy using `group_by`/`summarize` and `split()`/`map_df()`.
-2. Write a custom function and apply it across grouped data to find per-season win leaders.
-3. Distinguish between `select()` and `pull()` for extracting data from a data frame.
+2. Write a custom function and apply it across grouped data.
 
 ## Review
 
@@ -154,7 +153,7 @@ HRLeaders <- Teams |>
 
 HRLeaders |> 
   select(yearID, name, HR) |> 
-  kable(caption = "Major League HR leaders by season and whether they won the World Series.")
+  kable(caption = "Major League HR leaders by season.")
 ```
 
 What's the difference between `select()` and `pull()`? One key difference is they return different data types.
