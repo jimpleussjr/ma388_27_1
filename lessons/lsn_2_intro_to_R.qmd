@@ -21,15 +21,15 @@ library(knitr)
 
 # Lesson Objectives
 
-1. Compile a Quarto Markdown document to PDF using TinyTeX.
-2. Use `left_join()` and other join operations to merge information across relational database tables.
-3. Use the native R pipe `|>` and tidyverse verbs to answer a question about career batting average leaders.
+1.  Compile a Quarto Markdown document to PDF using TinyTeX.
+2.  Use `left_join()` and other join operations to merge information across relational database tables.
+3.  Use the native R pipe `|>` and tidyverse verbs to answer a question about career batting average leaders.
 
 ## Compiling an .qmd file
 
-You'll submit most assignments in this course as PDFs via Canvas.  Let's make sure you can produce a PDF from Quarto Markdown.  If you already know how to do this, sit tight for a minute...
+You'll submit most assignments in this course as PDFs via Canvas. Let's make sure you can produce a PDF from Quarto Markdown. If you already know how to do this, sit tight for a minute...
 
-If this is new for you, you'll need to install a TeX distribution.  This is easy with `TinyTeX`.
+If this is new for you, you'll need to install a TeX distribution. This is easy with `TinyTeX`.
 
 ```{r}
 #| eval: false
@@ -43,13 +43,13 @@ With that package loaded, you're ready to install TeX.
 tinytex::install_tinytex()
 ```
 
-Now you should be able to download the source file for these class notes (see "lsn_2_intro_to_R.qmd") and "Render to PDF."  Make sure this works before the end of class today.
+Now you should be able to download the source file for these class notes (see "lsn_2_intro_to_R.qmd") and "Render to PDF." Make sure this works before the end of class today.
 
 ## R Syntax Best Practices
 
 ### Variable Assignemnt
 
-A lot of folks like to use the `=` sign to assign variable names. While it generally does work, the more appropriate syntax is `->` or `<-`, depending on which side of the argument your variable name is. `=` is used more for 
+A lot of folks like to use the `=` sign to assign variable names. While it generally does work, the more appropriate syntax is `->` or `<-`, depending on which side of the argument your variable name is. `=` is used more for
 
 ### Piping
 
@@ -57,15 +57,15 @@ The pipe passes the output of the previous argument to the first argument of the
 
 ## Review
 
-* You are investigating whether the hit-and-run is a good strategy.  Which data set should you use?
+- You are investigating whether the hit-and-run is a good strategy. Which data set should you use?
 
 \vspace{.5in}
 
-* You are investigating whether pitchers throw more fastballs to hitters at the bottom of the batting order.  Which data set would you use?
+- You are investigating whether pitchers throw more fastballs to hitters at the bottom of the batting order. Which data set would you use?
 
 \vspace{.5in}
 
-* Use R to find career batting average (H/AB) leaders of your favorite team.  More specifically, select a team and report a table of the 10 players with at least 2500 at bats (AB) with the highest batting averages while playing for that team.
+- Use R to find career batting average (H/AB) leaders of your favorite team. More specifically, select a team and report a table of the 10 players with at least 2500 at bats (AB) with the highest batting averages while playing for that team.
 
 \vspace{2in}
 
@@ -87,7 +87,7 @@ redSox |>
 
 ## Merging Data Frames (pg 41)
 
-When using a relational database (what does that mean again?), a common task is to add information from one table to another.  For example, consider our table above from the review.  Add the player's name and when they played their final game.
+When using a relational database (what does that mean again?), a common task is to add information from one table to another. For example, consider our table above from the review. Add the player's name and when they played their final game.
 
 ```{r}
 # I called my table from the review redSox.
@@ -96,7 +96,7 @@ redSox <- redSox |>
   left_join(select(People, playerID, nameLast, nameFirst, finalGame), by = "playerID" )
 ```
 
-Your turn...the `HallofFame` data frame contains data on every Hall of Fame ballot.  Add to your table above whether the player is in the Hall of Fame. (hint: `filter(inducted == "Y")`)
+Your turn...the `HallofFame` data frame contains data on every Hall of Fame ballot. Add to your table above whether the player is in the Hall of Fame. (hint: `filter(inducted == "Y")`)
 
 \vspace{.5in}
 
@@ -118,4 +118,24 @@ What cleaning would you still want to do to this table to make it more readable?
 
 \vspace{.25in}
 
-What is the difference between left\_join(), right\_join(), inner\_join(), and outer\_join()?
+**What is the difference between left_join(), right_join(), inner_join(), semi_join, anti_join, and full_join()?**
+
+1.  You have a list of every player in People, and you want to add their batting statistics from Batting. You want to retain every player, even if they have no batting record.
+
+**Which join?**
+
+2.  You want to find only players who appear in both Batting and People. You don't need any additional columns from People; you simply want to restrict Batting to players who have a corresponding record in People.
+
+**Which join?**
+
+3.  You want to identify players who have batting records but do not appear in People. This is a data-quality check.
+
+**Which join?**
+
+4.  You want a dataset containing only players who have both a salary record and a batting record, with the salary and batting variables together.
+
+**Which join?**
+
+5.  You have People and Salaries. You want to create a dataset containing every player in either table, even if that player appears in only one of them.
+
+**Which join?**

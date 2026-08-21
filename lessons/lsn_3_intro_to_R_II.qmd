@@ -154,7 +154,7 @@ HRLeaders <- Teams |>
 
 HRLeaders |> 
   select(yearID, name, HR) |> 
-  kable(caption = "Major League win leaders by season and whether they won the World Series.")
+  kable(caption = "Major League HR leaders by season and whether they won the World Series.")
 ```
 
 What's the difference between `select()` and `pull()`? One key difference is they return different data types.
