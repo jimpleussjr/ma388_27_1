@@ -40,7 +40,7 @@ Key Concepts
 
 Review Questions
 
--   Using the `Teams` data frame, calculate average wins (W) per season for each MLB team from 2000-present. Order your results from the best teams to the worst.
+-   Using the `Teams` data frame, calculate win % for each MLB team from 2000-present. Order your results from the best teams to the worst.
 
 ```{r, echo = FALSE}
 wins2000 <- Teams |> 

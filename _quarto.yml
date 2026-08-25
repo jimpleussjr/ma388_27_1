@@ -14,8 +14,8 @@ website:
           text: "Lesson 2: Introduction to R"
         - href: lessons/lsn_3_intro_to_R_II.qmd
           text: "Lesson 3: Introduction to R II"
-          # - href: lessons/lsn_4_r_graphics_I.qmd
-          #   text: "Lesson 4: R Graphics I"
+        - href: lessons/lsn_4_r_graphics_I.qmd
+          text: "Lesson 4: R Graphics I"
           # - href: lessons/lsn_5_r_graphics_II.qmd
           #   text: "Lesson 5: R Graphics II"          
           # - href: lessons/lsn_6_runs_and_wins_I.qmd

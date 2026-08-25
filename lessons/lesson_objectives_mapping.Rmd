@@ -51,10 +51,8 @@ library(knitr)
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 4.1 | Use `ggplot` with aesthetic mappings (color, linetype, shape) to visualize data in long format. | 2 |
-| 4.2 | Transform data between wide and long format using `pivot_wider()`. | 2 |
-| 4.3 | Create a scatter plot with color-coded groups and meaningful axis labels. | 2, 4 |
-| 4.4 | Map a function over a sequence of years to compute cumulative career home run leaders. | 2, 3 |
+| 4.1 | Use `ggplot` with aesthetic mappings to visualize data. | 2 |
+| 4.2 | Transform data between wide and long format and understand when to use which. | 2 |
 
 # Lesson 5 — R Graphics Part II
 
