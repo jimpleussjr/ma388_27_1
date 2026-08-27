@@ -28,10 +28,9 @@ library(knitr)
 
 # Lesson Objectives
 
-1. Create factor variables using `cut()` to categorize numeric data by baseball era.
+1. Understand what a factor is and how to create factor variables in R.
 2. Construct boxplots and line plots with multiple groups (e.g., salary by decade, runs per game by league).
-3. Use `geom_smooth()` to add smoothed trends to scatter plots.
-4. Evaluate Hall of Fame voting patterns and compare pitcher statistics by induction status using visualization.
+3. Use layered graphics (like `geom_smooth()`) to communicate data effectively.
 
 Review: 
 
