@@ -67,9 +67,8 @@ library(knitr)
 | # | Lesson Objective | SLO |
 |---|---|---|
 | 6.1 | Fit a linear regression model to quantify the relationship between run differential and wins. | 3 |
-| 6.2 | Interpret regression coefficients and derive the "10 runs = 1 win" rule of thumb. | 3, 4 |
-| 6.3 | Assess model fit using residual plots and `broom::augment()`. | 3, 6 |
-| 6.4 | Determine the number of wins typically needed to make the playoffs using historical data. | 1, 4 |
+| 6.2 | Interpret regression coefficients assess model fit using residual plots. | 3, 4, 6 |
+| 6.3 | Determine the number of wins typically needed to make the playoffs using historical data. | 1, 4 |
 
 # Lesson 8 — Runs and Wins Part II
 

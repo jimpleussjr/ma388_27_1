@@ -31,9 +31,8 @@ library(broom)
 # Lesson Objectives
 
 1. Fit a linear regression model to quantify the relationship between run differential and wins.
-2. Interpret regression coefficients and derive the "10 runs = 1 win" rule of thumb.
-3. Assess model fit using residual plots and `broom::augment()`.
-4. Determine the number of wins typically needed to make the playoffs using historical data.
+2. Interpret regression coefficients assess model fit using residual plots.
+3. Determine the number of wins typically needed to make the playoffs using historical data.
 
 ## Review
 
@@ -114,7 +113,7 @@ Interpret the coefficients in this model.
 
 ```{r}
 # Fit a linear regression model.
-wins_lm = lm(W ~ RD, data = teams2001)
+wins_lm <- lm(W ~ RD, data = teams2001)
 
 # Summary of linear model.
 wins_lm |> 
@@ -146,7 +145,7 @@ Let's look at the residuals for this regression. The `broom` package helps get m
 
 ```{r, fig.height=3.25, message = FALSE, warning = FALSE, fig.cap = "Figure 2: Residuals vs. Fitted Values of the Linear Model for Wins"}
 # Look at the teams2001 column names before and after running the next line.
-teams2001 = augment(wins_lm, data = teams2001)
+teams2001 <- augment(wins_lm, data = teams2001)
 
 teams2001 |>
   ggplot(aes(x = .fitted, y = .resid)) +
@@ -181,7 +180,7 @@ Repeat the above analysis using win percentage instead of wins. Report the run d
 
 ```{r, include = FALSE}
 # Fit a linear regression model.
-wins_lm = lm(Wpct ~ RD, data = teams2001)
+wins_lm <- lm(Wpct ~ RD, data = teams2001)
 
 # Summary of linear model.
 wins_lm |> 
@@ -216,7 +215,7 @@ playoff_teams <- SeriesPost |>
   mutate(playoffs = "yes")
 
 # Add playoff information to my teams.
-my_teams = my_teams |> 
+my_teams <- my_teams |> 
   left_join(playoff_teams, by = c("yearID", "teamID")) |>
   mutate(playoffs = replace_na(playoffs, "no")) 
 
