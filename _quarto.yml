@@ -20,8 +20,8 @@ website:
           text: "Lesson 5: R Graphics II"
         - href: lessons/lsn_6_runs_and_wins_I.qmd
           text: "Lesson 6: Runs and Wins I"
-          # - href: lessons/lsn_8_runs_and_wins_II.qmd
-          #   text: "Lesson 8: Runs and Wins II"
+        - href: lessons/lsn_7_runs_and_wins_II.qmd
+          text: "Lesson 7: Runs and Wins II"
           # - href: lessons/lsn_9_runs_expectancy_matrix.qmd
           #   text: "Lesson 9: Value of Plays: Run Expectancy Matrix"
           # - href: lessons/lsn_10_hits_stealing.qmd

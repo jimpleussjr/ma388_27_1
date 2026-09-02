@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 8"
+title: "MA388 Sabermetrics: Lesson 7"
 subtitle: "How many runs is a win? - Part II"
 author: "LTC Jim Pleuss"
 format:
@@ -81,6 +81,9 @@ where $Wpct$ is Win Percentage, $R$ is Runs Scored, $RA$ is Runs Allowed, and $\
 
 
 ## Model 2: Pythagorean Formula (Bill James)
+
+[Check out the Bill James shoutout in Moneyball](https://www.youtube.com/watch?v=j59yEKztcJ0)
+
 
 First, let's create a function to calculate the expected wins under a Pythagorean Formula.
 
@@ -207,6 +210,8 @@ my_teams = my_teams |>
 sqrt(mean(my_teams$.resid_pyth_k^2))
 ```
 
+Do we see any pattern? Can we check to see if there's some systematic bias in the model that we chose? What would that even look like in the residuals?
+
 ```{r, fig.height = 3}
 my_teams |>
   pull(.resid_pyth_k) |> 
@@ -227,7 +232,7 @@ my_teams |>
   summary()
 ```
 
-## How many runs for a win? (pg. 106)
+## How many runs for a win?
 
 Previously, we learned about the "10-for-1" rule of thumb (number of required runs scored for one additional win) using Model 1.  Using Model 2, this quantity changes based on runs allowed.  How can we find an expression for the number of required runs scored for one additional win?
 

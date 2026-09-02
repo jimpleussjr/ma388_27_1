@@ -70,14 +70,14 @@ library(knitr)
 | 6.2 | Interpret regression coefficients assess model fit using residual plots. | 3, 4, 6 |
 | 6.3 | Determine the number of wins typically needed to make the playoffs using historical data. | 1, 4 |
 
-# Lesson 8 — Runs and Wins Part II
+# Lesson 7 — Runs and Wins Part II
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 8.1 | Compare three models (linear, Pythagorean with k=2, Pythagorean with estimated k) for predicting win percentage. | 3, 6 |
-| 8.2 | Derive and compute incremental runs per win under the Pythagorean model. | 3 |
-| 8.3 | Use RMSE to evaluate and compare model performance. | 3, 6 |
-| 8.4 | Estimate the Pythagorean exponent via log-log regression without an intercept. | 3 |
+| 7.1 | Compare three models (linear, Pythagorean with k=2, Pythagorean with estimated k) for predicting win percentage. | 3, 6 |
+| 7.2 | Derive and compute incremental runs per win under the Pythagorean model. | 3 |
+| 7.3 | Use RMSE to evaluate and compare model performance. | 3, 6 |
+| 7.4 | Estimate the Pythagorean exponent via log-log regression without an intercept. | 3 |
 
 # Lesson 9 — Run Expectancy Matrix
 
