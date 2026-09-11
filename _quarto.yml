@@ -24,8 +24,8 @@ website:
           text: "Lesson 7: Runs and Wins II"
         - href: lessons/lsn_9_runs_expectancy_matrix.qmd
           text: "Lesson 9: Value of Plays: Run Expectancy Matrix"
-          # - href: lessons/lsn_10_hits_stealing.qmd
-          #   text: "Lesson 10: Value of Plays: Base Hits and Stealing"
+        - href: lessons/lsn_10_hits_stealing.qmd
+          text: "Lesson 10: Value of Plays: Base Hits and Stealing"
       - text: Lessons 11-20
         # menu:
           # - href: lessons/lsn_11_swinging_tendencies.qmd
