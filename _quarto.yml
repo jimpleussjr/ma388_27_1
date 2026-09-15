@@ -27,9 +27,9 @@ website:
         - href: lessons/lsn_10_hits_stealing.qmd
           text: "Lesson 10: Value of Plays: Base Hits and Stealing"
       - text: Lessons 11-20
-        # menu:
-          # - href: lessons/lsn_11_swinging_tendencies.qmd
-          #   text: "Lesson 11: Behaviors by Count: Swinging Tendencies"
+        menu:
+        - href: lessons/lsn_11_swinging_tendencies.qmd
+          text: "Lesson 11: Behaviors by Count: Swinging Tendencies"
           # - href: lessons/lsn_12_umpire_tendencies.qmd
           #   text: "Lesson 12: Behaviors by Count: Umpire Tendencies"
           # - href: lessons/lsn_13_catcher_framing_visualization.qmd
