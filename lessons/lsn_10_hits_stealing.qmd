@@ -86,14 +86,16 @@ We'll start with all batting events in the 2011 season.
 # Load the data.
 site = "https://raw.githubusercontent.com/maxtoki/baseball_R/"
 fields <- read_csv(file = paste(site, "master/data/fields.csv", sep =""))
-retro2011 <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
+retro <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
                     col_names = pull(fields, Header),
                     na = character())
-colnames(retro2011) <- tolower(colnames(retro2011))
+colnames(retro) <- tolower(colnames(retro))
 
 # Add states and run values.
-# (Note the data set has to be called retro2011.)
-source("./RunExpectancyMatrix.R")
+source("./RunExpectancyMatrixFunctions.R")
+get_run_expectancy_retro(retro)
+retro2011 <- retro_event_run_value
+
 ```
 
 Now let's look specifically at David Ortiz.

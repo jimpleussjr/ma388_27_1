@@ -68,16 +68,17 @@ The goal of today is to calculate the change in expected run value for at-bats p
 # Load the 2011 Retrosheet play-by-play data for 2011.
 site = "https://raw.githubusercontent.com/maxtoki/baseball_R/"
 fields <- read_csv(file = paste(site, "master/data/fields.csv", sep =""))
-retro2011 <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
+retro <- read_csv(file = paste(site, "master/data/all2011.csv", sep = ""),
                     col_names = pull(fields, Header),
                     na = character())
-colnames(retro2011) <- tolower(colnames(retro2011))
+colnames(retro) <- tolower(colnames(retro))
 
 # Add states and run_value to every play.
-# (Note the data set has to be called retro2011.)
-source("./RunExpectancyMatrix.R")
+source("./RunExpectancyMatrixFunctions.R")
 
-retro2011 |> 
+get_run_expectancy_retro(retro)
+
+retro_event_run_value |> 
   select(game_id, bat_id, pit_id, pitch_seq_tx, event_cd, inn_ct, outs_ct) |> 
   head(10) |> 
   kable()
@@ -112,7 +113,7 @@ Some useful string functions in R include (all from the `stringr` package with i
 \vspace{1.5in}
 
 ```{r}
-retro2011 <- retro2011 |> 
+retro2011 <- retro_event_run_value |> 
   mutate(pseq = str_replace_all(pitch_seq_tx, "[.>123N+*]", replacement = ""))
 retro2011 |> 
   select(game_id, pitch_seq_tx,pseq) |> 

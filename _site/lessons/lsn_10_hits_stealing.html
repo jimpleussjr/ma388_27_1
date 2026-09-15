@@ -392,14 +392,15 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>site <span class="ot">=</span> <span class="st">"https://raw.githubusercontent.com/maxtoki/baseball_R/"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fields <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">paste</span>(site, <span class="st">"master/data/fields.csv"</span>, <span class="at">sep =</span><span class="st">""</span>))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>retro2011 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">paste</span>(site, <span class="st">"master/data/all2011.csv"</span>, <span class="at">sep =</span> <span class="st">""</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>retro <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">paste</span>(site, <span class="st">"master/data/all2011.csv"</span>, <span class="at">sep =</span> <span class="st">""</span>),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_names =</span> <span class="fu">pull</span>(fields, Header),</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">na =</span> <span class="fu">character</span>())</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(retro2011) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(retro2011))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(retro) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(retro))</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add states and run values.</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (Note the data set has to be called retro2011.)</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"./RunExpectancyMatrix.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"./RunExpectancyMatrixFunctions.R"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">get_run_expectancy_retro</span>(retro)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>retro2011 <span class="ot">&lt;-</span> retro_event_run_value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now let’s look specifically at David Ortiz.</p>
 <div class="cell">
