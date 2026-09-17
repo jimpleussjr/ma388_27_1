@@ -174,11 +174,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <span class="nav-link">
-<span class="menu-text">Lessons 11-20</span>
-    </span>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lessons-11-20" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lessons 11-20</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lessons-11-20">    
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_11_swinging_tendencies.html">
+ <span class="dropdown-text">Lesson 11: Behaviors by Count: Swinging Tendencies</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../lessons/lsn_12_umpire_tendencies_preclass.html">
+ <span class="dropdown-text">Lesson 12: Behaviors by Count: Umpire Tendencies</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <span class="nav-link">
 <span class="menu-text">Lessons 21-30</span>
@@ -216,6 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#lesson-objectives" id="toc-lesson-objectives" class="nav-link active" data-scroll-target="#lesson-objectives">Lesson Objectives</a>
   <ul class="collapse">
   <li><a href="#digging-into-the-code" id="toc-digging-into-the-code" class="nav-link" data-scroll-target="#digging-into-the-code">Digging into the Code!</a></li>
+  <li><a href="#has-this-gotten-better-since-the-pitch-clock-hmm" id="toc-has-this-gotten-better-since-the-pitch-clock-hmm" class="nav-link" data-scroll-target="#has-this-gotten-better-since-the-pitch-clock-hmm">Has this gotten better since the pitch clock? Hmm…</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lsn_12_umpire_tendencies.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -291,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Do umpires adjust their strike zone based on the count? How might we go about gathering evidence?</p>
 <div class="html">
-<div style="margin-top: 0.5in;">
+<div style="margin-top: 1in;">
 
 </div>
 </div>
@@ -339,21 +350,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    (balls <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> strikes <span class="sc">==</span> <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">paste</span>(balls, strikes, <span class="at">sep =</span> <span class="st">"-"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(<span class="sc">~</span>count) <span class="sc">|&gt;</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">loess</span>(called_strike <span class="sc">~</span> plate_x <span class="sc">+</span> plate_z, </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> df, </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>             <span class="co"># span=.55,</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">control =</span> <span class="fu">loess.control</span>(<span class="at">surface =</span> <span class="st">"direct"</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(predict, <span class="at">newdata =</span> pred_area) <span class="sc">|&gt;</span> </span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">data.frame</span>(<span class="at">fit =</span> <span class="fu">as.numeric</span>(df))) <span class="sc">|&gt;</span> </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(bind_cols, pred_area, <span class="at">.id =</span> <span class="st">"count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(count=='3-0', plate_z&lt;1,plate_x&gt;1)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(<span class="sc">~</span>count) <span class="sc">|&gt;</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">loess</span>(called_strike <span class="sc">~</span> plate_x <span class="sc">+</span> plate_z, </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> df, </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>             <span class="co"># span=.3,</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">control =</span> <span class="fu">loess.control</span>(<span class="at">surface =</span> <span class="st">"direct"</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(predict, <span class="at">newdata =</span> pred_area) <span class="sc">|&gt;</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">data.frame</span>(<span class="at">fit =</span> <span class="fu">as.numeric</span>(df))) <span class="sc">|&gt;</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(bind_cols, pred_area, <span class="at">.id =</span> <span class="st">"count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>k_zone_plot <span class="sc">%+%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  ump_count_fits <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">x=</span>plate_x,<span class="at">y=</span>plate_z,<span class="at">fill =</span> fit),</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            )<span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">"Mean Run Value"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">"Called Strike Probability"</span>, </span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">low =</span> <span class="st">"grey10"</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">high =</span> <span class="st">"blue"</span>,</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mid =</span> <span class="st">"white"</span>,</span>
@@ -367,6 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>What’s the problem with this legend?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>k_zone_plot <span class="sc">%+%</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ump_count_fits, </span>
@@ -382,9 +395,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div style="page-break-after: always;"></div>
-<p><strong>My Explanation:</strong> If we believe the count may affect an umpire’s strike zone, we’ll need to capture each unique count similarly to how we’ve previously captured the <code>STATE</code> when analyzing run expectancy. To do this we create a variable for count by combining the number of balls and strikes. We’ve narrowed our interest to right-handed batters and a neutral count, a hitter’s count, and a pitcher’s count. We then split the data on count and randomly draw 3,000 pitches that occurred with that count.</p>
+<p><strong>My Explanation:</strong> If we believe the count may affect an umpire’s strike zone, we’ll need to capture each unique count similarly to how we’ve previously captured the <code>STATE</code> when analyzing run expectancy. To do this we create a variable for count by combining the number of balls and strikes. We’ve narrowed our interest to right-handed batters and a neutral count, a hitter’s count, and a pitcher’s count. We then split the data on count.</p>
 <p>We then fit a LOESS model that attempts to fit a locally estimated surface to the average strike call value (0 vs.&nbsp;1) at each of our data points (pitches).</p>
 <p>Next, we compute a set of predictions for each point on our grid for each count (one model per split in our original data frame). We then convert the numeric matrices returned by predict into a numeric vector called <code>fit</code> before turning those vectors into one dimensional data frames. These data frames are then added to the <code>pred_area</code> data frame with the <code>bind_cols()</code> command, effectively adding the likelihood of a strike call to every <code>(px,pz)</code> combination for every count (0-0, 0-2, 3-0).</p>
+</section>
+<section id="has-this-gotten-better-since-the-pitch-clock-hmm" class="level3">
+<h3 class="anchored" data-anchor-id="has-this-gotten-better-since-the-pitch-clock-hmm">Has this gotten better since the pitch clock? Hmm…</h3>
 
 
 </section>

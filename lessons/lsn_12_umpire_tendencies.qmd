@@ -67,7 +67,7 @@ get_statcast_pitches('2024-08-02','2024-08-13')
 Do umpires adjust their strike zone based on the count?  How might we go about gathering evidence?
 
 ::: {.html}
-<div style="margin-top: 0.5in;"></div>
+<div style="margin-top: 1in;"></div>
 :::
 
 \newpage
@@ -120,10 +120,11 @@ ump_count_fits <- umpires |>
     (balls == 0 & strikes == 2)) |> 
   
   mutate(count = paste(balls, strikes, sep = "-")) |> 
+  # filter(count=='3-0', plate_z<1,plate_x>1)
   split(~count) |> 
   map(\(df) loess(called_strike ~ plate_x + plate_z, 
              data = df, 
-             # span=.55,
+             # span=.3,
              control = loess.control(surface = "direct"))) |> 
   map(predict, newdata = pred_area) |> 
   map(\(df) data.frame(fit = as.numeric(df))) |> 
@@ -136,14 +137,14 @@ k_zone_plot %+%
   ump_count_fits +
   geom_tile(aes(x=plate_x,y=plate_z,fill = fit),
             )+
-  scale_fill_gradient2("Mean Run Value", 
+  scale_fill_gradient2("Called Strike Probability", 
                        low = "grey10",
                        high = "blue",
                        mid = "white",
                        midpoint = .5)+
   facet_grid(~count)
 ```
-
+What's the problem with this legend?
 
 ```{r, fig.height=3.5}
 k_zone_plot %+% 
@@ -155,8 +156,10 @@ k_zone_plot %+%
 
 \newpage
 
-**My Explanation:** If we believe the count may affect an umpire's strike zone, we'll need to capture each unique count similarly to how we've previously captured the `STATE` when analyzing run expectancy.  To do this we create a variable for count by combining the number of balls and strikes.  We've narrowed our interest to right-handed batters and a neutral count, a hitter's count, and a pitcher's count.  We then split the data on count and randomly draw 3,000 pitches that occurred with that count.
+**My Explanation:** If we believe the count may affect an umpire's strike zone, we'll need to capture each unique count similarly to how we've previously captured the `STATE` when analyzing run expectancy.  To do this we create a variable for count by combining the number of balls and strikes.  We've narrowed our interest to right-handed batters and a neutral count, a hitter's count, and a pitcher's count.  We then split the data on count.
 
 We then fit a LOESS model that attempts to fit a locally estimated surface to the average strike call value (0 vs. 1) at each of our data points (pitches).
 
 Next, we compute a set of predictions for each point on our grid for each count (one model per split in our original data frame). We then convert the numeric matrices returned by predict into a numeric vector called `fit` before turning those vectors into one dimensional data frames.  These data frames are then added to the `pred_area` data frame with the `bind_cols()` command, effectively adding the likelihood of a strike call to every `(px,pz)` combination for every count (0-0, 0-2, 3-0).  
+
+### Has this gotten better since the pitch clock? Hmm...

@@ -215,5 +215,9 @@
   },
   "lessons/lesson_objectives_mapping.Rmd": {
     "lesson_objectives_mapping.html": "4ebdd31f"
+  },
+  "lessons/lsn_12_umpire_tendencies_preclass.qmd": {
+    "lsn_12_umpire_tendencies_preclass.html": "8e4e7386",
+    "lsn_12_umpire_tendencies_preclass.tex": "52236e64"
   }
 }
