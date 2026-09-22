@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Lesson Objectives
 
-1. Import and merge Statcast pitch data with player ID maps to add catcher names.
+1. Import and merge Statcast pitch data with player ID maps.
 2. Create faceted visualizations to compare called-strike proportions across catchers.
 3. Discuss challenges in isolating catcher framing ability from confounding factors.
 4. Calculate called-strike proportions for pitches near the edge of the strike zone.

@@ -30,10 +30,10 @@ website:
         menu:
         - href: lessons/lsn_11_swinging_tendencies.qmd
           text: "Lesson 11: Behaviors by Count: Swinging Tendencies"
-        - href: lessons/lsn_12_umpire_tendencies_preclass.qmd
+        - href: lessons/lsn_12_umpire_tendencies.qmd
           text: "Lesson 12: Behaviors by Count: Umpire Tendencies"
-          # - href: lessons/lsn_13_catcher_framing_visualization.qmd
-          #   text: "Lesson 13: Catcher Framing Ability - Visualizations"
+        - href: lessons/lsn_13_catcher_framing_visualization.qmd
+          text: "Lesson 13: Catcher Framing Ability - Visualizations"
           # - href: lessons/lsn_14_logistic_regression.qmd
           #   text: "Lesson 14: Introduction to Logistic Regression"
           # - href: lessons/lsn_15_catcher_framing_modeling.qmd
