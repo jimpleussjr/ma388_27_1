@@ -218,3 +218,12 @@ Calculate that same called strike proportion for pitches that are within 2 inche
 
 *Hint: Use `case_when()` to establish a new variable that signifies whether a ball is `sz_edge` based on `plate_x`, `plate_z`, `sz_top`, `sz_bottom` and -.95 to .95 for plate edge.*
 
+```{r}
+pitches_taken |> 
+  mutate(close_pitch = case_when(
+    between(plate_x,-plate_width/12/2-,plate_width/12/2+2) &
+      between(plate_z,sz_top-2,sz_top+2) ~ TRUE)
+    
+  ))
+```
+
