@@ -139,8 +139,7 @@ library(knitr)
 |---|---|---|
 | 15.1 | Fit a generalized additive model (GAM) to model called-strike probability as a smooth function of pitch location. | 3 |
 | 15.2 | Use a GAM to adjust for pitch location when comparing catchers. | 3 |
-| 15.3 | Compare a simple linear logistic model with a smooth spatial model for strike-zone decisions. | 3, 6 |
-| 15.4 | Extend a two-catcher comparison to consider modeling many catchers simultaneously. | 3, 5 |
+| 15.3 | Extend a two-catcher comparison to consider modeling many catchers simultaneously. | 3, 5 |
 
 # Lesson 16 — Catcher Framing Random Effects
 
