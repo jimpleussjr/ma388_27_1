@@ -161,7 +161,6 @@ Is this an effective model for adjusting for location? Explain.
 :::
 
 ```{r}
-
 # Fit simple linear logistic model
 linear_fit <- pitches_taken_subset |> 
   glm(called_strike ~ plate_x + plate_z, 
@@ -176,23 +175,52 @@ grid <- expand.grid(
 
 # Predicted probabilities
 grid$prob <- predict(linear_fit, newdata = grid, type = "response")
+pitches_taken_subset$pred <- predict(linear_fit, newdata = pitches_taken_subset, type = "response")
 
+summary(linear_fit)
+```
+What do these coefficients tell us?
 
+\vspace{1in}
 
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+How does our prediction fit align with the actual balls and strikes?
+
+```{r}
 # Plot
-ggplot() +
+p1<-ggplot() +
   geom_point(
     data = pitches_taken_subset,
+    # aes(x = plate_x, y = plate_z, color = pred),
     aes(x = plate_x, y = plate_z, color = factor(called_strike)),
     alpha = 0.3
   ) +
   coord_equal() +
   labs(
-    title = "Linear Logistic Regression Decision Boundary",
+    title = "Actual Strikes",
     color = "Called Strike"
   ) +
   theme_minimal()
 
+# Plot
+p2<-ggplot() +
+  geom_point(
+    data = pitches_taken_subset,
+    aes(x = plate_x, y = plate_z, color = pred),
+    # aes(x = plate_x, y = plate_z, color = factor(called_strike)),
+    alpha = 0.3
+  ) +
+  coord_equal() +
+  labs(
+    title = "Predicted Strike Probability",
+    color = "Called Strike"
+  ) +
+  theme_minimal()
+
+gridExtra::grid.arrange(p1,p2,ncol=2)
 ```
 
 
