@@ -145,9 +145,9 @@ library(knitr)
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 16.1 | Fit a fixed-effects model with many catcher indicators and discuss its limitations. | 3, 6 |
+| 16.1 | Discuss the limitations of a fixed-effects model with many indicators of a categorical variable. | 3, 6 |
 | 16.2 | Fit a random-effects (multilevel) model to estimate catcher-to-catcher variability. | 3 |
-| 16.3 | Use likelihood ratio tests to compare nested models with and without catcher random effects. | 3, 6 |
+| 16.3 | Use likelihood ratio tests to compare nested models. | 3, 6 |
 | 16.4 | Interpret variance components to assess whether catchers meaningfully affect called-strike rates. | 4, 5 |
 
 # Lesson 18 — Peak Trajectories Part I

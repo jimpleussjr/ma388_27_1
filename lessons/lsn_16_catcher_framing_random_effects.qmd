@@ -22,9 +22,9 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Lesson Objectives
 
-1. Fit a fixed-effects model with many catcher indicators and discuss its limitations.
+1. Discuss the limitations of a fixed-effects model with many indicators of a categorical variable.
 2. Fit a random-effects (multilevel) model to estimate catcher-to-catcher variability.
-3. Use likelihood ratio tests to compare nested models with and without catcher random effects.
+3. Use likelihood ratio tests to compare nested models.
 4. Interpret variance components to assess whether catchers meaningfully affect called-strike rates.
 
 Last class, we were primarily comparing called strikes for Buster Posey and Yadier Molina.  Today we'll look at more catchers from June 2019.
@@ -172,6 +172,14 @@ Interesting - I guess?  We're now faced with the same question we always have in
 <div style="margin-top: 0.5in;"></div>
 :::
 
+**Let's try this out!** Go to your AI of choice and ask the following question:
+
+*I trained a random effects model using the glmer function in R and want to assess whether the random effect is significant or not. How might I do this?*
+
+::: {.html}
+<div style="margin-top: 1.5in;"></div>
+:::
+
 Let's use a nested model approach and add a couple more explanatory variables.  Right now we've only let the catcher and the pitch location try to explain called strike determinations.  If we introduce other variables that provide the same or complementary information, we might find the importance of catcher in the model to decrease.  Sounds like ANOVA, right?
 
 ```{r, cache = TRUE}
@@ -195,6 +203,7 @@ player_effects_adj |>
 
 ```
 
+
 ```{r}
 model_random_effects_trio_no_catch <- glmer(called_strike ~ strike_prob +(1|pitcher) + (1|batter),
                              family = "binomial",
@@ -205,5 +214,5 @@ anova(model_random_effects_trio_no_catch, model_random_effects_trio, test = "LRT
 ```
 
 
-### Let's talk course project!
+<!-- ### Let's talk course project! -->
 
