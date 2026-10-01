@@ -86,11 +86,24 @@ read_picks_csv <- function(path) {
 }
 
 # A person may submit more than once; the most recent submission counts.
+parse_stamp <- function(x) {
+  empty <- as.POSIXct(rep(NA_real_, length(x)), origin = "1970-01-01", tz = "UTC")
+  if (!length(x)) return(empty)
+  out <- tryCatch(suppressWarnings(as.POSIXct(x, tz = "UTC", format = "%m/%d/%Y %H:%M:%S")),
+                  error = function(e) empty)
+  if (all(is.na(out))) {
+    iso <- sub("Z$", "", sub("T", " ", x))
+    out2 <- tryCatch(suppressWarnings(as.POSIXct(iso, tz = "UTC")), error = function(e) empty)
+    if (!all(is.na(out2))) out <- out2
+  }
+  out
+}
+
 dedupe_picks <- function(df) {
   keep <- !is.na(df$name)
   df <- df[keep, , drop = FALSE]
   if (!nrow(df)) return(df)
-  ts <- suppressWarnings(as.POSIXct(df$timestamp, tz = "UTC", format = "%m/%d/%Y %H:%M:%S"))
+  ts <- if ("timestamp" %in% names(df)) parse_stamp(df$timestamp) else as.POSIXct(rep(NA_real_, nrow(df)), origin = "1970-01-01", tz = "UTC")
   if (all(is.na(ts))) ts <- seq_len(nrow(df))
   df <- df[order(df$name, ts, na.last = TRUE), , drop = FALSE]
   df[!duplicated(df$name, fromLast = TRUE), , drop = FALSE]
@@ -237,23 +250,68 @@ picks_html <- function(picks, tab, results) {
          "red means it was off by two or more.</p>")
 }
 
-# ---- pipeline --------------------------------------------------------------
+# ---- where the picks come from ----------------------------------------------
 
-fetch_sheet_csv <- function() {
-  id <- Sys.getenv("PLAYOFF_SHEET_ID", "")
-  if (!nzchar(id)) return(NULL)
-  gid <- Sys.getenv("PLAYOFF_SHEET_GID", "0")
-  url <- sprintf("https://docs.google.com/spreadsheets/d/%s/export?format=csv&gid=%s", id, gid)
-  tmp <- tempfile(fileext = ".csv")
-  ok <- tryCatch({
-    suppressWarnings(utils::download.file(url, tmp, mode = "wb", quiet = TRUE))
-    TRUE
-  }, error = function(e) FALSE)
-  if (!ok || !file.exists(tmp) || file.size(tmp) < 1) {
-    message("Could not download picks from the sheet; keeping the committed copy.")
-    return(NULL)
+# sources.txt holds the settings, so local runs and CI behave identically.
+# Environment variables override it, which is how you keep the URL in a secret.
+read_source_config <- function() {
+  cfg <- list(apps_script_url = "", sheet_id = "", sheet_gid = "0")
+  path <- file.path(script_dir(), "sources.txt")
+  if (file.exists(path)) {
+    lines <- readLines(path, warn = FALSE)
+    lines <- lines[!grepl("^\\s*(#|$)", lines)]
+    for (ln in lines) {
+      m <- regmatches(ln, regexec("^\\s*([a-z_]+)\\s*=\\s*(\\S.*?)\\s*$", ln))[[1]]
+      if (length(m) == 3L && m[2] %in% names(cfg)) cfg[[m[2]]] <- m[3]
+    }
   }
-  tmp
+  # Non-empty environment variables win over the file.
+  for (k in names(cfg)) {
+    v <- Sys.getenv(paste0("PLAYOFF_", toupper(k)), "")
+    if (nzchar(v)) cfg[[k]] <- v
+  }
+  cfg
+}
+
+# Retries because a first request after a redeploy can come back empty or stale.
+download_to_temp <- function(url, attempts = 3L) {
+  for (i in seq_len(attempts)) {
+    tmp <- tempfile(fileext = ".csv")
+    ok <- tryCatch({
+      suppressWarnings(utils::download.file(url, tmp, mode = "wb", quiet = TRUE))
+      TRUE
+    }, error = function(e) FALSE)
+    if (ok && file.exists(tmp) && file.size(tmp) > 0) {
+      # Apps Script omits the trailing newline, which makes read.csv complain.
+      cat("\n", file = tmp, append = TRUE)
+      # Reject a login page or an error page masquerading as a CSV.
+      head_line <- readLines(tmp, n = 1L, warn = FALSE)
+      if (length(head_line) && grepl("Name", head_line[1])) return(tmp)
+    }
+    Sys.sleep(2)
+  }
+  NULL
+}
+
+# Prefers the Apps Script web app (it is already deployed and needs no extra
+# sharing), then the plain Sheets CSV export. Returns NULL if neither works.
+fetch_remote <- function() {
+  cfg <- read_source_config()
+  if (nzchar(cfg$apps_script_url)) {
+    tmp <- download_to_temp(cfg$apps_script_url)
+    if (!is.null(tmp)) return(tmp)
+    message("Apps Script fetch failed, trying the sheet export instead.")
+  }
+  if (nzchar(cfg$sheet_id)) {
+    url <- sprintf("https://docs.google.com/spreadsheets/d/%s/export?format=csv&gid=%s",
+                   cfg$sheet_id, cfg$sheet_gid)
+    tmp <- download_to_temp(url)
+    if (!is.null(tmp)) return(tmp)
+  }
+  if (nzchar(cfg$apps_script_url) || nzchar(cfg$sheet_id)) {
+    message("Could not reach the picks source; keeping the committed copy.")
+  }
+  NULL
 }
 
 run <- function(argv = character(0)) {
@@ -265,8 +323,8 @@ run <- function(argv = character(0)) {
   if (length(argv)) {
     source_csv <- argv[1]
   } else {
-    downloaded <- fetch_sheet_csv()
-    if (!is.null(downloaded)) source_csv <- downloaded else source_csv <- target
+    downloaded <- fetch_remote()
+    source_csv <- if (is.null(downloaded)) target else downloaded
   }
 
 if (!file.exists(source_csv)) {

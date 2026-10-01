@@ -133,6 +133,29 @@ The valid counts are the possible series lengths (3-5 for a best-of-5, 4-7 for a
 LCS and World Series teams are derived automatically from earlier picks.
 3. If you change the scoring, update the How Scoring Works table above and
 the SCORING constants at the top of the script.
+4. To show everyone's picks on this page, add this handler to your Apps Script
+and redeploy the web app as a new version. It returns the picks sheet as CSV,
+which score.R downloads every time the site builds:
+      function doGet() {
+        var values = sheet().getDataRange().getValues();
+        var csv = values.map(function (row) {
+          return row.map(function (v) {
+            if (v === null || v === undefined) return "";
+            if (v instanceof Date) {
+              return Utilities.formatDate(v, "America/New_York", "M/d/yyyy HH:mm:ss");
+            }
+            var s = String(v);
+            return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+          }).join(",");
+        }).join("\n");
+        return ContentService.createTextOutput(csv)
+          .setMimeType(ContentService.MimeType.CSV);
+      }
+5. Put that web app URL in playoffs/sources.txt (or set PLAYOFF_APPS_SCRIPT_URL).
+Then each render refreshes everyone's picks; the workflow also refreshes on a
+schedule. Without a source the page falls back to the committed picks CSV, so
+it still builds.
+6. Fill in winners and series lengths in playoffs/results.csv as series finish.
 -->
 <script>
 (function () {

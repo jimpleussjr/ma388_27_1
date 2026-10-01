@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -28,6 +31,13 @@ jobs:
           r-version: 'release'
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - name: Refresh playoff picks and standings
+        run: Rscript playoffs/score.R
+        env:
+          PLAYOFF_APPS_SCRIPT_URL: ${{ secrets.PLAYOFF_APPS_SCRIPT_URL }}
+          PLAYOFF_SHEET_ID: ${{ secrets.PLAYOFF_SHEET_ID }}
+          PLAYOFF_SHEET_GID: ${{ secrets.PLAYOFF_SHEET_GID }}
 
       - uses: quarto-dev/quarto-actions/render@v2
 

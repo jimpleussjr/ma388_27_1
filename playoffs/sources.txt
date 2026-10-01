@@ -1,0 +1,21 @@
+# Where score.R reads everyone's picks from.
+#
+# Uncomment and fill in exactly one source. Both return CSV of the picks sheet.
+#
+#   apps_script_url  the web app you already deployed for the form. Preferred:
+#                    it works with your existing "execute as: me / anyone"
+#                    deployment and needs no extra sharing on the sheet.
+#                    Add the doGet handler from SETUP step 4 at the top of
+#                    predictions.qmd and redeploy the web app before using this.
+#   sheet_id         alternative: share the sheet as "anyone with the link /
+#                    viewer" and use the ID from its URL
+#                    (docs.google.com/spreadsheets/d/<THIS_PART>/edit).
+#   sheet_gid        tab id for sheet_id; 0 is the first tab.
+#
+# Setting PLAYOFF_APPS_SCRIPT_URL / PLAYOFF_SHEET_ID as environment variables
+# overrides anything here, which is how you would keep the value in a GitHub
+# secret instead of committing it.
+
+apps_script_url = https://script.google.com/macros/s/AKfycbxQqoHdSXiqk2E37KqHzTrlKnBofuClj3uovAD8dbmRKTrfz30wODStR4w9t10G2489pg/exec
+# sheet_id =
+# sheet_gid = 0
