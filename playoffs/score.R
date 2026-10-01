@@ -272,6 +272,10 @@ run <- function(argv = character(0)) {
 if (!file.exists(source_csv)) {
     message("No picks CSV at ", source_csv, "; writing an empty one.")
     picks <- data.frame(name = character(0), timestamp = character(0), stringsAsFactors = FALSE)
+    for (key in SERIES$key) {
+      picks[[key]] <- character(0)
+      picks[[paste0(key, "_games")]] <- character(0)
+    }
   } else {
     picks <- dedupe_picks(read_picks_csv(source_csv))
   }
@@ -285,7 +289,13 @@ if (!file.exists(source_csv)) {
   message("Wrote ", nrow(out), " pick row(s) to ", target)
 
   results <- read_results(find_file("results.csv"))
-  tab <- if (nrow(picks)) score_all(picks, results) else data.frame()
+  if (nrow(picks)) {
+    tab <- score_all(picks, results)
+  } else {
+    tab <- data.frame(name = character(0), score = numeric(0), winners = numeric(0),
+                      lengths = numeric(0), sweeps = numeric(0), scored = numeric(0),
+                      possible = numeric(0), stringsAsFactors = FALSE)
+  }
   utils::write.csv(tab, file.path(data_dir, "standings.csv"), row.names = FALSE, na = "")
 
   pend <- results_pending(results)

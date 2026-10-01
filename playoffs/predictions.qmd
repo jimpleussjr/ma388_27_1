@@ -49,6 +49,22 @@ title: "MLB Playoff Bracket"
 .pf-msg-ok { background: #eaf7ef; border: 1px solid #b7e3c6; color: #14663a; }
 .pf-msg-err { background: #fdecec; border: 1px solid #f5c2c2; color: #9b1c1c; }
 .pf-msg-idle { display: none; }
+.pf-scroll { overflow-x: auto; margin-top: .4rem; }
+.pf-table2 { border-collapse: collapse; width: 100%; font-size: .88rem; }
+.pf-table2 th { text-align: left; font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; color: #8a97a8; padding: 0 .6rem .45rem 0; white-space: nowrap; border-bottom: 1px solid #e6eaef; }
+.pf-table2 td { padding: .38rem .6rem .38rem 0; border-top: 1px solid #f4f6f8; vertical-align: middle; white-space: nowrap; }
+.pf-rank { color: #9aa5b1; font-variant-numeric: tabular-nums; }
+.pf-score { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pf-who { font-weight: 600; }
+.pf-leader { background: linear-gradient(90deg, rgba(212,160,23,.14), rgba(212,160,23,0)); }
+.pf-pill { display: inline-block; padding: .1rem .4rem; border-radius: 5px; font-size: .82rem; border: 1px solid transparent; }
+.pf-pill + .pf-pill { margin-left: 4px; }
+.pf-ok { background: #eaf7ef; border-color: #b7e3c6; color: #14663a; }
+.pf-bad { background: #fdecec; border-color: #f5c2c2; color: #9b1c1c; }
+.pf-near { background: #fdf5e4; border-color: #f0dcae; color: #8a6d0b; }
+.pf-unknown { background: #f2f4f7; border-color: #e4e8ed; color: #9aa5b1; }
+.pf-g { font-variant-numeric: tabular-nums; }
+.pf-near-key { color: #8a6d0b; font-weight: 600; }
 </style>
 
 <div class="pf-wrap">
@@ -330,3 +346,42 @@ rebuild();
 })();
 </script>
 :::
+
+<!--
+UPDATING THE STANDINGS (instructor only):
+1. After a series is played, add the winner and the number of games it took to
+playoffs/results.csv, e.g.  alds1,White Sox,4
+2. Refresh the picks and rescore by running:
+     Rscript playoffs/score.R
+   With PLAYOFF_SHEET_ID set it re-downloads the sheet first; without it, it
+   re-scores the committed playoffs/data/picks.csv.
+3. The tables below are rebuilt on every render (freeze is off for these
+   chunks), so the next build shows the updated scores.
+-->
+
+## Standings
+
+```{r}
+#| label: playoff-standings
+#| freeze: false
+#| echo: false
+#| output: asis
+pf_dir <- if (file.exists("score.R")) "." else "playoffs"
+if (!file.exists(file.path(pf_dir, "score.R"))) stop("playoffs/score.R not found")
+source(file.path(pf_dir, "score.R"))
+pf_results <- read_results(file.path(pf_dir, "results.csv"))
+pf_picks_path <- file.path(pf_dir, "data", "picks.csv")
+pf_picks <- if (file.exists(pf_picks_path)) dedupe_picks(read_picks_csv(pf_picks_path)) else data.frame()
+pf_tab <- if (nrow(pf_picks)) score_all(pf_picks, pf_results) else data.frame()
+cat(standings_html(pf_tab, pf_results))
+```
+
+## Everyone's Picks
+
+```{r}
+#| label: playoff-picks-table
+#| freeze: false
+#| echo: false
+#| output: asis
+cat(picks_html(pf_picks, pf_tab, pf_results))
+```

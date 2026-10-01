@@ -224,36 +224,46 @@
     "predictions.html": "b4733735"
   },
   "lessons/lsn_18_peak_trajectories_II.qmd": {
-    "lsn_18_peak_trajectories_II.html": "63b9dec8"
+    "lsn_18_peak_trajectories_II.html": "63b9dec8",
+    "lsn_18_peak_trajectories_II.tex": "016cd095"
   },
   "lessons/lsn_19_multilevel_modeling.qmd": {
-    "lsn_19_multilevel_modeling.html": "92a9bf52"
+    "lsn_19_multilevel_modeling.html": "92a9bf52",
+    "lsn_19_multilevel_modeling.tex": "19c230f6"
   },
   "lessons/lsn_20_simulation_I.qmd": {
-    "lsn_20_simulation_I.html": "b85031d6"
+    "lsn_20_simulation_I.html": "b85031d6",
+    "lsn_20_simulation_I.tex": "adf12db7"
   },
   "lessons/lsn_21_simulation_II.qmd": {
-    "lsn_21_simulation_II.html": "1f9a4d16"
+    "lsn_21_simulation_II.html": "1f9a4d16",
+    "lsn_21_simulation_II.tex": "77498bb9"
   },
   "lessons/lsn_22_the_great_streak.qmd": {
-    "lsn_22_the_great_streak.html": "56c5a2de"
+    "lsn_22_the_great_streak.html": "56c5a2de",
+    "lsn_22_the_great_streak.tex": "663957c0"
   },
   "lessons/lsn_23_streakiness_statistics.qmd": {
-    "lsn_23_streakiness_statistics.html": "8c5c0a8e"
+    "lsn_23_streakiness_statistics.html": "8c5c0a8e",
+    "lsn_23_streakiness_statistics.tex": "8f644a3c"
   },
   "lessons/lsn_26_launch_angles_exit_velocity.qmd": {
-    "lsn_26_launch_angles_exit_velocity.html": "974b429b"
+    "lsn_26_launch_angles_exit_velocity.html": "974b429b",
+    "lsn_26_launch_angles_exit_velocity.tex": "17b2d005"
   },
   "lessons/lsn_27_home_run_hitting_I.qmd": {
-    "lsn_27_home_run_hitting_I.html": "0f7bc123"
+    "lsn_27_home_run_hitting_I.html": "0f7bc123",
+    "lsn_27_home_run_hitting_I.tex": "83f70823"
   },
   "lessons/lsn_28_home_run_hitting_II.qmd": {
-    "lsn_28_home_run_hitting_II.html": "1d9575a1"
+    "lsn_28_home_run_hitting_II.html": "1d9575a1",
+    "lsn_28_home_run_hitting_II.tex": "03560d59"
   },
   "lessons/lsn_29_equivalence_coefficient.qmd": {
     "lsn_29_equivalence_coefficient.html": "3464efa2"
   },
   "lessons/lsn_30_ops+_babip.qmd": {
-    "lsn_30_ops+_babip.html": "5c7e8e7c"
+    "lsn_30_ops+_babip.html": "5c7e8e7c",
+    "lsn_30_ops+_babip.tex": "f88f87a7"
   }
 }
