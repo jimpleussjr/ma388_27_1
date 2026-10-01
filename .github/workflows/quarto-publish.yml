@@ -3,8 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Hourly rather than every 30 minutes: a full rebuild takes about 8 minutes,
+  # and scheduling off the hour avoids the window where GitHub delays runs most.
+  # Everyone's picks refresh on any push too, so this is a backstop.
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:
