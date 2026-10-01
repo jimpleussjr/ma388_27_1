@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 18"
+title: "MA388 Sabermetrics: Lesson 17"
 subtitle: "Comparing Peak Trajectories - Part I"
 author: "LTC Jim Pleuss"
 format:

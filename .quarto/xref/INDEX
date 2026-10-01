@@ -219,5 +219,41 @@
   "lessons/lsn_12_umpire_tendencies_preclass.qmd": {
     "lsn_12_umpire_tendencies_preclass.html": "8e4e7386",
     "lsn_12_umpire_tendencies_preclass.tex": "52236e64"
+  },
+  "playoffs/predictions.qmd": {
+    "predictions.html": "b4733735"
+  },
+  "lessons/lsn_18_peak_trajectories_II.qmd": {
+    "lsn_18_peak_trajectories_II.html": "63b9dec8"
+  },
+  "lessons/lsn_19_multilevel_modeling.qmd": {
+    "lsn_19_multilevel_modeling.html": "92a9bf52"
+  },
+  "lessons/lsn_20_simulation_I.qmd": {
+    "lsn_20_simulation_I.html": "b85031d6"
+  },
+  "lessons/lsn_21_simulation_II.qmd": {
+    "lsn_21_simulation_II.html": "1f9a4d16"
+  },
+  "lessons/lsn_22_the_great_streak.qmd": {
+    "lsn_22_the_great_streak.html": "56c5a2de"
+  },
+  "lessons/lsn_23_streakiness_statistics.qmd": {
+    "lsn_23_streakiness_statistics.html": "8c5c0a8e"
+  },
+  "lessons/lsn_26_launch_angles_exit_velocity.qmd": {
+    "lsn_26_launch_angles_exit_velocity.html": "974b429b"
+  },
+  "lessons/lsn_27_home_run_hitting_I.qmd": {
+    "lsn_27_home_run_hitting_I.html": "0f7bc123"
+  },
+  "lessons/lsn_28_home_run_hitting_II.qmd": {
+    "lsn_28_home_run_hitting_II.html": "1d9575a1"
+  },
+  "lessons/lsn_29_equivalence_coefficient.qmd": {
+    "lsn_29_equivalence_coefficient.html": "3464efa2"
+  },
+  "lessons/lsn_30_ops+_babip.qmd": {
+    "lsn_30_ops+_babip.html": "5c7e8e7c"
   }
 }
