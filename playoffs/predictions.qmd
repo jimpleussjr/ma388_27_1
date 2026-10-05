@@ -48,7 +48,9 @@ title: "MLB Playoff Bracket"
 .pf-msg { margin-top: 12px; border-radius: 8px; padding: .7rem .9rem; font-weight: 600; font-size: .94rem; }
 .pf-msg-ok { background: #eaf7ef; border: 1px solid #b7e3c6; color: #14663a; }
 .pf-msg-err { background: #fdecec; border: 1px solid #f5c2c2; color: #9b1c1c; }
+.pf-msg-warn { background: #fdf6e3; border: 1px solid #eed9a1; color: #7a5c10; }
 .pf-msg-idle { display: none; }
+.pf-btn[disabled] { opacity: .55; cursor: not-allowed; box-shadow: none; }
 .pf-scroll { overflow-x: auto; margin-top: .4rem; }
 .pf-table2 { border-collapse: collapse; width: 100%; font-size: .88rem; }
 .pf-table2 th { text-align: left; font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; color: #8a97a8; padding: 0 .6rem .45rem 0; white-space: nowrap; border-bottom: 1px solid #e6eaef; }
@@ -93,7 +95,7 @@ title: "MLB Playoff Bracket"
 <div id="ws"></div>
 </div>
 <div class="pf-actions">
-<button type="submit" class="pf-btn pf-btn-primary">Submit Picks</button>
+<button type="submit" id="submitBtn" class="pf-btn pf-btn-primary">Submit Picks</button>
 <button type="button" id="resetBtn" class="pf-btn pf-btn-ghost">Reset</button>
 </div>
 <div class="pf-msg pf-msg-idle" id="picksStatus"></div>
@@ -156,12 +158,37 @@ Then each render refreshes everyone's picks; the workflow also refreshes on a
 schedule. Without a source the page falls back to the committed picks CSV, so
 it still builds.
 6. Fill in winners and series lengths in playoffs/results.csv as series finish.
+7. To close submissions, disable the button in the page AND enforce it on the
+server, because the button alone stops nobody. Set SUBMISSIONS_CLOSED (or
+LOCK_AT for an automatic deadline) in the script above, then add to the Apps
+Script and redeploy the web app:
+      var LOCKED = false;              // set true to close submissions now
+      var LOCK_AFTER = "";             // or "2026-10-05T23:59:00-04:00"
+      function isLocked() {
+        if (LOCKED) return true;
+        if (!LOCK_AFTER) return false;
+        return new Date() > new Date(LOCK_AFTER);
+      }
+Make doPost return early, before it writes anything:
+      if (isLocked()) {
+        return reply({ status: "locked", message: "Submissions are closed." });
+      }
+Note that a locked web app still lets anyone read picks through the doGet above;
+that is by design, since the page publishes them.
 -->
 <script>
 (function () {
 var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQqoHdSXiqk2E37KqHzTrlKnBofuClj3uovAD8dbmRKTrfz30wODStR4w9t10G2489pg/exec";
 
 var SCORING = { winner: 2, length: 1, offByOne: 0.5, sweep: 1 };
+
+// Instructor: close submissions by setting SUBMISSIONS_CLOSED to true, or set
+// LOCK_AT to an ISO timestamp to close automatically (e.g. "2026-10-05T23:59").
+// This only disables the button on the page. To actually stop submissions,
+// set LOCKED / LOCK_AFTER in the Apps Script too, then redeploy the web app.
+// Keep the two in step.
+var SUBMISSIONS_CLOSED = true;
+var LOCK_AT = "";
 
 var SERIES = [
 { key: "alds1", label: "ALDS 1", teams: ["White Sox", "Guardians"], games: [3, 4, 5] },
@@ -308,8 +335,29 @@ status.className = "pf-msg pf-msg-" + kind;
 status.textContent = msg;
 }
 
+var CLOSED_MSG = "Submissions are closed. Your picks can no longer be changed.";
+
+function submissionsClosed() {
+if (SUBMISSIONS_CLOSED) return true;
+if (LOCK_AT) {
+var t = Date.parse(LOCK_AT);
+if (!isNaN(t)) return new Date().getTime() > t;
+}
+return false;
+}
+
+function lockSubmit() {
+var btn = document.getElementById("submitBtn");
+if (btn) {
+btn.disabled = true;
+btn.textContent = "Submissions Closed";
+}
+show(CLOSED_MSG, "warn");
+}
+
 form.addEventListener("submit", function (ev) {
 ev.preventDefault();
+if (submissionsClosed()) { lockSubmit(); return; }
 var name = document.getElementById("name").value.trim();
 var missing = [];
 if (!name) missing.push("your name");
@@ -336,6 +384,8 @@ body: JSON.stringify(payload)
 })
 .then(function (r) { return r.json(); })
 .then(function (res) {
+// The server is the real authority: close submissions there too.
+if (res && res.status === "locked") { lockSubmit(); return; }
 if (!res || res.status !== "ok") {
 show("The server rejected this: " + ((res && res.message) || "no response") + " Nothing was saved.", "err");
 return;
@@ -366,6 +416,7 @@ r.keys.forEach(function (k) { host.appendChild(buildRow(byKey[k], r)); });
 });
 
 rebuild();
+if (submissionsClosed()) lockSubmit();
 })();
 </script>
 :::
