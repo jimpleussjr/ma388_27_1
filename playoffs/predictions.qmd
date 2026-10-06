@@ -1,5 +1,7 @@
 ---
 title: "MLB Playoff Bracket"
+execute:
+  freeze: false
 ---
 
 ::: {=html}
