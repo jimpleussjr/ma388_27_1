@@ -265,5 +265,8 @@
   "lessons/lsn_30_ops+_babip.qmd": {
     "lsn_30_ops+_babip.html": "5c7e8e7c",
     "lsn_30_ops+_babip.tex": "f88f87a7"
+  },
+  "lessons/lsn_18_peak_trajectories_II_cadets.Rmd": {
+    "lsn_18_peak_trajectories_II_cadets.html": "f08de9c8"
   }
 }
