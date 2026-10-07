@@ -42,7 +42,7 @@ website:
           text: "Lesson 16: Catcher Framing Ability: Random Effects"
         - href: lessons/lsn_17_peak_trajectories_I.qmd
           text: "Lesson 17: Comparing Peak Trajectories I"
-        - href: lessons/lsn_18_peak_trajectories_II_cadets.qmd
+        - href: lessons/lsn_18_peak_trajectories_II_cadets.Rmd
           text: "Lesson 18: Comparing Peak Trajectories II"
           # - href: lessons/lsn_19_multilevel_modeling.qmd
           #   text: "Lesson 19: Multilevel Modeling"
