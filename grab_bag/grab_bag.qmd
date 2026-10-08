@@ -13,8 +13,7 @@ execute:
   message: false
 ---
 
-<iframe src="topics.png" title="Grab Bag Topics" style="border: none; display: block; width: 100%; aspect-ratio: 1389 / 869; height: auto;">
-</iframe>
+<img src="topics.png" alt="Grab Bag Topics" style="display: block; max-width: 100%; height: auto;">
 
 
 ```{r, include=FALSE, out.width="50%", fig.align='left'}
