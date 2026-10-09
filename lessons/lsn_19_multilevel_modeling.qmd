@@ -270,7 +270,7 @@ Now, let's fit trajectories that pool information from all the players in the da
 
 \newpage
 
-```{r, cache = TRUE}
+```{r, eval = FALSE}
 library(brms)
 library(rstan)
 
@@ -291,6 +291,14 @@ Player_Fits <- coef(fit)$Player[, "Estimate", ] |>
   rename(b0.hat.mlm = Intercept,
          b1.hat.mlm = AgeD,
          b2.hat.mlm = IAgeDE2)
+```
+
+```{r load-cached-fits, include=FALSE}
+player_stats <- player_stats |> 
+  mutate(AgeD = Age - 30,
+         Player = str_c(nameFirst, " ", nameLast))
+
+Player_Fits <- readRDS("lsn_19_multilevel_modeling_fits.rds")
 ```
 
 Now we've fit two models for each player.  Let's store the results in a common data frame and plot our multi-level modeling results.
