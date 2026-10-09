@@ -22,4 +22,6 @@ Imports:
     lme4,
     kableExtra,
     brms,
-    rstan
+    rstan,
+    StanHeaders,
+    BH
