@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 21"
+title: "MA388 Sabermetrics: Lesson 20"
 subtitle: "Simulating Baseball - Part I"
 format:
   html:
@@ -22,9 +22,8 @@ knitr::opts_chunk$set(echo = TRUE,
 # Lesson Objectives
 
 1. Construct a transition probability matrix from Retrosheet play-by-play data.
-2. Model a baseball half-inning as a Markov chain and simulate 10,000 half-innings.
-3. Compute the distribution of runs scored per half-inning and the average runs per half-inning.
-4. Discuss the memoryless property of Markov chains and whether it allows for momentum.
+2. Model a baseball half-inning as a Markov chain and simulate.
+3. Discuss the memoryless property of Markov chains.
 
 ## Markov Chains
 

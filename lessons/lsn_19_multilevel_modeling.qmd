@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 20"
+title: "MA388 Sabermetrics: Lesson 19"
 subtitle: "Multilevel Modeling"
 author: "LTC Jim Pleuss"
 format:

@@ -47,9 +47,9 @@ website:
         - href: lessons/lsn_19_multilevel_modeling.qmd
           text: "Lesson 19: Multilevel Modeling"
       - text: Lessons 21-30
-        # menu:
-          # - href: lessons/lsn_20_simulation_I.qmd
-          #   text: "Lesson 20: Simulating Baseball - Part I"
+        menu:
+        - href: lessons/lsn_20_simulation_I.qmd
+          text: "Lesson 20: Simulating Baseball - Part I"
           # - href: lessons/lsn_21_simulation_II.qmd
           #   text: "Lesson 21: Simulating Baseball - Part II"
           # - href: lessons/lsn_22_the_great_streak.qmd

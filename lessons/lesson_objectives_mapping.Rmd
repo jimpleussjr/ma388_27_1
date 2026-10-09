@@ -150,121 +150,120 @@ library(knitr)
 | 16.3 | Use likelihood ratio tests to compare nested models. | 3, 6 |
 | 16.4 | Interpret variance components to assess whether catchers meaningfully affect called-strike rates. | 4, 5 |
 
-# Lesson 18 — Peak Trajectories Part I
+# Lesson 17 — Peak Trajectories Part I
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 18.1 | Fit a quadratic model to describe a player's OPS as a function of age. | 3 |
-| 18.2 | Derive expressions for peak age and peak OPS from a quadratic model. | 3 |
-| 18.3 | Discuss the trade-offs of using a simple parametric curve to model career trajectories. | 5, 6 |
-| 18.4 | Explain why centering age at 30 improves interpretability of the model coefficients. | 3 |
+| 17.1 | Fit a quadratic model to describe a player's OPS as a function of age. | 3 |
+| 17.2 | Derive expressions for peak age and peak OPS from a quadratic model. | 3 |
+| 17.3 | Discuss the trade-offs of using a simple parametric curve to model career trajectories. | 5, 6 |
+| 17.4 | Explain why centering age at 30 improves interpretability of the model coefficients. | 3 |
 
-# Lesson 19 — Peak Trajectories Part II
-
-| # | Lesson Objective | SLO |
-|---|---|---|
-| 19.1 | Map a quadratic model function over multiple players to compare career trajectories. | 2, 3 |
-| 19.2 | Identify which historical home run hitter had the highest estimated peak HR rate. | 1, 4 |
-| 19.3 | Recognize unusual trajectory shapes and hypothesize explanations (e.g., injuries, era effects). | 5, 6 |
-
-# Lesson 20 — Multilevel Modeling
+# Lesson 18 — Peak Trajectories Part II
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 20.1 | Fit individual quadratic OBP trajectories and identify their limitations (overfitting for short careers). | 3, 6 |
-| 20.2 | Fit a Bayesian multilevel model using `brms` that pools information across players. | 3 |
-| 20.3 | Compare individual-model estimates with multilevel-model estimates (shrinkage effect). | 3, 6 |
-| 20.4 | Explain how Bayesian methods combine prior information with observed data to improve estimates. | 5 |
+| 18.1 | Map a quadratic model function over multiple players to compare career trajectories. | 2, 3 |
+| 18.2 | Identify which historical home run hitter had the highest estimated peak HR rate. | 1, 4 |
+| 18.3 | Recognize unusual trajectory shapes and hypothesize explanations (e.g., injuries, era effects). | 5, 6 |
 
-# Lesson 21 — Simulation Part I (Markov Chains)
-
-| # | Lesson Objective | SLO |
-|---|---|---|
-| 21.1 | Construct a transition probability matrix from Retrosheet play-by-play data. | 2, 3 |
-| 21.2 | Model a baseball half-inning as a Markov chain and simulate 10,000 half-innings. | 1, 3 |
-| 21.3 | Compute the distribution of runs scored per half-inning and the average runs per half-inning. | 1, 4 |
-| 21.4 | Discuss the memoryless property of Markov chains and whether it allows for momentum. | 5 |
-
-# Lesson 22 — Simulation Part II (Season Simulation)
+# Lesson 19 — Multilevel Modeling
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 22.1 | Use the Bradley-Terry model to compute the probability one team beats another. | 3 |
-| 22.2 | Build a Monte Carlo simulation of an entire baseball season, including schedule generation. | 1, 2 |
-| 22.3 | Compare simulated season results to the underlying talent levels of teams. | 4, 6 |
-| 22.4 | Generalize the Monte Carlo framework to simulate other probabilistic events. | 1, 3 |
+| 19.1 | Fit individual quadratic OBP trajectories and identify their limitations (overfitting for short careers). | 3, 6 |
+| 19.2 | Fit a Bayesian multilevel model using `brms` that pools information across players. | 3 |
+| 19.3 | Compare individual-model estimates with multilevel-model estimates (shrinkage effect). | 3, 6 |
+| 19.4 | Explain how Bayesian methods combine prior information with observed data to improve estimates. | 5 |
 
-# Lesson 23 — The Great Streak (DiMaggio)
-
-| # | Lesson Objective | SLO |
-|---|---|---|
-| 23.1 | Calculate run-length encoding (streaks) from a sequence of binary outcomes. | 2 |
-| 23.2 | Compute a moving average to visualize streaky performance over a season. | 2, 4 |
-| 23.3 | Use simulation (random shuffling) to assess how unusual DiMaggio's 56-game hitting streak was. | 1, 3 |
-| 23.4 | Interpret p-values from a permutation/simulation test in the context of streak analysis. | 4, 6 |
-
-# Lesson 24 — Streakiness Statistics
+# Lesson 20 — Simulation Part I (Markov Chains)
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 24.1 | Calculate a clumpiness/streakiness coefficient (sum of squared gap lengths) for any player. | 3 |
-| 24.2 | Use simulation to generate the null distribution of the streakiness coefficient under randomness. | 1, 3 |
-| 24.3 | Compare a player's observed streakiness to the simulated null distribution. | 4, 6 |
-| 24.4 | Identify the longest hitless streaks among MLB players and interpret them. | 1, 4 |
+| 20.1 | Construct a transition probability matrix from Retrosheet play-by-play data. | 2, 3 |
+| 20.2 | Model a baseball half-inning as a Markov chain and simulate. | 1, 3 |
+| 20.3 | Discuss the memoryless property of Markov chains. | 5 |
 
-# Lesson 26 — Statcast Spray Charts
-
-| # | Lesson Objective | SLO |
-|---|---|---|
-| 26.1 | Retrieve Statcast data for individual batters using `scrape_statcast_savant()`. | 2 |
-| 26.2 | Build a spray chart showing where batters hit balls in play on the field. | 2, 4 |
-| 26.3 | Compare pull-happy vs. opposite-field hitters and relate tendencies to defensive shifts. | 1, 4 |
-| 26.4 | Compute percentages of pulled ground balls and infield shifts faced for individual players. | 2, 3 |
-
-# Lesson 27 — Launch Angles & Exit Velocity
+# Lesson 21 — Simulation Part II (Season Simulation)
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 27.1 | Create a scatter plot showing the relationship between exit velocity, launch angle, and batting average. | 2, 4 |
-| 27.2 | Compare 2015 and 2017 Statcast data to investigate changes in home run rates. | 1, 6 |
-| 27.3 | Use wOBA as an alternative outcome measure on launch-angle/exit-velocity plots. | 3 |
-| 27.4 | Construct histograms of launch angle and exit velocity for home runs in different years. | 2, 4 |
+| 21.1 | Use the Bradley-Terry model to compute the probability one team beats another. | 3 |
+| 21.2 | Build a Monte Carlo simulation of an entire baseball season, including schedule generation. | 1, 2 |
+| 21.3 | Compare simulated season results to the underlying talent levels of teams. | 4, 6 |
+| 21.4 | Generalize the Monte Carlo framework to simulate other probabilistic events. | 1, 3 |
 
-# Lesson 28 — Home Run Hitting Part I
-
-| # | Lesson Objective | SLO |
-|---|---|---|
-| 28.1 | Fit a GAM to model home run probability as a smooth function of launch speed and launch angle. | 3 |
-| 28.2 | Use the 2015 model to predict home run probability on 2017 batted balls. | 3, 6 |
-| 28.3 | Simulate 1,000 seasons to compare predicted vs. actual home run counts in 2017. | 1, 3 |
-| 28.4 | Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates. | 1, 5 |
-
-# Lesson 29 — Home Run Hitting Part II
+# Lesson 22 — The Great Streak (DiMaggio)
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 29.1 | Estimate the optimal launch angle for hitting a home run using 2023 Statcast data. | 1, 3 |
-| 29.2 | Analyze spray angle distributions for home runs by batter handedness. | 2, 4 |
-| 29.3 | Compute park factors to determine which ballparks favor home run hitting. | 3, 4 |
-| 29.4 | Fit a random effects model to decompose home run responsibility between pitchers and batters. | 3, 5 |
+| 22.1 | Calculate run-length encoding (streaks) from a sequence of binary outcomes. | 2 |
+| 22.2 | Compute a moving average to visualize streaky performance over a season. | 2, 4 |
+| 22.3 | Use simulation (random shuffling) to assess how unusual DiMaggio's 56-game hitting streak was. | 1, 3 |
+| 22.4 | Interpret p-values from a permutation/simulation test in the context of streak analysis. | 4, 6 |
 
-# Lesson 30 — Equivalence Coefficient (Hall of Fame)
-
-| # | Lesson Objective | SLO |
-|---|---|---|
-| 30.1 | Use logistic regression to model Hall of Fame selection probability from career statistics. | 3 |
-| 30.2 | Compute the equivalence coefficient to project how a player's statistics would change with additional PA. | 3 |
-| 30.3 | Compare Don Mattingly to Harold Baines and other Hall of Famers using raw and adjusted metrics. | 1, 4 |
-| 30.4 | Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths. | 5, 6 |
-
-# Lesson 31 — OPS+ and BABIP
+# Lesson 23 — Streakiness Statistics
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 31.1 | Calculate OPS+ to compare batters across different offensive eras. | 3, 4 |
-| 31.2 | Explain why raw OPS is not appropriate for cross-era comparisons and how OPS+ adjusts for league context. | 5, 6 |
-| 31.3 | Compute Isolated Power (ISO) to distinguish between different types of hitters. | 2, 3 |
-| 31.4 | Calculate BABIP and explain what it communicates about a player's performance on balls in play. | 1, 4 |
+| 23.1 | Calculate a clumpiness/streakiness coefficient (sum of squared gap lengths) for any player. | 3 |
+| 23.2 | Use simulation to generate the null distribution of the streakiness coefficient under randomness. | 1, 3 |
+| 23.3 | Compare a player's observed streakiness to the simulated null distribution. | 4, 6 |
+| 23.4 | Identify the longest hitless streaks among MLB players and interpret them. | 1, 4 |
+
+# Lesson 25 — Statcast Spray Charts
+
+| # | Lesson Objective | SLO |
+|---|---|---|
+| 25.1 | Retrieve Statcast data for individual batters using `scrape_statcast_savant()`. | 2 |
+| 25.2 | Build a spray chart showing where batters hit balls in play on the field. | 2, 4 |
+| 25.3 | Compare pull-happy vs. opposite-field hitters and relate tendencies to defensive shifts. | 1, 4 |
+| 25.4 | Compute percentages of pulled ground balls and infield shifts faced for individual players. | 2, 3 |
+
+# Lesson 26 — Launch Angles & Exit Velocity
+
+| # | Lesson Objective | SLO |
+|---|---|---|
+| 26.1 | Create a scatter plot showing the relationship between exit velocity, launch angle, and batting average. | 2, 4 |
+| 26.2 | Compare 2015 and 2017 Statcast data to investigate changes in home run rates. | 1, 6 |
+| 26.3 | Use wOBA as an alternative outcome measure on launch-angle/exit-velocity plots. | 3 |
+| 26.4 | Construct histograms of launch angle and exit velocity for home runs in different years. | 2, 4 |
+
+# Lesson 27 — Home Run Hitting Part I
+
+| # | Lesson Objective | SLO |
+|---|---|---|
+| 27.1 | Fit a GAM to model home run probability as a smooth function of launch speed and launch angle. | 3 |
+| 27.2 | Use the 2015 model to predict home run probability on 2017 batted balls. | 3, 6 |
+| 27.3 | Simulate 1,000 seasons to compare predicted vs. actual home run counts in 2017. | 1, 3 |
+| 27.4 | Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates. | 1, 5 |
+
+# Lesson 28 — Home Run Hitting Part II
+
+| # | Lesson Objective | SLO |
+|---|---|---|
+| 28.1 | Estimate the optimal launch angle for hitting a home run using 2023 Statcast data. | 1, 3 |
+| 28.2 | Analyze spray angle distributions for home runs by batter handedness. | 2, 4 |
+| 28.3 | Compute park factors to determine which ballparks favor home run hitting. | 3, 4 |
+| 28.4 | Fit a random effects model to decompose home run responsibility between pitchers and batters. | 3, 5 |
+
+# Lesson 29 — Equivalence Coefficient (Hall of Fame)
+
+| # | Lesson Objective | SLO |
+|---|---|---|
+| 29.1 | Use logistic regression to model Hall of Fame selection probability from career statistics. | 3 |
+| 29.2 | Compute the equivalence coefficient to project how a player's statistics would change with additional PA. | 3 |
+| 29.3 | Compare Don Mattingly to Harold Baines and other Hall of Famers using raw and adjusted metrics. | 1, 4 |
+| 29.4 | Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths. | 5, 6 |
+
+# Lesson 30 — OPS+ and BABIP
+
+| # | Lesson Objective | SLO |
+|---|---|---|
+| 30.1 | Calculate OPS+ to compare batters across different offensive eras. | 3, 4 |
+| 30.2 | Explain why raw OPS is not appropriate for cross-era comparisons and how OPS+ adjusts for league context. | 5, 6 |
+| 30.3 | Compute Isolated Power (ISO) to distinguish between different types of hitters. | 2, 3 |
+| 30.4 | Calculate BABIP and explain what it communicates about a player's performance on balls in play. | 1, 4 |
 
 # Lesson 32 — Linear Weights
 
