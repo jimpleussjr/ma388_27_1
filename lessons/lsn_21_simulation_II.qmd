@@ -15,10 +15,9 @@ execute:
 
 # Lesson Objectives
 
-1. Use the Bradley-Terry model to compute the probability one team beats another.
+1. Understand how the Bradley-Terry and Bill James models help determine the winner of a specific game.
 2. Build a Monte Carlo simulation of an entire baseball season, including schedule generation.
 3. Compare simulated season results to the underlying talent levels of teams.
-4. Generalize the Monte Carlo framework to simulate other probabilistic events.
 
 ## Simulating a Game
 
