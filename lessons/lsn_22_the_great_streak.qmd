@@ -168,7 +168,7 @@ random_mix <- function(y){
 }
 
 # Set the number of replications for the simulation.
-r = 1000 
+r = 1000
 
 # Run a simulation experiment.
 # You can think of replication as a for loop.
