@@ -54,6 +54,9 @@ The following example comes from Chapter 10 of *Analyzing Baseball Data with R* 
 ```{r}
 library(tidyverse)
 library(knitr)
+```
+
+```{r download-stats, eval = FALSE}
 library(baseballr)
 
 # Load the game-by-game records for DiMaggio's 1941 season.
@@ -73,7 +76,16 @@ joe <-
 joe |> 
   select(Date, Opp, PA, H) |> 
   head(10)
+```
 
+```{r load-joe, include=FALSE}
+joe <- readRDS("lsn_22_the_great_streak_joe.rds")
+```
+
+```{r show-first-games}
+joe |> 
+  select(Date, Opp, PA, H) |> 
+  head(10)
 ```
 
 Let's add a variable indicating whether or not he got a hit in the game.
