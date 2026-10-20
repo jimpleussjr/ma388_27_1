@@ -54,8 +54,8 @@ website:
             text: "Lesson 21: Simulating Baseball - Part II"
           - href: lessons/lsn_22_the_great_streak.qmd
             text: "Lesson 22: Baseball Streaks - The Great Streak"
-          # - href: lessons/lsn_23_streakiness_statistics.qmd
-          #   text: "Lesson 23: Baseball Streaks - Streakiness Statistics"
+          - href: lessons/lsn_23_streakiness_statistics.qmd
+            text: "Lesson 23: Baseball Streaks - Streakiness Statistics"
           # - href: lessons/lsn_25_statcast_spray_charts.qmd
           #   text: "Lesson 25: Working with Large Data - Statcast Spray Charts"
           # - href: lessons/lsn_26_launch_angles_exit_velocity.qmd

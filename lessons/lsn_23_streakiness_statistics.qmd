@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 24"
+title: "MA388 Sabermetrics: Lesson 23"
 subtitle: "Streakiness Statistics"
 format:
   html:
@@ -208,12 +208,45 @@ ggplot(data.frame(cabrera_random), aes(cabrera_random)) +
   annotate(geom = "text", x = cabrera_coeff * 1.05,
            y = 0.0010, label = "OBSERVED", size = 5) +
   theme_minimal() + 
-  labs(x = "Clumpiness Statistic",
+  labs(x = "Streakiness Statistic",
        y = "Density")
 ```
 
 **How do we interpret the plot?**
 
+### Now it's your turn!
+
+**Find which player with at least 500 at-bats has the highest streakiness statistic**
 
 
+```{r, eval=FALSE,echo=FALSE}
+
+get_streak_stat <- function(df){
+  df |> 
+    pull(H) |>
+    streaks() |> 
+    filter(values == 0) |> 
+    summarize(C = sum(lengths ^ 2)) |> 
+    pull()
+}
+
+retro2011 |> 
+  filter(bat_id %in% retro_500 & ab_fl==TRUE) |> 
+  mutate(H = ifelse(h_fl > 0, 1, 0),
+         DATE = str_sub(game_id, 4, 12),
+         AB = 1,
+         AB_Num = row_number(), .by='bat_id') |> 
+  arrange(bat_id,DATE) |> 
+  group_by(bat_id) |>
+  group_split() |>
+  purrr::map_dfr(
+    ~ tibble(
+      bat_id = first(.x$bat_id),
+      C = get_streak_stat(.x)
+    )
+  ) |> 
+  arrange(C)
+  
+  
+```
 
