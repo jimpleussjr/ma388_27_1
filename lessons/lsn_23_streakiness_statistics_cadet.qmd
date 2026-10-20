@@ -17,7 +17,6 @@ execute:
 ```{r}
 library(tidyverse)
 library(knitr)
-library(baseballr)
 ```
 
 # Lesson Objectives
@@ -35,12 +34,17 @@ Last class we talked about the incredible hitting streak of Joe DiMaggio.  In 19
 
 We looked at DiMaggio's streak of games with hits, but now we turn our attention to streaks in individual at-bats.  In 2011, Miguel Cabrera led the league with a batting average of 0.344.  Let's take a look at his streaks for the season.  
 
-```{r}
-# Load the data.
+```{r download-stats, eval = FALSE}
+library(baseballr)
 
+# Load the data.
 retro2011 <- retrosheet_data(years_to_acquire = '2011') |> 
   pluck('2011') |> 
   pluck('events')
+```
+
+```{r load-retro2011, include=FALSE}
+retro2011 <- readRDS("lsn_23_streakiness_statistics_cadet_retro2011.rds")
 ```
 
 Filter the data to include only Miguel Cabrera's plate appearances.
