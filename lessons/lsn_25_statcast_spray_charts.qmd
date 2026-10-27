@@ -22,10 +22,9 @@ library(baseballr)
 
 # Lesson Objectives
 
-1. Retrieve Statcast data for individual batters using `scrape_statcast_savant()`.
-2. Build a spray chart showing where batters hit balls in play on the field.
-3. Compare pull-happy vs. opposite-field hitters and relate tendencies to defensive shifts.
-4. Compute percentages of pulled ground balls and infield shifts faced for individual players.
+1. Build a spray chart showing where batters hit balls in play on the field.
+2. Compare pull-happy vs. opposite-field hitters and relate tendencies to defensive shifts.
+3. Compute percentages of pulled ground balls and infield shifts faced for individual players.
 
 Review
 
@@ -38,6 +37,14 @@ Review
 :::
 
 **True or False.  If a player had a high batting average for the season, this means that they were not a streaky player.**
+
+\vspace{1.in}
+
+::: {.html}
+<div style="margin-top: 0.5in;"></div>
+:::
+
+**True or False.  What teams have the best postseason record for a single post season?**
 
 \vspace{1.in}
 

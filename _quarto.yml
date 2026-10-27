@@ -56,8 +56,8 @@ website:
             text: "Lesson 22: Baseball Streaks - The Great Streak"
           - href: lessons/lsn_23_streakiness_statistics.qmd
             text: "Lesson 23: Baseball Streaks - Streakiness Statistics"
-          # - href: lessons/lsn_25_statcast_spray_charts.qmd
-          #   text: "Lesson 25: Working with Large Data - Statcast Spray Charts"
+          - href: lessons/lsn_25_statcast_spray_charts.qmd
+            text: "Lesson 25: Working with Large Data - Statcast Spray Charts"
           # - href: lessons/lsn_26_launch_angles_exit_velocity.qmd
           #   text: "Lesson 26: Working with Large Data - Launch Angles and Exit Velocity" 
           # - href: lessons/lsn_27_home_run_hitting_I.qmd
