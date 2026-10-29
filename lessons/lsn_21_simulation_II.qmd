@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 22"
+title: "MA388 Sabermetrics: Lesson 21"
 subtitle: "Simulating Baseball: Part II"
 format:
   html:

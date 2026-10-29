@@ -268,5 +268,9 @@
   },
   "lessons/lsn_18_peak_trajectories_II_cadets.Rmd": {
     "lsn_18_peak_trajectories_II_cadets.html": "f08de9c8"
+  },
+  "lessons/lsn_23_streakiness_statistics_cadet.qmd": {
+    "lsn_23_streakiness_statistics_cadet.html": "3126fcac",
+    "lsn_23_streakiness_statistics_cadet.tex": "d8eb593a"
   }
 }

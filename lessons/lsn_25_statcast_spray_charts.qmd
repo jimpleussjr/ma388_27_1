@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 26"
+title: "MA388 Sabermetrics: Lesson 25"
 subtitle: "Statast Spray Charts"
 format:
   html:

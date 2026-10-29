@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 23"
+title: "MA388 Sabermetrics: Lesson 22"
 subtitle: "Streaky Performances: The Great Streak"
 author: "LTC Jim Pleuss"
 format:
