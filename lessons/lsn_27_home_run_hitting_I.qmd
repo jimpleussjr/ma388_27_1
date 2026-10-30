@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 28"
+title: "MA388 Sabermetrics: Lesson 27"
 subtitle: "Home Run Hitting I"
 format:
   html:
@@ -18,14 +18,14 @@ execute:
 library(tidyverse)
 library(knitr)
 library(baseballr)
+library(broom)
 ```
 
 # Lesson Objectives
 
 1. Fit a GAM to model home run probability as a smooth function of launch speed and launch angle.
-2. Use the 2015 model to predict home run probability on 2017 batted balls.
-3. Simulate 1,000 seasons to compare predicted vs. actual home run counts in 2017.
-4. Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates.
+2. Use the a model on one season to compare predicted vs. actual home run counts in another season.
+3. Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates.
 
 ## Review
 
@@ -102,11 +102,6 @@ Today, we are going to assess which explanation is more compatible with the data
 
 ### Fit a model for home run probability in 2015.
 
-```{r}
-library(tidyverse)
-library(baseballr)
-library(lubridate)
-```
 
 Obtain all pitches in 2015 in which the ball was put in play.
 
@@ -126,6 +121,8 @@ fit <- hit_into_play2015 |>
   gam(events == "home_run" ~ s(launch_speed, launch_angle),
       family = binomial,
       data = _)
+
+summary(fit)
 ```
 
 Visualize the predictions.
@@ -234,6 +231,7 @@ fit2017 <- hit_into_play2017 |>
       family = binomial,
       data = _)
 
+summary(fit2017)
 
 hit_into_play2017 <- fit2017 |> 
   augment(type.predict = "response", newdata = hit_into_play2017) |> 
@@ -242,11 +240,8 @@ hit_into_play2017 <- fit2017 |>
 hr_prob_change_fig <- 
 hit_into_play2017  |>  
   mutate(model_diff = HRprob2017data-HRprob) |> 
-  # filter(!between(model_diff,-.05,.05)) |> 
   ggplot(aes(x = launch_speed, y = launch_angle, color=model_diff)) +  
   geom_point(alpha=1)+
-    # geom_tile(aes(fill = model_diff)) + 
-  # geom_contour(aes(z = model_diff), breaks = seq(from = 0.1, to = 0.9, by = 0.2)) + 
   xlab("Launch speed (mph)") + 
   ylab("Launch angle (degrees)") +  
   scale_color_gradient2("HR Prob Delta", low = "gray",mid='white', high = "blue",midpoint = 0)  + 

@@ -232,9 +232,9 @@ library(knitr)
 | # | Lesson Objective | SLO |
 |---|---|---|
 | 27.1 | Fit a GAM to model home run probability as a smooth function of launch speed and launch angle. | 3 |
-| 27.2 | Use the 2015 model to predict home run probability on 2017 batted balls. | 3, 6 |
-| 27.3 | Simulate 1,000 seasons to compare predicted vs. actual home run counts in 2017. | 1, 3 |
-| 27.4 | Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates. | 1, 5 |
+| 27.2 | Use the a model on one season to compare predicted vs. actual home run counts in another season.
+. | 1, 3, 6 |
+| 27.3 | Draw conclusions about whether changes in the baseball or changes in hitters better explain increased HR rates. | 1, 5 |
 
 # Lesson 28 — Home Run Hitting Part II
 
