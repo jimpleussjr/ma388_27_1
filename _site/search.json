@@ -338,42 +338,42 @@
   {
     "objectID": "lessons/lsn_28_home_run_hitting_II.html",
     "href": "lessons/lsn_28_home_run_hitting_II.html",
-    "title": "MA388 Sabermetrics: Lesson 29",
+    "title": "MA388 Sabermetrics: Lesson 28",
     "section": "",
     "text": "library(tidyverse)\nlibrary(knitr)\nlibrary(baseballr)"
   },
   {
     "objectID": "lessons/lsn_28_home_run_hitting_II.html#next-steps",
     "href": "lessons/lsn_28_home_run_hitting_II.html#next-steps",
-    "title": "MA388 Sabermetrics: Lesson 29",
+    "title": "MA388 Sabermetrics: Lesson 28",
     "section": "Next Steps:",
     "text": "Next Steps:\nWe’ve looked at league-wide distributions of launch angles in different years, specifically 2015 and 2017. We didn’t see a lot of change across the entire league despite the large increase in home runs, but we might see a different result if we look at a few players whose home run numbers have improved dramatically. Are there individuals whose distribution of launch angles and/or distribution of exit velocities has become significantly more favorable for hitting home runs?"
   },
   {
     "objectID": "lessons/lsn_28_home_run_hitting_II.html#next-steps-1",
     "href": "lessons/lsn_28_home_run_hitting_II.html#next-steps-1",
-    "title": "MA388 Sabermetrics: Lesson 29",
+    "title": "MA388 Sabermetrics: Lesson 28",
     "section": "Next Steps:",
     "text": "Next Steps:\nIt certainly looks like both left-handed and right-handed batters pull the ball for most home runs. Could it be that this is an artifact of differences in ballparks where most home runs for left-handed batters are in ballparks with shorter right-field fences? (…and right-handed batters are succeeding in ballparks with short left-field fences.) Maybe center field is just much deeper and harder to reach."
   },
   {
     "objectID": "lessons/lsn_28_home_run_hitting_II.html#next-steps-2",
     "href": "lessons/lsn_28_home_run_hitting_II.html#next-steps-2",
-    "title": "MA388 Sabermetrics: Lesson 29",
+    "title": "MA388 Sabermetrics: Lesson 28",
     "section": "Next Steps:",
     "text": "Next Steps:\nBaltimore certainly seems to stand out as a ballpark that favors left-handed batters. The distances to left and right field are now considerably different after a 2022 renovation extended the left field fence (both in height and depth). (https://www.mlb.com/news/how-2022-camden-yards-changes-will-affect-hitters) We could consider a prior season and see if the left-handed advantage was this strong before the renovation. Next, we’ll look at ballparks more generally without any regard for batter handedness. Maybe some ballparks are just more likely to produce home runs due to temperature, altitude, field dimensions, etc."
   },
   {
     "objectID": "lessons/lsn_28_home_run_hitting_II.html#next-steps-3",
     "href": "lessons/lsn_28_home_run_hitting_II.html#next-steps-3",
-    "title": "MA388 Sabermetrics: Lesson 29",
+    "title": "MA388 Sabermetrics: Lesson 28",
     "section": "Next Steps:",
     "text": "Next Steps:\nMaybe it’s not always about the ballpark dimensions, the weather, etc. Perhaps some teams just have amazing pitchers who don’t give up many home runs. Maybe it’s the batters that are so good and will hit home runs off any pitcher. Let’s now consider the relative effect that individual pitchers and batters have on the likelihood of a home run."
   },
   {
     "objectID": "lessons/lsn_28_home_run_hitting_II.html#next-steps-4",
     "href": "lessons/lsn_28_home_run_hitting_II.html#next-steps-4",
-    "title": "MA388 Sabermetrics: Lesson 29",
+    "title": "MA388 Sabermetrics: Lesson 28",
     "section": "Next Steps:",
     "text": "Next Steps:\nWe could make a model that predicts home runs based on pitch location, velocity, movement, etc. Using that model, we could see which pitchers have more or fewer home runs hit against them than expected. We could do the same for batters to see who is making the most out of tough pitches. Think of it like home run expectancy given some pitch variables. Which batters have positive “home runs created” after considering the pitches they saw?"
   },

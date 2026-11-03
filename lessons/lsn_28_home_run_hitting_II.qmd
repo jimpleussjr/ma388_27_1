@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 29"
+title: "MA388 Sabermetrics: Lesson 28"
 subtitle: "Home Run Hitting II"
 author: "LTC Jim Pleuss"
 format:
