@@ -245,14 +245,13 @@ library(knitr)
 | 28.3 | Compute park factors to determine which ballparks favor home run hitting. | 3, 4 |
 | 28.4 | Fit a random effects model to decompose home run responsibility between pitchers and batters. | 3, 5 |
 
-# Lesson 29 — Equivalence Coefficient (Hall of Fame)
+# Lesson 29 — Equivalence Coefficient
 
 | # | Lesson Objective | SLO |
 |---|---|---|
-| 29.1 | Use logistic regression to model Hall of Fame selection probability from career statistics. | 3 |
-| 29.2 | Compute the equivalence coefficient to project how a player's statistics would change with additional PA. | 3 |
-| 29.3 | Compare Don Mattingly to Harold Baines and other Hall of Famers using raw and adjusted metrics. | 1, 4 |
-| 29.4 | Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths. | 5, 6 |
+| 29.1 | Compute the equivalence coefficient to project how a player's statistics would change with additional PA. | 3 |
+| 29.2 | Compare playrs using raw and adjusted metrics. | 1, 4 |
+| 29.3 | Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths. | 5, 6 |
 
 # Lesson 30 — OPS+ and BABIP
 

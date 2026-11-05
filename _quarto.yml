@@ -64,8 +64,8 @@ website:
             text: "Lesson 27: Home Run Hitting I"
           - href: lessons/lsn_28_home_run_hitting_II.qmd
             text: "Lesson 28: Home Run Hitting II"
-          # - href: lessons/lsn_29_equivalence_coefficient.qmd
-          #   text: "Lesson 29: Equivalence Coefficient" 
+          - href: lessons/lsn_29_equivalence_coefficient.qmd
+            text: "Lesson 29: Equivalence Coefficient"
       - text: Lessons 31-40
         # menu:
           # - href: lessons/lsn_30_ops+_babip.qmd

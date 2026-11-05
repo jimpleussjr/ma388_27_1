@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 30"
+title: "MA388 Sabermetrics: Lesson 29"
 subtitle: "Equivalence Coefficient"
 author: "LTC Jim Pleuss"
 format:
@@ -18,9 +18,8 @@ knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FAL
 
 # Lesson Objectives
 
-1. Use logistic regression to model Hall of Fame selection probability from career statistics.
 2. Compute the equivalence coefficient to project how a player's statistics would change with additional PA.
-3. Compare Don Mattingly to Harold Baines and other Hall of Famers using raw and adjusted metrics.
+3. Compare players using raw and adjusted metrics.
 4. Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths.
 
 # Don Mattingly (“Donnie Baseball”) - Should he be in the Hall of Fame?
@@ -44,11 +43,11 @@ library(knitr)
 
 vars <- c("G", "AB","R", "H", "X2B","X3B", "HR", "RBI", "BB", "SO", "SB", 
           "SH", "HBP", "SF")
-Batting %>% 
-  filter(playerID == "mattido01") %>%
-  summarise_at(vars, sum) %>%
-  mutate(AVG = round(H / AB, 3)) %>%
-  select(G, AB, H, HR, AVG) %>%
+Batting |> 
+  filter(playerID == "mattido01") |>
+  summarise_at(vars, sum) |>
+  mutate(AVG = round(H / AB, 3)) |>
+  select(G, AB, H, HR, AVG) |>
   kable(caption = "Mattingly Career Statistics", digits = 3)
 ```
 
@@ -56,22 +55,22 @@ A picture is worth a thousand words.
 
 ```{r}
 get_stats <- function(player){
-  Batting %>% 
-    filter(playerID == player) %>% 
-    inner_join(People, by = "playerID") %>% 
+  Batting |> 
+    filter(playerID == player) |> 
+    inner_join(People, by = "playerID") |> 
     mutate(birthyear = ifelse(birthMonth >= 7,
                               birthYear + 1, birthYear),
            Age = yearID - birthyear,
            SLG = (H - X2B - X3B - HR + 
                     2 * X2B + 3 * X3B + 4 * HR) / AB,
            OBP = (H + BB + HBP) / (AB + BB + HBP + SF),
-           OPS = SLG + OBP) %>% 
+           OPS = SLG + OBP) |> 
     select(playerID, Age, SLG, OBP, OPS)
 }
 
-stats <- c("mattido01","baineha01") %>% map_df(get_stats)
+stats <- c("mattido01","baineha01") |> map_df(get_stats)
 
-stats %>%
+stats |>
   ggplot(aes(x = Age, y = OPS, color = playerID)) +
   geom_point() +
   geom_smooth(method = "lm",
@@ -91,37 +90,37 @@ vars <- c("G", "AB","R", "H", "X2B","X3B","HR", "RBI", "BB", "SO", "SB",
           "SH", "HBP", "SF")
 
 # Career totals for players with 5000 at-bats
-Batting %>%
-  group_by(playerID) %>%
-  summarize_at(vars, sum, na.rm = TRUE) %>%
-  filter(AB > 5000) %>%
+Batting |>
+  group_by(playerID) |>
+  summarize_at(vars, sum, na.rm = TRUE) |>
+  filter(AB > 5000) |>
   mutate(AVG = round(H / AB, 3),
          HR.rate = HR / AB,
          PA = AB + BB + SH + HBP + SF) -> career_totals
 
 # Must have retired at least five years ago
-People %>%
+People |>
   filter(finalGame < 2018,
-         finalGame > 1920) %>%
+         finalGame > 1920) |>
   pull(playerID) -> eligible
-career_totals %>%
+career_totals |>
   filter(playerID %in% eligible) -> career_totals
 
 # Determine whether they are in the hall of fame
-career_totals %>%
-  left_join(HallOfFame %>% filter(inducted == "Y", category == "Player") %>%
-              select(playerID, yearID, inducted), by = "playerID") %>%
-  replace_na(list(inducted = "N")) %>%
+career_totals |>
+  left_join(HallOfFame |> filter(inducted == "Y", category == "Player") |>
+              select(playerID, yearID, inducted), by = "playerID") |>
+  replace_na(list(inducted = "N")) |>
   rename(halloffame = inducted) -> career_totals
 
 # Add full name
-career_totals %>%
-  left_join(People %>% select(nameLast, nameFirst, playerID)) %>%
-  mutate(name = paste(nameFirst, nameLast, sep = " ")) %>%
+career_totals |>
+  left_join(People |> select(nameLast, nameFirst, playerID)) |>
+  mutate(name = paste(nameFirst, nameLast, sep = " ")) |>
   select(-nameLast, -nameFirst) -> career_totals
 
 # Career Totals
-p2 <- career_totals %>%
+p2 <- career_totals |>
   ggplot(aes(label = name, x = H, y = HR, color = halloffame)) +
   geom_point() +
   geom_text(data = filter(career_totals, playerID == "mattido01"), 
@@ -142,24 +141,25 @@ ggplotly(p2)
 model.hof <- glm(halloffame == "Y" ~ H + X2B + X3B + HR + RBI + BB,
                  family = "binomial",
                  data = career_totals)
-career_totals %>%
+career_totals |>
   mutate(hof_pred = predict(model.hof,
                             type = "response",
-                            newdata = .)) -> career_totals
-career_totals %>%
-  arrange(desc(hof_pred)) %>%
-  select(name, hof_pred, halloffame) %>%
-  head(10) %>%
+                            newdata = career_totals)) -> career_totals
+career_totals |>
+  arrange(desc(hof_pred)) |>
+  select(name, hof_pred, halloffame) |>
+  head(10) |>
   kable(caption = "Top-10 Highest Probabilities for Hall of Fame Selection",
         col.names = c("Name", "P(HoF)", "Inducted"), digits = 3)
 ```
 
 ```{r}
-career_totals %>% arrange(desc(hof_pred)) %>%
-  filter(hof_pred > 0.07, hof_pred < 0.075) %>%
-  select(name, hof_pred, halloffame) %>%
+career_totals |> arrange(desc(hof_pred)) |>
+  filter(hof_pred > 0.09, hof_pred < 0.095) |>
+  select(name, hof_pred, halloffame) |>
   kable(caption = "Players with similar predictions as Don Mattingly", 
         digits = 3)
+  
 ```
 
 # Don Mattingly (not-selected) vs. Harold Baines (selected)
@@ -167,15 +167,24 @@ career_totals %>% arrange(desc(hof_pred)) %>%
 Let's look at Don Mattingly's and Harold Baines' career statistics side by side.
 
 ```{r}
-career_totals %>% 
-  filter(playerID %in% c("mattido01","baineha01")) %>%
-  select(name, G, PA, AB, H, HR, AVG) %>%
+career_totals |> 
+  filter(playerID %in% c("mattido01","baineha01")) |>
+  select(name, G, PA, AB, H, HR, AVG) |>
   kable(caption = "Career Statistics", digits = 3)
 ```
 
+
+**What stands out to you about this comparison?**
+
+\vspace{1in} 
+
+**How could we make this an apples to apples comparison?**
+
+\vspace{1in} 
+
 Now, let’s assume Mattingly and Baines both had 12,000 plate appearances. 
 
-Following the steps on page 47 of *Understanding Sabermetrics*, let’s compare cumulative statistics for various kickers.
+Following the steps on page 87 of *Understanding Sabermetrics*, let’s compare cumulative statistics for various kickers.
 
 - Determine the projected number of new at-bats.
 
@@ -187,12 +196,12 @@ This is the number of additional at-bats to award each hitter.
 newPA = 12000
 
 # Define "x" below as the number of additional at-bats.
-career_totals %>%
-  mutate(x = ((AB / (AB + BB)) * newPA - AB) %>% round(0)) -> career_totals
+career_totals |>
+  mutate(x = ((AB / (AB + BB)) * newPA - AB) |> round(0)) -> career_totals
 
-career_totals %>%
-  filter(playerID %in% c("mattido01","baineha01")) %>%
-  select(name, AB, x) %>%
+career_totals |>
+  filter(playerID %in% c("mattido01","baineha01")) |>
+  select(name, AB, x) |>
   kable(caption = "Number of new at-bats.")
 ```
 
@@ -201,7 +210,7 @@ career_totals %>%
 ```{r}
 # Function to compute equivalence coefficient
 eqcoef <- function(k, df){
-  df %>% 
+  df |> 
     mutate(k = k,
            EC = 1 + x / AB * k,
            H = round(H * EC, 0),
@@ -210,35 +219,35 @@ eqcoef <- function(k, df){
            HR = round(HR * EC, 0),
            RBI = round(RBI * EC, 0),
            BB = round(BB * EC, 0)) -> df
-  return(df %>% select(playerID, name, k, EC, H, X2B, X3B, HR, RBI, BB))
+  return(df |> select(playerID, name, k, EC, H, X2B, X3B, HR, RBI, BB))
 }
 
 k = c(1, 0.95, 0.90)
-k %>%
-  map_df(eqcoef, df = career_totals %>% filter(playerID == "mattido01")) -> matty_ec
-k %>%
-  map_df(eqcoef, df = career_totals %>% filter(playerID == "baineha01")) -> baine_ec
-rbind(matty_ec, baine_ec) %>%
+k |>
+  map_df(eqcoef, df = career_totals |> filter(playerID == "mattido01")) -> matty_ec
+k |>
+  map_df(eqcoef, df = career_totals |> filter(playerID == "baineha01")) -> baine_ec
+rbind(matty_ec, baine_ec) |>
   kable(digits = 3)
 ```
 
 # Don Mattingly Predictions with a Longer Career
 
 ```{r}
-matty_ec %>% 
+matty_ec |> 
   mutate(hof_pred = predict(model.hof,
                             type = "response",
-                            newdata = .)) -> matty_ec
-matty_ec %>%
-  select(name, k, hof_pred) %>%
+                            newdata = matty_ec)) -> matty_ec
+matty_ec |>
+  select(name, k, hof_pred) |>
   kable(digits = 3)
 ```
 
 ```{r}
 # Players similar to 'Hypothetical Mattingly'
-career_totals %>%
-  filter(hof_pred > 0.63, hof_pred < 0.72) %>%
-  select(name, hof_pred, halloffame) %>%
+career_totals |>
+  filter(hof_pred > 0.75, hof_pred < 0.82) |>
+  select(name, hof_pred, halloffame) |>
   kable(digits = 3)
 ```
 
