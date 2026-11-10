@@ -211,7 +211,7 @@ p2 = yearly_stats |>
   ggplot(aes(x = yearID, y = OPS, color = name)) +
   geom_line() + 
   theme_classic() +
-  labs("OPS", title = "OPS of Pujols and Yaz") +
+  labs(y = "OPS", title = "OPS of Pujols and Yaz") +
   theme(legend.position = "bottom")
 
 grid.arrange(p1, p2, ncol = 2)
