@@ -18,9 +18,9 @@ knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FAL
 
 # Lesson Objectives
 
-2. Compute the equivalence coefficient to project how a player's statistics would change with additional PA.
-3. Compare players using raw and adjusted metrics.
-4. Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths.
+1. Compute the equivalence coefficient to project how a player's statistics would change with additional PA.
+2 Compare players using raw and adjusted metrics.
+3. Critically evaluate whether the equivalence coefficient is a fair method for comparing players across different career lengths.
 
 # Don Mattingly (“Donnie Baseball”) - Should he be in the Hall of Fame?
 

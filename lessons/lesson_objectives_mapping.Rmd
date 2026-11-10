@@ -258,9 +258,8 @@ library(knitr)
 | # | Lesson Objective | SLO |
 |---|---|---|
 | 30.1 | Calculate OPS+ to compare batters across different offensive eras. | 3, 4 |
-| 30.2 | Explain why raw OPS is not appropriate for cross-era comparisons and how OPS+ adjusts for league context. | 5, 6 |
-| 30.3 | Compute Isolated Power (ISO) to distinguish between different types of hitters. | 2, 3 |
-| 30.4 | Calculate BABIP and explain what it communicates about a player's performance on balls in play. | 1, 4 |
+| 30.2 | Compute Isolated Power (ISO) to distinguish between different types of hitters. | 2, 3 |
+| 30.3 | Calculate BABIP and explain what it communicates about a player's performance on balls in play. | 1, 4 |
 
 # Lesson 32 — Linear Weights
 

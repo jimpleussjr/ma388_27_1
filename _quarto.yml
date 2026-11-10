@@ -66,10 +66,11 @@ website:
             text: "Lesson 28: Home Run Hitting II"
           - href: lessons/lsn_29_equivalence_coefficient.qmd
             text: "Lesson 29: Equivalence Coefficient"
+          - href: lessons/lsn_30_ops+_babip_cadet.qmd
+            text: "Lesson 30: OPS+ and BABIP"
       - text: Lessons 31-40
         # menu:
-          # - href: lessons/lsn_30_ops+_babip.qmd
-          #   text: "Lesson 30: OPS+ and BABIP"
+
           # - href: lessons/lsn_32_linear_weights.qmd
           #   text: "Lesson 32: Linear Weights"
           # - href: lessons/lsn_33_runs_created_solution.qmd

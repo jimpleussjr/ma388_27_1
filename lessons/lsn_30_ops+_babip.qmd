@@ -1,5 +1,5 @@
 ---
-title: "MA388 Sabermetrics: Lesson 31"
+title: "MA388 Sabermetrics: Lesson 30"
 subtitle: "OPS+ and BABIP"
 format:
   html:
@@ -20,9 +20,8 @@ knitr::opts_chunk$set(echo = TRUE, fig.height = 3, message= FALSE, warning = FAL
 # Lesson Objectives
 
 1. Calculate OPS+ to compare batters across different offensive eras.
-2. Explain why raw OPS is not appropriate for cross-era comparisons and how OPS+ adjusts for league context.
-3. Compute Isolated Power (ISO) to distinguish between different types of hitters.
-4. Calculate BABIP and explain what it communicates about a player's performance on balls in play.
+2. Compute Isolated Power (ISO) to distinguish between different types of hitters.
+3. Calculate BABIP and explain what it communicates about a player's performance on balls in play.
 
 ## Review
 
