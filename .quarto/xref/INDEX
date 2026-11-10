@@ -272,5 +272,9 @@
   "lessons/lsn_23_streakiness_statistics_cadet.qmd": {
     "lsn_23_streakiness_statistics_cadet.html": "3126fcac",
     "lsn_23_streakiness_statistics_cadet.tex": "d8eb593a"
+  },
+  "lessons/lsn_30_ops+_babip_cadet.qmd": {
+    "lsn_30_ops+_babip_cadet.html": "0207960e",
+    "lsn_30_ops+_babip_cadet.tex": "04157408"
   }
 }
