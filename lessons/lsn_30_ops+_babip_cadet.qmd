@@ -49,7 +49,8 @@ player_ids <- c(judge_id, jd_id)
 
 Batting |> 
   filter(playerID %in% player_ids) |> 
-  filter(yearID<2023) |> 
+  # filter(yearID<2023) |> 
+  # filter(yearID<2023) |> 
   group_by(playerID) |> 
   summarise(HR = sum(HR),
             BB = sum(BB),

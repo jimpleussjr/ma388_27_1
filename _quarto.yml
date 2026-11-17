@@ -69,10 +69,9 @@ website:
           - href: lessons/lsn_30_ops+_babip_cadet.qmd
             text: "Lesson 30: OPS+ and BABIP"
       - text: Lessons 31-40
-        # menu:
-
-          # - href: lessons/lsn_32_linear_weights.qmd
-          #   text: "Lesson 32: Linear Weights"
+        menu:
+          - href: lessons/lsn_32_linear_weights.qmd
+            text: "Lesson 32: Linear Weights"
           # - href: lessons/lsn_33_runs_created_solution.qmd
           #   text: "Lesson 33: Runs Created School"
           # - href: lessons/lsn_34_quarto_presentations.qmd
