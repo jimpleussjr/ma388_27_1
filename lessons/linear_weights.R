@@ -102,5 +102,39 @@ linear_weights <- function(year){
     summarize(weight = mean(run_value)) %>% 
     filter(!is.na(Event)) -> weights
   
-  return(list(weights = weights, expectancy_matrix = RUNS_out))  
+  # Compute the batting-event frequencies from the same season:
+  event_freq <- data %>%
+    mutate(Event = case_when(
+      EVENT_CD == 20 ~ "1B",
+      EVENT_CD == 21 ~ "2B",
+      EVENT_CD == 22 ~ "3B",
+      EVENT_CD == 23 ~ "HR",
+      EVENT_CD %in% c(2,3,19) ~ "Out",
+      EVENT_CD %in% c(14,15,16) ~ "BB.HBP"
+    )) %>%
+    filter(!is.na(Event)) %>%
+    count(Event, name = "n")
+  
+  #Join frequencies to weights:
+  weights2 <- weights %>%
+    left_join(event_freq, by = "Event")
+  
+  #Compute the balancing coefficient:
+  w_out <- -(
+    weights2 %>%
+      filter(Event != "Out") %>%
+      summarize(sum(weight * n)) %>%
+      pull()
+  ) /
+    (
+      weights2 %>%
+        filter(Event == "Out") %>%
+        pull(n)
+    )
+  
+  #Replace the estimated out weight:
+  weights2 <- weights2 %>%
+    mutate(weight = ifelse(Event == "Out", w_out, weight))
+  
+  return(list(weights = weights2, expectancy_matrix = RUNS_out))  
 }

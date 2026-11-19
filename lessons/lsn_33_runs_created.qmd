@@ -58,7 +58,7 @@ library(knitr)
 Batting |> names()
 ```
 
-Our goal today is to once again rank offensive production to answer timeless questions like, "Who is the best better in history?"  "Which team had the greatest lineup in history?"  To get started, we'll compute the *runs created* estimates for each player for each season using all three formulas.  
+Our goal today is to once again rank offensive production to answer timeless questions like, "Who is the best batter in history?"  "Which team had the greatest lineup in history?"  To get started, we'll compute the *runs created* estimates for each player for each season using all three formulas.  
 
 ```{r}
 RC_df <- Batting |> 
